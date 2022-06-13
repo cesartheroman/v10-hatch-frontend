@@ -3,7 +3,7 @@ const path = require('path');
 
 const config = {
   entry: [
-    'react-hot-loader/patch',
+
     './src/index.tsx'
   ],
   output: {
@@ -34,10 +34,7 @@ const config = {
       '.tsx',
       '.ts',
       '.js'
-    ],
-    alias: {
-      'react-dom': '@hot-loader/react-dom'
-    }
+      ]
   }
 };
 
