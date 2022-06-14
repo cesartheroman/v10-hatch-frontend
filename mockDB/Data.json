@@ -1,0 +1,28 @@
+{ 
+    "users": [
+{
+    "id" : 1,
+    "name": "ruthie",
+    "evaluationsID": [],
+    "roleID": 420,
+    "email": "ruthie@elias.com",
+    "password": "ilovefood"
+},
+{
+    "id" : 2,
+    "name": "user",
+    "evaluationsID": [],
+    "roleID": 420,
+    "email": "user@twilio.com",
+    "password": "password"
+},
+{
+    "id" : 3,
+    "name": "manager",
+    "evaluationsID": [],
+    "roleID": 420,
+    "email": "manager@twilio.com",
+    "password": "manager"
+}
+
+    ]}
