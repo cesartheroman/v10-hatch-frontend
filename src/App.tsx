@@ -3,8 +3,7 @@ import * as React from 'react';
 
 
 interface Props {
-   name:
-    string
+   name: string
 }
 
 class App extends React.Component<Props> {
