@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from 'axios'
 import { useState } from "react";
-import { Label, Input, Button, Card } from "@twilio-paste/core";
+import { Label, Input, Button, Card, Box } from "@twilio-paste/core";
 
 
 export default function Login() {
@@ -45,69 +45,29 @@ export default function Login() {
     // }
 
     return (
-        <Card style={{margin:10}}>
+        <div style={{maxWidth: 600, padding: 10, margin: 10}}>
+        <Card style={{margin: '10px'}}>
         <div>
             <Button variant="primary" onClick={()=>{setLoggedIn(false)}}>Logout</Button>
         </div>
         <div>
+
             <form onSubmit={handleSubmit}>
-                <>
-                    <Label htmlFor="username" required>Username</Label>
+                <h1> Welcome to Hatch Evaluations!</h1>
+                <p>Please login to the system to access your available evals. </p>
+                <Box marginBottom="space80" style= {{width: '500px'}}>
+                    <Label htmlFor="username" required>Username:</Label>
                     <Input id="username" name="username" type="text" placeholder="example@twilio.com" onChange={handleChange} required />
-                </>
-                <>
-                    <Label htmlFor="password" required>Password</Label>
+                </Box>
+                <Box marginBottom="space80" style= {{width: '500px'}}>
+                    <Label htmlFor="password" required>Password:</Label>
                     <Input id="password" name="password" type="password" onChange={handleChange} required />
-                </>
-                <Button type="submit" variant="primary">submit</Button>
+                </Box>
+                <Button type="submit" variant="primary">Submit</Button>
             </form>
         </div>
         </Card>
-        
+        </div>
     )
 
-    // const [username, setUsername] = useState("");
-    // const [password, setPassword] = useState("");
-
-    // function Submit() {
-    //     console.log({username});
-    //     console.log({password});
-    // }
-
-
-
-    //   return (
-    //     <div id="loginform">
-
-    //       <Label htmlFor="email_address" required>
-    //         Username
-    //       </Label>
-    //       <Input
-    //         aria-describedby="username"
-    //         id="username"
-    //         name="username"
-    //         type="text"
-    //         placeholder="username"
-    //         value={username}
-    //         onChange={() => setUsername(username)}
-    //         required
-    //       />
-    //       {/* <HelpText id="username">Please enter your Evaluation System username.</HelpText> */}
-    // <br />
-    //       <Label htmlFor="password" required>
-    //         Password
-    //       </Label>
-    //       <Input
-    //         aria-describedby="password"
-    //         id="password"
-    //         name="password"
-    //         type="password"
-    //         placeholder="password"
-    //         value={password}
-    //         onChange= {() => setPassword(password)}
-    //         required
-    //       />
-    //       <Button variant="primary" onClick={Submit}> Login </Button>
-    //     </div>
-    //   );
 }

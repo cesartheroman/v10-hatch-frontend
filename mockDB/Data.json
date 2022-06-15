@@ -98,6 +98,16 @@
       "username": "pgarciamunoz",
       "password": "12345",
       "id": 18
+    },
+    {
+      "username": "ruthie",
+      "password": "Egg",
+      "id": 19
+    },
+    {
+      "username": "test",
+      "password": "test",
+      "id": 20
     }
   ]
 }
