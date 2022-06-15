@@ -23,6 +23,13 @@
       "roleID": 420,
       "email": "manager@twilio.com",
       "password": "manager"
+    },
+    {
+      "name": "Ruthie Clark",
+      "email": "eclark@twilio.com",
+      "password": "mthffd",
+      "role": "apprentice",
+      "id": 4
     }
   ]
 }
