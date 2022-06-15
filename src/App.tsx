@@ -1,10 +1,9 @@
-import * as React from 'react';
-import Login from './Login';
-import Header from './Components/Header';
-import {Theme} from '@twilio-paste/core/theme';
-
+import * as React from "react";
+import Login from "./Login";
+import Registration from "./Registration";
+import { Theme } from "@twilio-paste/core/theme";
 interface Props {
-   name: string
+  name: string;
 }
 
 class App extends React.Component<Props> {
@@ -12,11 +11,9 @@ class App extends React.Component<Props> {
     const { name } = this.props;
     return (
       <Theme.Provider theme="default">
-        <Header/>
-        <h1>
-          Hello {name}
-        </h1>
+        <h1>Hello {name}</h1>
         <Login />
+        <Registration />
       </Theme.Provider>
     );
   }
