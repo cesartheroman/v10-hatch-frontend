@@ -8,7 +8,7 @@ export default function Login() {
 
     const baseURL: string = 'http://localhost:3000/users'
     const [user, setUser] = useState<object>({
-        username: "",
+        email: "",
         password: ""
     });
     const [loggedIn, setLoggedIn] = React.useState<boolean>(false)
@@ -20,13 +20,15 @@ export default function Login() {
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axios.post(baseURL, user).then((response) => {
-            
+
+            //TODO: There will be some logic here to disect the returned JSON object that the back end will return. 
+
             console.log("Response:", response)
             if (response.status === 201) {
                 setLoggedIn(true)
-                //Add redirect to dashboard  TODO
+                //TODO: Redirect to user dashboard. 
             } else {
-                alert('Login did not work')
+                alert('Login did not work. Please check your work and try again.')
             }
         });
     };
@@ -56,8 +58,8 @@ export default function Login() {
                 <h1> Welcome to Hatch Evaluations!</h1>
                 <p>Please login to the system to access your available evals. </p>
                 <Box marginBottom="space80" style= {{width: '500px'}}>
-                    <Label htmlFor="username" required>Username:</Label>
-                    <Input id="username" name="username" type="text" placeholder="example@twilio.com" onChange={handleChange} required />
+                    <Label htmlFor="email" required>User Email:</Label>
+                    <Input id="email" name="email" type="text" placeholder="example@twilio.com" onChange={handleChange} required />
                 </Box>
                 <Box marginBottom="space80" style= {{width: '500px'}}>
                     <Label htmlFor="password" required>Password:</Label>
