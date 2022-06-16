@@ -30,6 +30,11 @@
       "password": "mthffd",
       "role": "apprentice",
       "id": 4
+    },
+    {
+      "email": "ruthie@ruthie.com",
+      "password": "Estrella",
+      "id": 5
     }
   ]
 }
