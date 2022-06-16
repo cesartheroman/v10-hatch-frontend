@@ -1,16 +1,24 @@
 import * as React from "react";
-import {Stack} from '@twilio-paste/core/stack';
+import "../styles.css";
+import logo from "../assets/logo-twilio.png";
+import { Button } from "@twilio-paste/core/button";
+import { Box } from "@twilio-paste/core/box";
+import { Stack } from "@twilio-paste/core/stack";
 
 const Header = () => {
-    return (
-    <nav>
-        <Stack orientation='horizontal' spacing='space40'>
-            <li><a href='#'>Home</a></li>
-            <li><a href='#'>About</a></li>
-            <li><a href='#'>Contact</a></li>
-        </Stack>
+  return (
+    <nav className="nav">
+      <Stack orientation="vertical" spacing="space0">
+        <Box className="logo">
+          <img src={logo} alt="Twilio Logo" width="50" height="50px" />
+        </Box>
+        <Box className="navItems">
+          <Button variant="secondary">Home</Button>
+          <Button variant="secondary">Login/Logout</Button>
+        </Box>
+      </Stack>
     </nav>
-    )
-}
+  );
+};
 
 export default Header;

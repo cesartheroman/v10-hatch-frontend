@@ -1,0 +1,21 @@
+.nav {
+    margin: 1rem;
+}
+
+.logo {
+    display: flex;
+    justify-content: left;
+    border-style: solid;
+    border-width: 1px;
+    padding: 1rem;
+}
+
+.navItems {
+    display: flex;
+    justify-content: space-between;
+    border-style: solid;
+    border-width: 1px;
+    border-color: red;
+    padding: 1rem;
+}
+
