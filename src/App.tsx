@@ -3,19 +3,25 @@ import Login from "./Login";
 import Registration from "./Registration";
 import Header from "./Components/Header";
 import { Theme } from "@twilio-paste/core/theme";
-interface Props {
-  name: string;
-}
+import { BrowserRouter as Router } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
-class App extends React.Component<Props> {
+
+
+
+class App extends React.Component {
   render() {
-    const { name } = this.props;
+   
     return (
       <Theme.Provider theme="default">
         <Header />
-        <h1>Hello {name}</h1>
-        <Login />
-        <Registration />
+        <Router>
+        <h1> Hello? </h1>
+        <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/registration" element={<Registration />} />
+        </Routes>
+      </Router>
       </Theme.Provider>
     );
   }
