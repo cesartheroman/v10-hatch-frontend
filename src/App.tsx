@@ -7,21 +7,19 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router";
 
 
-class App extends React.Component {
-  render() {
-   
-    return (
-      <Theme.Provider theme="default">
-        <Header />
-        <Router>
+const App = () => {
+  return (
+    <Theme.Provider theme="default">
+      <Header />
+      <Router>
         <h1> Hello? </h1>
         <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
         </Routes>
       </Router>
-      </Theme.Provider>
-    );
-  }
-}
+    </Theme.Provider>
+  );
+};
+
 export default App;
