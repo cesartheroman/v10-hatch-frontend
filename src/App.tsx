@@ -2,10 +2,10 @@ import * as React from "react";
 import Login from "./Login";
 import Registration from "./Registration";
 import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 import { Theme } from "@twilio-paste/core/theme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router";
-
 
 const App = () => {
   return (
@@ -18,6 +18,7 @@ const App = () => {
           <Route path="/registration" element={<Registration />} />
         </Routes>
       </Router>
+      <Footer />
     </Theme.Provider>
   );
 };

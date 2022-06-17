@@ -7,7 +7,6 @@
     justify-content: left;
     border-style: solid;
     border-width: 1px;
-    padding: 1rem;
 }
 
 .navItems {
@@ -19,3 +18,14 @@
     padding: 1rem;
 }
 
+.footer {
+    margin: 1rem;
+}
+
+.footerItems {
+    display: flex;
+    justify-content: space-between;
+    border-style: solid;
+    border-width: 1px;
+    padding: 1rem;
+}
