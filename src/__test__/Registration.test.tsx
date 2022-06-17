@@ -1,7 +1,20 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import * as React from "react";
-import { HTMLAttributes, shallow, ShallowWrapper } from "enzyme";
+import { render, RenderResult, screen } from "@testing-library/react";
 import Registration from "../Registration";
 
-test("component exists", () => {
-  expect(Registration).toBeDefined();
+let documentBody: RenderResult;
+
+describe("Registration", () => {
+  test("renders Reg component", () => {
+    render(<Registration />);
+  });
+});
+
+test("renders learn react link", () => {
+  render(<Registration />);
+  screen.debug();
 });
