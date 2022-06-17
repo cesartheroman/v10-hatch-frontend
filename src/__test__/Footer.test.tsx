@@ -4,10 +4,10 @@
 
 import * as React from "react";
 import { render } from "@testing-library/react";
-import Header from "../Components/Header";
+import Footer from "../Components/Footer";
 
-describe("Header", () => {
-  test("renders Header", () => {
-    render(<Header />);
+describe("Footer", () => {
+  test("renders Footer", () => {
+    render(<Footer />);
   });
 });
