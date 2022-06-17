@@ -10,7 +10,7 @@ const Header = () => {
     <nav className="nav">
       <Stack orientation="vertical" spacing="space0">
         <Box className="logo">
-          <img src={logo} alt="Twilio Logo" width="50" height="50px" />
+          <img src={logo} alt="Twilio Logo" width="75px" height="75px" />
         </Box>
         <Box className="navItems">
           <Button variant="secondary">Home</Button>
