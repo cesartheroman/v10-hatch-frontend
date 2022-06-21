@@ -2,19 +2,21 @@
  * @jest-environment jsdom
  */
 
-import * as React from "react";
+import React from "react";
 import { render, RenderResult, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+
 import Registration from "../Registration";
+import { Theme } from "@twilio-paste/core/dist/theme";
 
-let documentBody: RenderResult;
+// let documentBody: RenderResult;
 
-describe("Registration", () => {
-  test("renders Reg component", () => {
+describe("Should render Registration component", () => {
+  test("renders Registration component", () => {
     render(<Registration />);
-  });
-});
+    expect(screen.getByText(/Register/)).toBeInTheDocument();
+    expect(screen.getByText("Choose role")).toBeInTheDocument();
 
-test("renders learn react link", () => {
-  render(<Registration />);
-  screen.debug();
+    // screen.debug();
+  });
 });

@@ -18,7 +18,6 @@
     "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
-    "@testing-library/jest-dom": "^5.16.4",
     "@twilio-paste/core": "^13.0.1",
     "@twilio-paste/icons": "^8.0.1",
     "@types/jest": "^28.1.2",
@@ -53,6 +52,7 @@
     "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.2",
     "file-loader": "^6.2.0",
     "jest-transform-css": "^4.0.1",
