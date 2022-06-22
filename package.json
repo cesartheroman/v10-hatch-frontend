@@ -12,7 +12,8 @@
     "build-prod": "webpack --mode production",
     "start": "webpack serve --mode development",
     "test": "jest",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "mockserv": "json-server --watch mockDB/Data.json"
   },
   "dependencies": {
     "@babel/core": "^7.18.5",
