@@ -7,15 +7,16 @@ import { Theme } from "@twilio-paste/core/theme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Welcome from "./Welcome";
+import CreateEvaluation from "./CreateEvaluation";
 
 const App = () => {
   return (
     <Theme.Provider theme="default">
-      
       <Router>
-      <Header />
+        <Header />
         <Routes>
-          <Route path="/" element={<Welcome/>} />
+          <Route path="/" element={<Welcome />} />
+          <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
         </Routes>
