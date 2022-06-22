@@ -6,14 +6,16 @@ import Footer from "./Components/Footer";
 import { Theme } from "@twilio-paste/core/theme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router";
+import Welcome from "./Welcome";
 
 const App = () => {
   return (
     <Theme.Provider theme="default">
-      <Header />
+      
       <Router>
-        <h1> Hello? </h1>
+      <Header />
         <Routes>
+          <Route path="/" element={<Welcome/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
         </Routes>

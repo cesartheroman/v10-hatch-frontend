@@ -4,6 +4,6 @@ module.exports = {
   testEnvironment: "node",
   transform: {
     "^.+\\.js$": "babel-jest",
-    ".+\\.(css|styl|less|sass|scss)$": "jest-transform-css",
+    ".+\\.(css|scss|png|jpg|svg)$": "jest-transform-stub",
   },
 };
