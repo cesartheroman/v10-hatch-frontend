@@ -3,7 +3,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const Dashboard = () => {
-  const baseURL: string = "http://localhost:3000/evaluations";
+  const userID: number = 5;
+  const baseURL: string = "http://localhost:3000/";
   const [evaluations, setEvaluations] = useState([
     {
       title: "PLACEHOLDER",
@@ -11,30 +12,43 @@ const Dashboard = () => {
       finalized: 10 - 23 - 2022,
       status: "PLACEHOLDER",
       questions: [],
-      apprenticeID: 0,
-      managerID: 0,
+      apprenticeID: 1,
+      managerID: 1,
       reviews: [1, 2, 3],
     },
   ]);
 
   useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setEvaluations(response.data);
+    axios.get(baseURL + "evaluations").then((response) => {
+      setEvaluations(
+        response.data.filter((object: any) => {
+          return object.apprenticeID === userID || object.managerID === userID;
+        })
+      );
     });
   }, []);
 
+  // function getName(id:number) {
+  //   axios.get(baseURL + "users/" + id).then((response) => {
+  //     console.log(response.data.name)
+  //      return response.data.name ;
+       
+  //   })}
+
+  
+  //TODO: realign object in mock db to match that of the new backend object framework,
+  //       to grab the name for displaying. 
+
   return (
     <div>
-      <h1>DASHBOARD</h1>
-      <div>
         {evaluations.map((evaluation) => (
           <p key={evaluation.title}>
             {" "}
-            {evaluation.title} - {evaluation.apprenticeID} - {evaluation.status} - {evaluation.managerID} {" "}
+            {evaluation.title} - {getName(evaluation.apprenticeID)} - {evaluation.status}{" "}
+            - {getName(evaluation.managerID)}{" "}
           </p>
         ))}
       </div>
-    </div>
-  );
-};
+  )
+        };
 export default Dashboard;
