@@ -8,6 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Welcome from "./Welcome";
 import CreateEvaluation from "./CreateEvaluation";
+import Dashboard from "./Dashboard";
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<Welcome />} />
+          
+          <Route path="/" element={<Dashboard />} /> 
           <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
