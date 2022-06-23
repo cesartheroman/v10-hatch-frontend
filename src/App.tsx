@@ -8,7 +8,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Welcome from "./Welcome";
 import CreateEvaluation from "./CreateEvaluation";
+
 import Dashboard from "./Dashboard";
+
+import NewReview from "./NewReview";
+
 
 const App = () => {
   return (
@@ -21,6 +25,7 @@ const App = () => {
           <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
+          <Route path="/newreview" element={<NewReview/>} />
         </Routes>
       </Router>
       <Footer />
