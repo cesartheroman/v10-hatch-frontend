@@ -12,6 +12,7 @@ import CreateEvaluation from "./CreateEvaluation";
 import Dashboard from "./Dashboard";
 
 import NewReview from "./NewReview";
+import Dashboard from "./Dashboard";
 
 
 const App = () => {
