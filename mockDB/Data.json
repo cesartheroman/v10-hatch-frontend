@@ -2,39 +2,88 @@
   "users": [
     {
       "id": 1,
-      "name": "ruthie",
+      "name": "Ruthie Clark",
       "evaluationsID": [],
-      "roleID": 420,
-      "email": "ruthie@elias.com",
-      "password": "ilovefood"
+      "roleID": 1,
+      "email": "ruthie@elias.com"
     },
     {
       "id": 2,
-      "name": "user",
+      "name": "Jiminy Cricket",
       "evaluationsID": [],
-      "roleID": 420,
-      "email": "user@twilio.com",
-      "password": "password"
+      "roleID": 3,
+      "email": "jcricket@twilio.com"
     },
     {
       "id": 3,
-      "name": "manager",
+      "name": "Lil Nas X",
       "evaluationsID": [],
-      "roleID": 420,
-      "email": "manager@twilio.com",
+      "roleID": 2,
+      "email": "lilnasx@twilio.com",
       "password": "manager"
     },
     {
-      "name": "Ruthie Clark",
-      "email": "eclark@twilio.com",
-      "password": "mthffd",
-      "role": "apprentice",
+      "name": "Barack Obama",
+      "email": "bobama@twilio.com",
+      "evaluationsID": [],
+      "roleID": "1",
       "id": 4
     },
     {
-      "email": "ruthie@ruthie.com",
-      "password": "Estrella",
+      "name": "Marilyn Monroe",
+      "email": "mmonroe@twilio.com",
+      "evaluationsID": [],
+      "roleID": "4",
       "id": 5
+    },
+    {
+      "name": "Gregg G. Greggory",
+      "email": "greg@twilio.com",
+      "evaluationsID": [],
+      "roleID": "3",
+      "id": 6
+    },
+    {
+      "name": "Lilluthe d'Zymmer",
+      "email": "ldzymmer@twilio.com",
+      "evaluationsID": [],
+      "roleID": "2",
+      "id": 7
     }
-  ]
+  ],
+  "evaluations": 
+    [
+      {
+        "title": "August 2022 Eval",
+        "creation": "08/22/2022",
+        "finalized": "08/26/2022",
+        "status": "completed",
+        "questions": [],
+        "apprenticeID": 1,
+        "managerID": 2,
+        "reviews": [1, 2, 3]
+      },
+      {
+        "title": "November 2022 Review",
+        "creation": "11/22/2022",
+        "finalized": null,
+        "status": "open",
+        "questions": [],
+        "apprenticeID": 4,
+        "managerID": 5,
+        "reviews": [4, 5, 6]
+      },
+      {
+        "title": "April Check-in",
+        "creation": "04/13/2022",
+        "finalized": null,
+        "status": "open",
+        "questions": [],
+        "apprenticeID": 4,
+        "managerID": 5,
+        "reviews": [4, 5, 7]
+      }
+     ]
+     
+  
 }
