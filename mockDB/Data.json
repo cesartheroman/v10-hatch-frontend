@@ -3,50 +3,42 @@
     {
       "id": 1,
       "name": "Ruthie Clark",
-      "evaluationsID": [],
       "roleID": 1,
       "email": "ruthie@elias.com"
     },
     {
       "id": 2,
       "name": "Jiminy Cricket",
-      "evaluationsID": [],
       "roleID": 3,
       "email": "jcricket@twilio.com"
     },
     {
       "id": 3,
       "name": "Lil Nas X",
-      "evaluationsID": [],
       "roleID": 2,
-      "email": "lilnasx@twilio.com",
-      "password": "manager"
+      "email": "lilnasx@twilio.com"
     },
     {
       "name": "Barack Obama",
       "email": "bobama@twilio.com",
-      "evaluationsID": [],
       "roleID": "1",
       "id": 4
     },
     {
       "name": "Marilyn Monroe",
       "email": "mmonroe@twilio.com",
-      "evaluationsID": [],
       "roleID": "4",
       "id": 5
     },
     {
       "name": "Gregg G. Greggory",
       "email": "greg@twilio.com",
-      "evaluationsID": [],
       "roleID": "3",
       "id": 6
     },
     {
       "name": "Lilluthe d'Zymmer",
       "email": "ldzymmer@twilio.com",
-      "evaluationsID": [],
       "roleID": "2",
       "id": 7
     }
