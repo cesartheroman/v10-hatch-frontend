@@ -3,7 +3,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const Dashboard = () => {
-  const baseURL: string = "http://localhost:3000/evaluations";
+  const userID: number = 1;
+  const baseURL: string = "http://localhost:3000/";
   const [evaluations, setEvaluations] = useState([
     {
       title: "PLACEHOLDER",
@@ -11,29 +12,42 @@ const Dashboard = () => {
       finalized: 10 - 23 - 2022,
       status: "PLACEHOLDER",
       questions: [],
-      apprenticeID: 0,
-      managerID: 0,
-      reviews: [1, 2, 3],
+      apprentice: { id: 420, name: "PLACEHOLDER" },
+      manager: { id: 69, name: "PLACEHOLDER" },
+      reviews: [
+        { reviewId: 100, reviewer: "PLACEHOLDER 01" },
+        { reviewId: 101, reviewer: "PLACEHOLDER 02" },
+      ],
     },
   ]);
 
   useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setEvaluations(response.data);
+    axios.get(baseURL + "evaluations").then((response) => {
+      setEvaluations(
+        response.data.filter((object: any) => {
+          return (
+            object.apprentice.id === userID || object.manager.id === userID
+          );
+        })
+      );
     });
   }, []);
 
+  
   return (
     <div>
-      <h1>DASHBOARD</h1>
-      <div>
-        {evaluations.map((evaluation) => (
-          <p key={evaluation.title}>
-            {" "}
-            {evaluation.title} - {evaluation.apprenticeID} - {evaluation.status} - {evaluation.managerID} {" "}
-          </p>
-        ))}
-      </div>
+      {evaluations.map((evaluation) => (
+        <div key={evaluation.title}>
+          {" "}
+          {evaluation.title} -{evaluation.creation} -{"Apprentice: "}{" "}
+          {evaluation.apprentice.name} -{" Status:"} {evaluation.status} -
+          {"Manager: "}
+          {evaluation.manager.name} -{"Reviewers: "}
+          {evaluation.reviews.map((review) => (
+            <span key={review.reviewId}> {review.reviewer} </span>
+          ))}{" "}
+        </div>
+      ))}
     </div>
   );
 };
