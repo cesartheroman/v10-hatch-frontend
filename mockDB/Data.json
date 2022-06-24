@@ -51,39 +51,94 @@
       "id": 7
     }
   ],
-  "evaluations": 
-    [
-      {
-        "title": "August 2022 Eval",
-        "creation": "08/22/2022",
-        "finalized": "08/26/2022",
-        "status": "completed",
-        "questions": [],
-        "apprenticeID": 1,
-        "managerID": 2,
-        "reviews": [1, 2, 3]
+  "evaluations": [
+    {
+      "title": "August 2022 Eval",
+      "creation": "08/22/2022",
+      "finalized": "08/26/2022",
+      "status": "completed",
+      "questions": [],
+      "apprenticeID": 1,
+      "managerID": 2,
+      "reviews": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "title": "November 2022 Review",
+      "creation": "11/22/2022",
+      "finalized": null,
+      "status": "open",
+      "questions": [],
+      "apprenticeID": 4,
+      "managerID": 5,
+      "reviews": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "title": "April Check-in",
+      "creation": "04/13/2022",
+      "finalized": null,
+      "status": "open",
+      "questions": [],
+      "apprenticeID": 4,
+      "managerID": 5,
+      "reviews": [
+        4,
+        5,
+        7
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "status": "submitted",
+      "reviewer": {
+        "id": 1,
+        "name": "Ruthie"
       },
-      {
-        "title": "November 2022 Review",
-        "creation": "11/22/2022",
-        "finalized": null,
-        "status": "open",
-        "questions": [],
-        "apprenticeID": 4,
-        "managerID": 5,
-        "reviews": [4, 5, 6]
+      "QA": [
+        {
+          "question": "What are the strenghts of the apprentice?",
+          "answer": "answer 1"
+        },
+        {
+          "question": "What are the areas of growth for the apprentice?",
+          "answer": "answer 2"
+        },
+        {
+          "question": "What are the core values of the apprentice?",
+          "answer": "answer3"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "status": "open",
+      "reviewer": {
+        "id": 1,
+        "name": "Ruthie"
       },
-      {
-        "title": "April Check-in",
-        "creation": "04/13/2022",
-        "finalized": null,
-        "status": "open",
-        "questions": [],
-        "apprenticeID": 4,
-        "managerID": 5,
-        "reviews": [4, 5, 7]
-      }
-     ]
-     
-  
+      "QA": [
+        {
+          "question": "What are the strenghts of the apprentice?",
+          "answer": ""
+        },
+        {
+          "question": "What are the areas of growth for the apprentice?",
+          "answer": ""
+        },
+        {
+          "question": "What are the core values of the apprentice?",
+          "answer": ""
+        }
+      ]
+    }
+  ]
 }
