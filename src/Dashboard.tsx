@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const Dashboard = () => {
-  const userID: number = 5;
+  const userID: number = 1;
   const baseURL: string = "http://localhost:3000/";
   const [evaluations, setEvaluations] = useState([
     {
@@ -12,9 +12,12 @@ const Dashboard = () => {
       finalized: 10 - 23 - 2022,
       status: "PLACEHOLDER",
       questions: [],
-      apprenticeID: 1,
-      managerID: 1,
-      reviews: [1, 2, 3],
+      apprentice: { id: 420, name: "PLACEHOLDER" },
+      manager: { id: 69, name: "PLACEHOLDER" },
+      reviews: [
+        { reviewId: 100, reviewer: "PLACEHOLDER 01" },
+        { reviewId: 101, reviewer: "PLACEHOLDER 02" },
+      ],
     },
   ]);
 
@@ -22,33 +25,30 @@ const Dashboard = () => {
     axios.get(baseURL + "evaluations").then((response) => {
       setEvaluations(
         response.data.filter((object: any) => {
-          return object.apprenticeID === userID || object.managerID === userID;
+          return (
+            object.apprentice.id === userID || object.manager.id === userID
+          );
         })
       );
     });
   }, []);
 
-  // function getName(id:number) {
-  //   axios.get(baseURL + "users/" + id).then((response) => {
-  //     console.log(response.data.name)
-  //      return response.data.name ;
-       
-  //   })}
-
   
-  //TODO: realign object in mock db to match that of the new backend object framework,
-  //       to grab the name for displaying. 
-
   return (
     <div>
-        {evaluations.map((evaluation) => (
-          <p key={evaluation.title}>
-            {" "}
-            {evaluation.title} - {getName(evaluation.apprenticeID)} - {evaluation.status}{" "}
-            - {getName(evaluation.managerID)}{" "}
-          </p>
-        ))}
-      </div>
-  )
-        };
+      {evaluations.map((evaluation) => (
+        <div key={evaluation.title}>
+          {" "}
+          {evaluation.title} -{evaluation.creation} -{"Apprentice: "}{" "}
+          {evaluation.apprentice.name} -{" Status:"} {evaluation.status} -
+          {"Manager: "}
+          {evaluation.manager.name} -{"Reviewers: "}
+          {evaluation.reviews.map((review) => (
+            <span key={review.reviewId}> {review.reviewer} </span>
+          ))}{" "}
+        </div>
+      ))}
+    </div>
+  );
+};
 export default Dashboard;
