@@ -87,5 +87,51 @@
         { "reviewId": 44, "reviewer": "Jiminy Cricket" }
       ]
     }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "status": "submitted",
+      "reviewer": {
+        "id": 1,
+        "name": "Ruthie"
+      },
+      "QA": [
+        {
+          "question": "What are the strenghts of the apprentice?",
+          "answer": "answer 1"
+        },
+        {
+          "question": "What are the areas of growth for the apprentice?",
+          "answer": "answer 2"
+        },
+        {
+          "question": "What are the core values of the apprentice?",
+          "answer": "answer3"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "status": "open",
+      "reviewer": {
+        "id": 1,
+        "name": "Ruthie"
+      },
+      "QA": [
+        {
+          "question": "What are the strenghts of the apprentice?",
+          "answer": ""
+        },
+        {
+          "question": "What are the areas of growth for the apprentice?",
+          "answer": ""
+        },
+        {
+          "question": "What are the core values of the apprentice?",
+          "answer": ""
+        }
+      ]
+    }
   ]
 }
