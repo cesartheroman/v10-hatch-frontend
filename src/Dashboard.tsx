@@ -1,6 +1,18 @@
 import * as React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Box } from "@twilio-paste/core/box";
+import {
+  DataGrid,
+  DataGridHead,
+  DataGridRow,
+  DataGridHeader,
+  DataGridHeaderSort,
+  DataGridBody,
+  DataGridCell,
+  DataGridFoot
+} from "@twilio-paste/core/data-grid";
+import type { SortDirection } from "@twilio-paste/core/data-grid";
 
 const Dashboard = () => {
   const userID: number = 1;
