@@ -50,40 +50,41 @@
       "finalized": "08/26/2022",
       "status": "completed",
       "questions": [],
-      "apprenticeID": 1,
-      "managerID": 2,
+      "apprentice": { "id": 1, "name": "Ruthie Clark" },
+      "manager": { "id": 2, "name": "Jiminy Cricket" },
       "reviews": [
-        1,
-        2,
-        3
+        { "reviewId": 2, "reviewer": "Lilluthe d'Zymmer" },
+        { "reviewId": 500, "reviewer": "Gregg G. Greggory" },
+        { "reviewId": 3, "reviewer": "Ruthie Clark" },
+        { "reviewId": 4, "reviewer": "Jiminy Cricket" }
       ]
     },
     {
-      "title": "November 2022 Review",
-      "creation": "11/22/2022",
-      "finalized": null,
+      "title": "Midsummer review 2022",
+      "creation": "08/22/2022",
+      "finalized": "08/26/2022",
       "status": "open",
       "questions": [],
-      "apprenticeID": 4,
-      "managerID": 5,
+      "apprentice": { "id": 4, "name": "Barack Obama" },
+      "manager": { "id": 2, "name": "Jiminy Cricket" },
       "reviews": [
-        4,
-        5,
-        6
+        { "reviewId": 504, "reviewer": "Lilluthe d'Zymmer" },
+        { "reviewId": 73, "reviewer": "Barack Obama" },
+        { "reviewId": 4, "reviewer": "Jiminy Cricket" }
       ]
     },
     {
-      "title": "April Check-in",
-      "creation": "04/13/2022",
+      "title": "July - First Review",
+      "creation": "07/22/2022",
       "finalized": null,
       "status": "open",
       "questions": [],
-      "apprenticeID": 4,
-      "managerID": 5,
+      "apprentice": { "id": 1, "name": "Ruthie Clark" },
+      "manager": { "id": 2, "name": "Jiminy Cricket" },
       "reviews": [
-        4,
-        5,
-        7
+        { "reviewId": 501, "reviewer": "Gregg G. Greggory" },
+        { "reviewId": 33, "reviewer": "Ruthie Clark" },
+        { "reviewId": 44, "reviewer": "Jiminy Cricket" }
       ]
     }
   ],
