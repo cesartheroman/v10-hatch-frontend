@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import axios from 'axios'
 
 import { Card, Button, Box, Label, Input } from '@twilio-paste/core'
-import { useParams } from "react-router";
 
-// type UpdateReviewAnswer = {
-//     id: number;
-//     status: string;
-//     reviewer: object;
-//     QA: { question: string, answer: string }[];
-// }
+type UpdateReviewAnswer = {
+    id: number;
+    status: string;
+    reviewer: object;
+    QA: { question: string, answer: string }[];
+}
 
 // type QA = {
 //     question: string,
@@ -18,7 +17,7 @@ import { useParams } from "react-router";
 
 const NewReview = () => {
     const baseURL: string = 'http://localhost:3000/reviews/'
-    const [reviewAnswers, setReviewAnswers] = useState({
+    const [reviewAnswers, setReviewAnswers] = useState<UpdateReviewAnswer>({
         id: 1,
         status: 'TEST',
         reviewer: { id: 1, name: "Ruthie" },
@@ -88,8 +87,7 @@ const NewReview = () => {
                             <Box marginBottom="space80" style={{ width: '500px' }}>
                                 <Label htmlFor="q1" required>{reviewAnswers.QA[0].question}</Label>
                                 <Input 
-                                    id="q1" 
-                                    // name="reviewAnswers.QA[0].answer" 
+                                    id="q1"  
                                     type="text" 
                                     value={reviewAnswers.QA[0].answer}
                                     onChange={(e) => updateAnswById(e.target.value, 0) } 
@@ -100,7 +98,6 @@ const NewReview = () => {
                                 <Label htmlFor="q2" required>{reviewAnswers.QA[1].question}</Label>
                                 <Input 
                                     id="q2" 
-                                    name="q2" 
                                     type="text"
                                     value={reviewAnswers.QA[1].answer}
                                     onChange={(e) => updateAnswById(e.target.value, 1) } 
@@ -110,8 +107,7 @@ const NewReview = () => {
                             <Box marginBottom="space80" style={{ width: '500px' }}>
                                 <Label htmlFor="q3" required>{reviewAnswers.QA[2].question}</Label>
                                 <Input 
-                                    id="q3" 
-                                    name="q3" 
+                                    id="q3"  
                                     type="text"
                                     value={reviewAnswers.QA[2].answer}
                                     onChange={(e) => updateAnswById(e.target.value, 2) } 
