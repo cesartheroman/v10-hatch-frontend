@@ -50,13 +50,31 @@
       "finalized": "08/26/2022",
       "status": "completed",
       "questions": [],
-      "apprentice": { "id": 1, "name": "Ruthie Clark" },
-      "manager": { "id": 2, "name": "Jiminy Cricket" },
+      "apprentice": {
+        "id": 1,
+        "name": "Ruthie Clark"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Jiminy Cricket"
+      },
       "reviews": [
-        { "reviewId": 2, "reviewer": "Lilluthe d'Zymmer" },
-        { "reviewId": 500, "reviewer": "Gregg G. Greggory" },
-        { "reviewId": 3, "reviewer": "Ruthie Clark" },
-        { "reviewId": 4, "reviewer": "Jiminy Cricket" }
+        {
+          "reviewId": 2,
+          "reviewer": "Lilluthe d'Zymmer"
+        },
+        {
+          "reviewId": 500,
+          "reviewer": "Gregg G. Greggory"
+        },
+        {
+          "reviewId": 3,
+          "reviewer": "Ruthie Clark"
+        },
+        {
+          "reviewId": 4,
+          "reviewer": "Jiminy Cricket"
+        }
       ]
     },
     {
@@ -65,12 +83,27 @@
       "finalized": "08/26/2022",
       "status": "open",
       "questions": [],
-      "apprentice": { "id": 4, "name": "Barack Obama" },
-      "manager": { "id": 2, "name": "Jiminy Cricket" },
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Jiminy Cricket"
+      },
       "reviews": [
-        { "reviewId": 504, "reviewer": "Lilluthe d'Zymmer" },
-        { "reviewId": 73, "reviewer": "Barack Obama" },
-        { "reviewId": 4, "reviewer": "Jiminy Cricket" }
+        {
+          "reviewId": 504,
+          "reviewer": "Lilluthe d'Zymmer"
+        },
+        {
+          "reviewId": 73,
+          "reviewer": "Barack Obama"
+        },
+        {
+          "reviewId": 4,
+          "reviewer": "Jiminy Cricket"
+        }
       ]
     },
     {
@@ -79,21 +112,36 @@
       "finalized": null,
       "status": "open",
       "questions": [],
-      "apprentice": { "id": 1, "name": "Ruthie Clark" },
-      "manager": { "id": 2, "name": "Jiminy Cricket" },
+      "apprentice": {
+        "id": 1,
+        "name": "Ruthie Clark"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Jiminy Cricket"
+      },
       "reviews": [
-        { "reviewId": 501, "reviewer": "Gregg G. Greggory" },
-        { "reviewId": 33, "reviewer": "Ruthie Clark" },
-        { "reviewId": 44, "reviewer": "Jiminy Cricket" }
+        {
+          "reviewId": 501,
+          "reviewer": "Gregg G. Greggory"
+        },
+        {
+          "reviewId": 33,
+          "reviewer": "Ruthie Clark"
+        },
+        {
+          "reviewId": 44,
+          "reviewer": "Jiminy Cricket"
+        }
       ]
     }
   ],
   "reviews": [
     {
       "id": 1,
-      "status": "submitted",
+      "status": "closed",
       "reviewer": {
-        "id": 1,
+        "id": 3,
         "name": "Ruthie"
       },
       "QA": [

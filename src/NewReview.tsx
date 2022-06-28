@@ -6,21 +6,27 @@ import { Card, Button, Box, Label, Input } from '@twilio-paste/core'
 type UpdateReviewAnswer = {
     id: number;
     status: string;
-    reviewer: object;
+    reviewer: {id:number, name:string};
     QA: { question: string, answer: string }[];
 }
+type EvaluationSchema = {
+    title: string;
+    creation: string;
+    finalized: string;
+    status: string;
+    questions: string[];
+    arprentice: {id: number,name: string},
+    manager: {id: number, name: string},
+    reviews: { reviewId: number, reviewer: string }[];
+}
 
-// type QA = {
-//     question: string,
-//     answer: string
-// }
 
-const NewReview = () => {
+const NewReview = (prop: {evaluation: EvaluationSchema}) => {
     const baseURL: string = 'http://localhost:3000/reviews/'
     const [reviewAnswers, setReviewAnswers] = useState<UpdateReviewAnswer>({
         id: 1,
         status: 'TEST',
-        reviewer: { id: 1, name: "Ruthie" },
+        reviewer: { id: 3, name: "Ruthie" },
         QA: [
             {
                 question: "What are the strenghts of the apprentice?",
@@ -36,11 +42,21 @@ const NewReview = () => {
             }
         ]
     })
+    const [managerAction, setManagerAction] = useState(false)
+
+  
+       
 
     React.useEffect(() => {
         axios.get(baseURL + 1).then((response) => {
             setReviewAnswers(response.data);
         });
+    }, [])
+
+    React.useEffect(() => {
+        if (prop.evaluation.manager.id === reviewAnswers.reviewer.id) {
+            setManagerAction(true);
+        }
     }, [])
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,17 +67,29 @@ const NewReview = () => {
             reviewer: reviewAnswers.reviewer,
             QA: reviewAnswers.QA
         }
-        axios.put(baseURL+1, data).then((response)=> {
+        axios.put(baseURL + 1, data).then((response) => {
             console.log('response from submit:', response)
         })
     }
+    const closeReview = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        let data = {
+            id: reviewAnswers.id,
+            status: "closed",
+            reviewer: reviewAnswers.reviewer,
+            QA: reviewAnswers.QA
+        }
+        axios.put(baseURL + 1, data).then((response) => {
+            console.log('response from closeReview:', response)
+        })
+    }
 
-    const updateAnswById = (answer:string, id:number) => {
+    const updateAnswById = (answer: string, id: number) => {
         setReviewAnswers((state) => {
             return {
                 ...state,
                 QA: state.QA.map((el, index) => {
-                    if (index===id) {
+                    if (index === id) {
                         return {
                             ...el,
                             answer
@@ -74,46 +102,55 @@ const NewReview = () => {
         })
     }
 
-    console.log(reviewAnswers)
+
+
+    //console.log(reviewAnswers)
+    console.log(prop.evaluation)
     return (
         <>
             <div style={{ maxWidth: 600, padding: 10, margin: 10 }}>
                 <Card style={{ margin: '10px' }}>
                     <div>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} data-testid="newreview-form">
                             <h1>Review:</h1>
                             <p>Please answer the following questions:</p>
-                        
+
                             <Box marginBottom="space80" style={{ width: '500px' }}>
                                 <Label htmlFor="q1" required>{reviewAnswers.QA[0].question}</Label>
-                                <Input 
-                                    id="q1"  
-                                    type="text" 
+                                <Input
+                                    id="a1"
+                                    name="answer1"
+                                    type="text"
                                     value={reviewAnswers.QA[0].answer}
-                                    onChange={(e) => updateAnswById(e.target.value, 0) } 
-                                    required 
+                                    onChange={(e) => updateAnswById(e.target.value, 0)}
+                                    required
                                 />
                             </Box>
                             <Box marginBottom="space80" style={{ width: '500px' }}>
                                 <Label htmlFor="q2" required>{reviewAnswers.QA[1].question}</Label>
-                                <Input 
-                                    id="q2" 
+                                <Input
+                                    id="a2"
+                                    name="answer2"
                                     type="text"
                                     value={reviewAnswers.QA[1].answer}
-                                    onChange={(e) => updateAnswById(e.target.value, 1) } 
-                                    required 
+                                    onChange={(e) => updateAnswById(e.target.value, 1)}
+                                    required
                                 />
                             </Box>
                             <Box marginBottom="space80" style={{ width: '500px' }}>
                                 <Label htmlFor="q3" required>{reviewAnswers.QA[2].question}</Label>
-                                <Input 
-                                    id="q3"  
+                                <Input
+                                    id="a3"
+                                    name="answer3"
                                     type="text"
                                     value={reviewAnswers.QA[2].answer}
-                                    onChange={(e) => updateAnswById(e.target.value, 2) } 
+                                    onChange={(e) => updateAnswById(e.target.value, 2)}
                                     required />
                             </Box>
                             <Button type="submit" variant="primary">Submit</Button>
+                            {managerAction &&
+                                <Button type="submit" variant="primary" onClick={closeReview} >Close Review</Button>
+                            }
                         </form>
                     </div>
                 </Card>
