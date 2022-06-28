@@ -62,7 +62,10 @@ const Dashboard = () => {
     if (evaluation.status === "open") {
       return <Box id="openBox">Open</Box>
     } else if (evaluation.status === "in progress") {
-      return <Box id="inProgressBox">In Progress</Box>
+      
+      //TODO: do we want this to be in progress or in review? just had a thought about it.
+
+      return <Box id="inProgressBox">In Review</Box>
     } else { 
       return <Box id="completedBox">Completed</Box>
     }
