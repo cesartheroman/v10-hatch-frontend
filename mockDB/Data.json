@@ -110,7 +110,7 @@
       "title": "July - First Review",
       "creation": "07/22/2022",
       "finalized": null,
-      "status": "open",
+      "status": "in progress",
       "questions": [],
       "apprentice": {
         "id": 1,
@@ -133,6 +133,20 @@
           "reviewId": 44,
           "reviewer": "Jiminy Cricket"
         }
+      ]
+    },
+    {
+      "title": "Title Of A Review? ",
+      "creation": "06/27/2022",
+      "finalized": null,
+      "status": "completed",
+      "questions": [],
+      "apprentice": { "id": 4, "name": "Barack Obama" },
+      "manager": { "id": 2, "name": "Jiminy Cricket" },
+      "reviews": [
+        { "reviewId": 5981, "reviewer": "Gregg G. Greggory" },
+        { "reviewId": 3693, "reviewer": "Barack Obama" },
+        { "reviewId": 4469, "reviewer": "Jiminy Cricket" }
       ]
     }
   ],
