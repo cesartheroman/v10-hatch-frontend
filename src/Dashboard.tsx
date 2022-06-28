@@ -23,6 +23,7 @@ const Dashboard = () => {
   const baseURL: string = "http://localhost:3000/";
   const [evaluations, setEvaluations] = useState([
     {
+      id: 69,
       title: "PLACEHOLDER",
       creation: 10 - 22 - 2022,
       finalized: 10 - 23 - 2022,
@@ -100,7 +101,7 @@ const Dashboard = () => {
                   {evaluation.title}
                 </Heading>
               </DataGridCell>
-              <DataGridCell>{evaluation.creation}</DataGridCell>
+              <DataGridCell><i>{evaluation.creation}</i></DataGridCell>
               <DataGridCell>{evaluation.apprentice.name}</DataGridCell>
               <DataGridCell>{evaluation.manager.name}</DataGridCell>
               <DataGridCell>
@@ -122,12 +123,11 @@ const Dashboard = () => {
                   href="#"
                   id="detailsLink"
                   onClick={() => {
-                    console.log(evaluation.apprentice.id);
+                    console.log("Linking to /evaluations/" + evaluation.id);
                   }}
                 >
-                  <span>View Details </span> &nbsp;
+                  <span id="viewDetails">View Details</span>
                   <FileIcon
-                    id="linkingIcon"
                     decorative={true}
                     title="Link to Details of Evaluation"
                   />
