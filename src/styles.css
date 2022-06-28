@@ -34,7 +34,7 @@
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  padding:  5px 20px;
+  padding: 5px 20px;
 }
 
 .list {
@@ -47,6 +47,7 @@
 }
 
 #filter {
+  text-align: right;
   padding: 20px;
   box-shadow: 0px 0px 5px -1px rgb(122, 122, 122);
   /* border-radius: 20px; */
@@ -54,15 +55,17 @@
   height: 300px;
   width: 200px;
 }
-#linkingIcon {
-  size: 500px;
-}
+
 #detailsLink {
-  font-weight: 600;
-  color: black;
-  text-decoration: none;
+  font-weight: 500;
+  color: rgb(209, 0, 0);
+  text-decoration: underline;
   display: flex;
   flex-direction: row;
+}
+
+#viewDetails {
+  margin: 0 5px 0 0;
 }
 
 #openBox {
