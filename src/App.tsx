@@ -10,17 +10,6 @@ import CreateEvaluation from "./CreateEvaluation";
 import NewReview from "./NewReview";
 import Dashboard from "./Dashboard";
 
-type EvaluationSchema = {
-    title: string;
-    creation: string;
-    finalized: boolean;
-    status: string;
-    questions: string[];
-    arprentice: {id: number,name: string},
-    manager: {id: number, name: string},
-    reviews: { reviewId: number, reviewer: string }[];
-}
-
 const App = () => {
   const evaluation = {
 
