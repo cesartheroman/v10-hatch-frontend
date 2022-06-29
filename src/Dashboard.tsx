@@ -1,12 +1,13 @@
 import * as React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Heading, Anchor } from "@twilio-paste/core";
+import { Heading, Anchor, Input, Label } from "@twilio-paste/core";
 import { Box } from "@twilio-paste/core/box";
 import { FileIcon } from "@twilio-paste/icons/esm/FileIcon";
 import {
   DataGrid,
   DataGridHead,
+  DataGridHeaderSortProps,
   DataGridRow,
   DataGridHeader,
   DataGridHeaderSort,
@@ -17,10 +18,29 @@ import {
 import type { SortDirection } from "@twilio-paste/core/data-grid";
 import "./styles.css";
 import { Link } from "react-router-dom";
+import "array-sort";
 
 const Dashboard = () => {
   const userID: number = 2;
   const baseURL: string = "http://localhost:3000/";
+  const [isDesc, setIsDesc] = useState(true);
+  const [filter, setFilter] = useState("");
+  const [savedEvaluations, setSavedEvaluations] = useState([
+    {
+      id: 69,
+      title: "PLACEHOLDER",
+      creation: 10 - 22 - 2022,
+      finalized: 10 - 23 - 2022,
+      status: "PLACEHOLDER",
+      questions: [],
+      apprentice: { id: 420, name: "PLACEHOLDER" },
+      manager: { id: 69, name: "PLACEHOLDER" },
+      reviews: [
+        { reviewId: 100, reviewer: "PLACEHOLDER 01" },
+        { reviewId: 101, reviewer: "PLACEHOLDER 02" },
+      ],
+    },
+  ]);
   const [evaluations, setEvaluations] = useState([
     {
       id: 69,
@@ -55,44 +75,125 @@ const Dashboard = () => {
           );
         })
       );
+      setSavedEvaluations(
+        response.data.filter((object: any) => {
+          return (
+            object.apprentice.id === userID || object.manager.id === userID
+          );
+        })
+      );
     });
   }, []);
 
-  function Status(evaluation : any) {
-    if (evaluation.status === "open") {
-      return <Box id="openBox">Open</Box>
-    } else if (evaluation.status === "in progress") {
-      
-      //TODO: do we want this to be in progress or in review? just had a thought about it.
+  const arraySort = require("array-sort");
 
-      return <Box id="inProgressBox">In Review</Box>
-    } else { 
-      return <Box id="completedBox">Completed</Box>
+  function FilterEvaluations(param: string): void {
+    let sortMePlease = [...evaluations];
+    setIsDesc(!isDesc);
+    let sortedEvals = arraySort(sortMePlease, param, { reverse: isDesc });
+    setEvaluations(sortedEvals);
+    console.log(evaluations);
+  }
+
+  function FilterNames(param: string): void {
+    if (param.length >= 1) {
+      let filteredEvals: any = savedEvaluations.filter(
+        (eva) =>
+          eva.apprentice.name.includes(param) ||
+          eva.manager.name.includes(param)
+      );
+      setEvaluations(filteredEvals);
+    } else {
+      setEvaluations(savedEvaluations);
     }
-  };
-  
+  }
+
+  // function FilterReviewerNames(param: string): void {
+  //   if (param.length >= 1) {
+  //     let filteredEvals: any = savedEvaluations.filter((eva) =>
+  //       eva.reviews.forEach((review) => review.reviewer.includes(param))
+  //     );
+  //     setEvaluations(filteredEvals);
+  //   } else {
+  //     setEvaluations(savedEvaluations);
+  //   }
+  // }
+
+  function Status(evaluation: any) {
+    if (evaluation.status === "open") {
+      return <Box id="openBox">Open</Box>;
+    } else if (evaluation.status === "in progress") {
+      return <Box id="inProgressBox">In Progress</Box>;
+    } else {
+      return <Box id="completedBox">Completed</Box>;
+    }
+  }
 
   return (
     <div id="dashboard">
-      <div id="filter">
+      <div id="filterContainer">
         <Box>
-          <Heading as="h1" variant="heading50">
-            {" "}
-            Filters{" "}
-          </Heading>
-          <p> Sort by: </p>
-          <p> Uh some stuff here ????</p>
+          <Label htmlFor="filter">Filter by Apprentice/Manager: </Label>
+          <Input
+            id="filter"
+            name="filter"
+            type="text"
+            onChange={(e) => FilterNames(e.target.value)}
+          />
+          <br />
+          <Label htmlFor="filter">Filter by Reviewer: </Label>
+          <Input
+            id="filterReviewer"
+            name="filterReviewer"
+            type="text"
+            // onChange={(e) => FilterReviewerNames(e.target.value)}
+          />
         </Box>
       </div>
       <DataGrid aria-label="Evaluations list" data-testid="data-grid" striped>
         <DataGridHead>
           <DataGridRow>
-            <DataGridHeader width="200px">Evaluation Title</DataGridHeader>
-            <DataGridHeader width="150px">Date Initialized</DataGridHeader>
-            <DataGridHeader width="150px">Apprentice</DataGridHeader>
-            <DataGridHeader width="150px">Manager</DataGridHeader>
+            <DataGridHeader width="200px">
+              Evaluation Title{" "}
+              <DataGridHeaderSort
+                direction="none"
+                //TODO: write function that changes direction of arrow depending on status above
+                onClick={() => FilterEvaluations("id")}
+              />
+            </DataGridHeader>
+            <DataGridHeader width="150px">
+              Date Initialized{" "}
+              <DataGridHeaderSort
+                direction="none"
+                //TODO: write function that changes direction of arrow depending on status above
+                onClick={() => FilterEvaluations("creation")}
+              />
+            </DataGridHeader>
+            <DataGridHeader width="150px">
+              Apprentice{" "}
+              <DataGridHeaderSort
+                direction="none"
+                //TODO: write function that changes direction of arrow depending on status above
+                onClick={() => FilterEvaluations("apprentice.name")}
+              />
+            </DataGridHeader>
+            <DataGridHeader width="150px">
+              Manager{" "}
+              <DataGridHeaderSort
+                direction="none"
+                //TODO: write function that changes direction of arrow depending on status above
+                onClick={() => FilterEvaluations("manager.name")}
+              />
+            </DataGridHeader>
             <DataGridHeader width="200px">Reviewers</DataGridHeader>
-            <DataGridHeader width="100px">Status</DataGridHeader>
+            <DataGridHeader width="100px">
+              Status{" "}
+              <DataGridHeaderSort
+                direction="none"
+                //TODO: write function that changes direction of arrow depending on status above
+                onClick={() => FilterEvaluations("status")}
+              />
+            </DataGridHeader>
             <DataGridHeader width="180px">Details</DataGridHeader>
           </DataGridRow>
         </DataGridHead>
@@ -104,7 +205,9 @@ const Dashboard = () => {
                   {evaluation.title}
                 </Heading>
               </DataGridCell>
-              <DataGridCell><i>{evaluation.creation}</i></DataGridCell>
+              <DataGridCell>
+                <i>{evaluation.creation}</i>
+              </DataGridCell>
               <DataGridCell>{evaluation.apprentice.name}</DataGridCell>
               <DataGridCell>{evaluation.manager.name}</DataGridCell>
               <DataGridCell>
@@ -116,12 +219,8 @@ const Dashboard = () => {
                   ))}
                 </ul>
               </DataGridCell>
+              <DataGridCell>{Status(evaluation)}</DataGridCell>
               <DataGridCell>
-                {Status(evaluation)} 
-              </DataGridCell>
-              <DataGridCell>
-                {/* //TODO:  - attach linking function to correct evaluation individual view once completed. */}
-
                 <Anchor
                   href="#"
                   id="detailsLink"
