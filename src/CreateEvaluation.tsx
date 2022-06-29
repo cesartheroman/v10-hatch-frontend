@@ -16,33 +16,70 @@ import {
 } from "@twilio-paste/core";
 import { useUIDSeed } from "react-uid";
 
-
 // TODO: Role check logic
 // TODO: Update Nav Bar
 
+type Question = {
+  id: number;
+  question: string;
+};
+
+const styles = {
+  submitButton: {
+    margin: 0,
+    padding: 0,
+    display: "flex",
+    justifyContent: "end",
+    gap: 10,
+  },
+};
+
 const CreateEvaluation = () => {
+  const [questions, setQuestions] = useState<Question[]>([
+    { id: 999, question: "what?" },
+  ]);
+  const [reviewerList, setReviewerList] = useState<Array<string>>([]);
   const [selectedQuestions, setSelectedQuestions] = useState<Array<string>>([]);
-  //   const [items, setItems] = useState<Array<string>>([
-  //     "Ryder",
-  //     "Elias",
-  //     "Paola",
-  //   ]);
-  const items = ["ryder", "paola", "elias", "cesar", "zero", "nicky"];
+  const items = ["ryder", "paola", "elias", "cesar", "hacker"];
+  const apprentices = ["EM apprentice", "HM app 1", "HM app 2"];
   const [selectedApprentice, setApprentice] = useState<string>("");
   const [filteredItems, setFilteredItems] = React.useState<Array<string>>([
     ...items,
   ]);
 
+  const baseURL: string = "http://localhost:3000";
   const seed = useUIDSeed();
   const formPillState = useFormPillState();
   const inputId = seed("input-element");
 
   // TODO: GET apprentice assigned api/v1/users/managers/id/apprentices
 
+  const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedQuestions((prev) => [...prev, value]);
+    } else {
+      setSelectedQuestions((prev) => prev.filter((x) => x !== value));
+    }
+  };
+
   useEffect(() => {
-    // TODO: GET all questions /api/v1/questions/
-    // TODO: GET all reviewers /api/v1/users/reviewers
-  });
+    getQuestions();
+  }, []);
+
+  const getQuestions = () => {
+    axios.get(baseURL + "/questions").then((res) => {
+      let newQuestions = res.data;
+      setQuestions(newQuestions);
+    });
+  };
+
+  const getReviewers = () => {
+    axios.get(baseURL + "/api/v1/users/reviewers").then((res) => {
+      let newReviewers = res.data;
+      setQuestions(newReviewers);
+    });
+  };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     // TODO: POST eval api/v1/evalutations
@@ -107,7 +144,7 @@ const CreateEvaluation = () => {
   });
 
   return (
-    <Box margin="space100" padding="space100">
+    <Box marginBottom="space10" marginTop="space10" padding="space100">
       <Card>
         <h2>New Evaluation</h2>
         <Box marginBottom="space80">
@@ -124,8 +161,6 @@ const CreateEvaluation = () => {
             required
           />
         </Box>
-        {/* <HelpText id="email_help_text">Ev</HelpText> */}
-        {/* TODO: Select Apprentice */}
         <Label htmlFor="apprentice_select">Select Apprentice</Label>
         <Box marginBottom="space80">
           <Select
@@ -133,18 +168,35 @@ const CreateEvaluation = () => {
             onChange={(e) => setApprentice(e.target.value)}
             required
           >
-            {/* TODO: map apprentice array*/}
-            <Option value="Elias">Elias</Option>
-            <Option value="Ryder">Ryder</Option>
-            <Option value="Cesar">Cesar</Option>
-            <Option value="Paola">Paola</Option>
+            {apprentices.map((apprentice, i: any) => {
+              return (
+                <Option value={apprentice} id={i}>
+                  {apprentice}
+                </Option>
+              );
+            })}
           </Select>
         </Box>
-        {/* TODO: Question Selection */}
 
+        <Box padding={"space100"} marginBottom="space80">
+          <div>
+            <h2>Select questions to appear on evaluation</h2>
+            {questions.map((question, i) => (
+              <label key={i}>
+                <input
+                  type="checkbox"
+                  name="selected-questions"
+                  value={question.question}
+                  onChange={handleChecked}
+                />{" "}
+                {question.question}
+                <br />
+              </label>
+            ))}
+          </div>
+        </Box>
         <>
           <Box marginBottom="space40" position="relative">
-            {/* TODO: Select Reviewers */}
             <Label htmlFor={inputId} {...getLabelProps()}>
               Choose a Reviewer
             </Label>
@@ -197,12 +249,38 @@ const CreateEvaluation = () => {
               );
             })}
           </FormPillGroup>
-          {/* TODO: Submit button*/}
         </>
+        <Box justifyContent="end">
+          <Button size="default" type="submit" variant="primary">
+            {/* TODO: Handle Submit*/}
+            Submit
+          </Button>
+        </Box>
       </Card>
-
     </Box>
   );
 };
 
 export default CreateEvaluation;
+
+//------------------- Paste Checkbox if there is time I want to revisit -------------
+{
+  /* <CheckboxGroup
+            name="questions_group"
+            legend="Select the answers to appear on the evaluation."
+            // onChange={handleQuestions}
+          >
+            {questions.map((obj) => (
+              <Checkbox
+                name={obj.question}
+                id={obj.question}
+                value={obj.question}
+                key={obj.id}
+                // checked={false}
+                onChange={handleChecked}
+              >
+                {obj.question}
+              </Checkbox>
+            ))}
+          </CheckboxGroup> */
+}
