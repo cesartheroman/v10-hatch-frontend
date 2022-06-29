@@ -75,6 +75,13 @@ const Dashboard = () => {
           );
         })
       );
+      setSavedEvaluations(
+        response.data.filter((object: any) => {
+          return (
+            object.apprentice.id === userID || object.manager.id === userID
+          );
+        })
+      );
     });
   }, []);
 
@@ -84,39 +91,39 @@ const Dashboard = () => {
     let sortMePlease = [...evaluations];
     setIsDesc(!isDesc);
     let sortedEvals = arraySort(sortMePlease, param, { reverse: isDesc });
-
     setEvaluations(sortedEvals);
     console.log(evaluations);
   }
 
   function FilterNames(param: string): void {
-    if (!param) {
-      setSavedEvaluations(evaluations);
-      console.log(savedEvaluations);
-      let filteredEvals: any = evaluations.filter(
+    if (param.length >= 1) {
+      let filteredEvals: any = savedEvaluations.filter(
         (eva) =>
           eva.apprentice.name.includes(param) ||
-          eva.manager.name.includes(param) ||
-          eva.reviews.map((review) => review.reviewer.includes(param))
-          
+          eva.manager.name.includes(param)
       );
       setEvaluations(filteredEvals);
-      console.log(evaluations);
     } else {
       setEvaluations(savedEvaluations);
     }
   }
 
-  // {fruit.filter(f => f.includes(filter) || filter === '')
-  //         .map(f => <li key={f}>{f}</li>)}
+  // function FilterReviewerNames(param: string): void {
+  //   if (param.length >= 1) {
+  //     let filteredEvals: any = savedEvaluations.filter((eva) =>
+  //       eva.reviews.forEach((review) => review.reviewer.includes(param))
+  //     );
+  //     setEvaluations(filteredEvals);
+  //   } else {
+  //     setEvaluations(savedEvaluations);
+  //   }
+  // }
 
   function Status(evaluation: any) {
     if (evaluation.status === "open") {
       return <Box id="openBox">Open</Box>;
     } else if (evaluation.status === "in progress") {
-      //TODO: do we want this to be in progress or in review? just had a thought about it.
-
-      return <Box id="inProgressBox">In Review</Box>;
+      return <Box id="inProgressBox">In Progress</Box>;
     } else {
       return <Box id="completedBox">Completed</Box>;
     }
@@ -126,20 +133,20 @@ const Dashboard = () => {
     <div id="dashboard">
       <div id="filterContainer">
         <Box>
-          <Heading as="h1" variant="heading50">
-            {" "}
-            Filters{" "}
-          </Heading>
-
-          {/* <Label htmlFor="name">Name</Label>
-  <Input id="name" name="name" type="text" onChange=""/> */}
-
-          <Label htmlFor="filter">Name: </Label>
+          <Label htmlFor="filter">Filter by Apprentice/Manager: </Label>
           <Input
             id="filter"
             name="filter"
             type="text"
             onChange={(e) => FilterNames(e.target.value)}
+          />
+          <br />
+          <Label htmlFor="filter">Filter by Reviewer: </Label>
+          <Input
+            id="filterReviewer"
+            name="filterReviewer"
+            type="text"
+            // onChange={(e) => FilterReviewerNames(e.target.value)}
           />
         </Box>
       </div>
