@@ -1,4 +1,3 @@
-import { queryAllByAltText } from '@testing-library/react';
 import { Anchor, Card, Heading, Paragraph, Separator } from '@twilio-paste/core'
 import axios from 'axios';
 import { indexOf } from 'cypress/types/lodash';

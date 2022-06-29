@@ -21,25 +21,25 @@
         {
             "name": "Barack Obama",
             "email": "bobama@twilio.com",
-            "roleID": "1",
+            "roleID": 1,
             "id": 4
         },
         {
             "name": "Marilyn Monroe",
             "email": "mmonroe@twilio.com",
-            "roleID": "4",
+            "roleID": 4,
             "id": 5
         },
         {
             "name": "Gregg G. Greggory",
             "email": "greg@twilio.com",
-            "roleID": "3",
+            "roleID": 3,
             "id": 6
         },
         {
             "name": "Lilluthe d'Zymmer",
             "email": "ldzymmer@twilio.com",
-            "roleID": "2",
+            "roleID": 2,
             "id": 7
         }
     ],
