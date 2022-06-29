@@ -70,7 +70,7 @@ const SingleReviewView = () => {
 
             {evaluationTodisplay.reviews.map((review) =>
                 <Card key={review.id}>
-                    <Heading as="h2" variant="heading20" >Review by: {review.reviewer.name}</Heading>
+                    <Heading as="h2" variant="heading20" >Review completed by: {review.reviewer.name}</Heading>
                     <Separator orientation="horizontal" verticalSpacing="space50" />
                     <ul>
                         {review.QA.map((qa, index) => (
