@@ -1,6 +1,9 @@
-import { Anchor, Card, Heading, Paragraph } from '@twilio-paste/core'
+import { queryAllByAltText } from '@testing-library/react';
+import { Anchor, Card, Heading, Paragraph, Separator } from '@twilio-paste/core'
 import axios from 'axios';
+import { indexOf } from 'cypress/types/lodash';
 import * as React from 'react'
+import QAView from './Components/QAView';
 
 type UpdateReviewAnswer = {
     id: number;
@@ -54,29 +57,36 @@ const SingleReviewView = () => {
         ]
     })
 
-    // React.useEffect(() => {
-    //     axios.get<EvaluationSchema>(baseURL+4).then((response) => {
-    //         setEvaluationTodisplay(response);
-    //     })
-    // }, [])
+    React.useEffect(() => {
+        axios.get<EvaluationSchema>(baseURL + 4).then((response) => setEvaluationTodisplay(response.data))
+    }, [])
+
+    console.log("Eval:", evaluationTodisplay)
 
     return (
-        <Card>
-            <Heading as="h2" variant="heading20" >See evaluation completed for *apprentice*</Heading>
-            <Paragraph>Question 1</Paragraph>
-                <Paragraph>Answer 1</Paragraph>
-                <Paragraph>Answer 2</Paragraph>
-                <Paragraph>Answer 3</Paragraph>
-            <Paragraph>Question 2</Paragraph>
-                <Paragraph>Answer 1</Paragraph>
-                <Paragraph>Answer 2</Paragraph>
-                <Paragraph>Answer 3</Paragraph>
-            <Paragraph>Question 3</Paragraph>
-                <Paragraph>Answer 1</Paragraph>
-                <Paragraph>Answer 2</Paragraph>
-                <Paragraph>Answer 3</Paragraph>
-        </Card>
+        <div id="singleEval">
+            <h4>See evaluation completed for {evaluationTodisplay.apprentice.name}</h4>
+            <Paragraph>Created on: {evaluationTodisplay.creation} | Status: {evaluationTodisplay.status}</Paragraph>
+
+            {evaluationTodisplay.reviews.map((review) =>
+                <Card key={review.id}>
+                    <Heading as="h2" variant="heading20" >Review by: {review.reviewer.name}</Heading>
+                    <Separator orientation="horizontal" verticalSpacing="space50" />
+                    <ul>
+                        {review.QA.map((qa, index) => (
+
+                            <QAView qa={qa} key={index}/>
+                        ))}
+                    </ul>
+
+                </Card>
+            )}
+
+
+        </div>
     )
 }
 
 export default SingleReviewView
+
+
