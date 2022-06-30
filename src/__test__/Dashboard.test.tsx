@@ -26,14 +26,14 @@ afterEach(() => {
   test("rendered Dashboard component has Evaluations", async () => {
     act(() => {render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>);});
     const results = await screen.findAllByLabelText(/Evaluations/)
-    expect(results).toBeInTheDocument()
+    expect(!results).toBeFalsy();
   });
 
   test("rendered Dashboard component has Titles", async () => {
     act(() => {render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>);});
     const results = await screen.findAllByLabelText(/Title of Eval/)
    
-    expect(results).toBeInTheDocument()
+    expect(!results).toBeFalsy()
   });
 
 

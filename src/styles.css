@@ -1,21 +1,38 @@
+/* Styling for header component */
+
 .nav {
-  margin: 1rem;
+  margin: 0;
+  background-color: rgb(235, 86, 86);
+  display: flex;
+  justify-content: space-between;
+
+}
+.navButton {
+      
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: end;
+  gap: 10px;
 }
 
 .logo {
   display: flex;
   justify-content: left;
-  border-style: solid;
-  border-width: 1px;
+  padding: 20px 10px;
+ 
+  
 }
-
+.headerButton {
+  background-color: white;
+  margin: 50px;
+}
 .navItems {
   display: flex;
   justify-content: space-between;
-  border-style: solid;
-  border-width: 1px;
-  border-color: red;
-  padding: 1rem;
+  border: 5px solid rgb(235, 86, 86);
+  padding: 10px;
+  
 }
 
 .footer {
@@ -29,6 +46,10 @@
   border-width: 1px;
   padding: 1rem;
 }
+
+
+/* Styling for dashboard component  */
+
 
 #dashboard {
   display: flex;

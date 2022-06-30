@@ -13,35 +13,36 @@ import { Box } from "@twilio-paste/core/box";
 import { Stack } from "@twilio-paste/core/stack";
 import { Breadcrumb, BreadcrumbItem } from "@twilio-paste/core/breadcrumb";
 import { Link } from "react-router-dom";
+import { LogoTwilioIcon } from "@twilio-paste/icons/esm/LogoTwilioIcon";
+import { nodeName } from "cypress/types/jquery";
+import { Anchor } from "@twilio-paste/core";
 
 // TODO: Add login/logout logic
 
 const Header = () => {
   const styles = {
-    navButton: {
-      margin: 0,
-      padding: 0,
-      display: "flex",
-      justifyContent: "end",
-      gap: 10,
-    },
+    
     links: {
       textDecoration: "none",
+      color: "black"
     },
   };
   return (
     <nav className="nav">
-      <Stack orientation="vertical" spacing="space0">
+      <Stack orientation="horizontal" spacing="space0">
         <Box className="logo">
-          <img src={logo} alt="Twilio Logo" width="75px" height="75px" />
+          <LogoTwilioIcon
+            decorative={true}
+            title="Twilio logo"
+            color="colorTextIconBrandInverse"
+            size="sizeIcon90"
+          />
         </Box>
         <Box className="navItems">
-          <Button variant="secondary">
-            <Link to="/" style={styles.links}>
+          <Anchor href="/" className="headerButton">
               Home
-            </Link>
-          </Button>
-          <div style={styles.navButton}>
+            </Anchor>
+          <div className="navButton">
             <Button variant="secondary">
               <Link to="/CreateEvaluation" style={styles.links}>
                 Create Evaluation
