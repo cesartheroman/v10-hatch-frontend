@@ -152,6 +152,36 @@
         { "reviewId": 3693, "reviewer": "Barack Obama" },
         { "reviewId": 4469, "reviewer": "Jiminy Cricket" }
       ]
+    },
+    {
+      "id": 4,
+      "title": "Testing Reviewer Filtering - Jiminy as Reviewer ",
+      "creation": "09/03/2022",
+      "finalized": null,
+      "status": "open",
+      "questions": [],
+      "apprentice": { "id": 4, "name": "Barack Obama" },
+      "manager": { "id": 3, "name": "Gregg G. Greggory" },
+      "reviews": [
+        { "reviewId": 59812, "reviewer": "Gregg G. Greggory" },
+        { "reviewId": 36932, "reviewer": "Barack Obama" },
+        { "reviewId": 44692, "reviewer": "Jiminy Cricket" }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "THIS SHOULD NOT BE VISIBLE - JIMINY IS NOT IN THIS ONE ",
+      "creation": "09/03/2022",
+      "finalized": null,
+      "status": "open",
+      "questions": [],
+      "apprentice": { "id": 4, "name": "Barack Obama" },
+      "manager": { "id": 3, "name": "Gregg G. Greggory" },
+      "reviews": [
+        { "reviewId": 598112, "reviewer": "Gregg G. Greggory" },
+        { "reviewId": 369132, "reviewer": "Barack Obama" },
+        { "reviewId": 446912, "reviewer": "James L Cricketting" }
+      ]
     }
   ],
   "reviews": [

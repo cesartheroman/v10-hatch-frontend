@@ -19,9 +19,14 @@ import type { SortDirection } from "@twilio-paste/core/data-grid";
 import "./styles.css";
 import { Link } from "react-router-dom";
 import "array-sort";
+import { reverse } from "cypress/types/lodash";
 
 const Dashboard = () => {
-  const userID: number = 2;
+  const currentUser = {
+    id: 2,
+    name: "Jiminy Cricket",
+    role: 3
+  }
   const baseURL: string = "http://localhost:3000/";
   const [isDesc, setIsDesc] = useState(true);
   const [filter, setFilter] = useState("");
@@ -57,6 +62,7 @@ const Dashboard = () => {
       ],
     },
   ]);
+   
 
   const HeaderData: any = [
     "Title",
@@ -67,18 +73,20 @@ const Dashboard = () => {
   ];
 
   useEffect(() => {
+    let currentUserName = currentUser.name;
     axios.get(baseURL + "evaluations").then((response) => {
       setEvaluations(
         response.data.filter((object: any) => {
           return (
-            object.apprentice.id === userID || object.manager.id === userID
+            object.apprentice.id === currentUser.id || object.manager.id === currentUser.id ||
+            (object.reviews.some((rev: any) => rev.reviewer === (currentUserName)))
           );
         })
       );
       setSavedEvaluations(
         response.data.filter((object: any) => {
           return (
-            object.apprentice.id === userID || object.manager.id === userID
+            object.apprentice.id === currentUser.id || object.manager.id === currentUser.id || (object.reviews.some((rev: any) => rev.reviewer === (currentUserName)))
           );
         })
       );
@@ -108,16 +116,16 @@ const Dashboard = () => {
     }
   }
 
-  // function FilterReviewerNames(param: string): void {
-  //   if (param.length >= 1) {
-  //     let filteredEvals: any = savedEvaluations.filter((eva) =>
-  //       eva.reviews.forEach((review) => review.reviewer.includes(param))
-  //     );
-  //     setEvaluations(filteredEvals);
-  //   } else {
-  //     setEvaluations(savedEvaluations);
-  //   }
-  // }
+  function FilterReviewerNames(param: string): void {
+    if (param.length >= 1) {
+      let filteredEvals: any = savedEvaluations.filter((eva) =>
+        eva.reviews.some((review) => review.reviewer.includes(param))
+      );
+      setEvaluations(filteredEvals);
+    } else {
+      setEvaluations(savedEvaluations);
+    }
+  }
 
   function Status(evaluation: any) {
     if (evaluation.status === "open") {
@@ -146,7 +154,7 @@ const Dashboard = () => {
             id="filterReviewer"
             name="filterReviewer"
             type="text"
-            // onChange={(e) => FilterReviewerNames(e.target.value)}
+            onChange={(e) => FilterReviewerNames(e.target.value)}
           />
         </Box>
       </div>
