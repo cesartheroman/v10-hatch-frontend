@@ -375,5 +375,75 @@
         }
       ]
     }
+  ],
+    "questions": [
+    {
+      "id": 1,
+      "question": "This is a question"
+    },
+    {
+      "id": 2,
+      "question": "This is another question"
+    },
+    {
+      "id": 3,
+      "question": "Don't forget about this question"
+    },
+    {
+      "id": 4,
+      "question": "Maybe this question is better"
+    },
+    {
+      "id": 5,
+      "question": "Perhaps this is the best question"
+    },
+    {
+      "id": 6,
+      "question": "What is a question but a question..."
+    }
+  ],
+  "apprentices": [
+    {
+      "id": 1,
+      "Name": "Ryder Wendt",
+      "EvaluationsID": "1",
+      "roleID": 1,
+      "Email": "Ryder@test.com",
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 2,
+      "Name": "Invader Zim",
+      "EvaluationsID": "2",
+      "roleID": 1,
+      "Email": "IZ@test.com",
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 3,
+      "Name": "Tommy Pickles",
+      "EvaluationsID": "3",
+      "roleID": 1,
+      "Email": "TP@test.com",
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 4,
+      "Name": "Danny Phantom",
+      "EvaluationsID": "4",
+      "roleID": 1,
+      "Email": "DP@test.com",
+      "Password": "Shhhhh"
+    }
+  ],
+  "apprenticeByManagerID": [
+    {
+      "id": 2,
+      "Name": "Invader Zim",
+      "EvaluationsID": "2",
+      "roleID": 1,
+      "Email": "IZ@test.com",
+      "Password": "Shhhhh"
+    }
   ]
 }

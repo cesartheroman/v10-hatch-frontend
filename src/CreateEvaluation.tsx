@@ -14,7 +14,9 @@ import {
   Option,
   Select,
 } from "@twilio-paste/core";
-import { useUIDSeed } from "react-uid";
+import { useUID, useUIDSeed } from "react-uid";
+
+const baseURL: string = "http://localhost:3000/";
 
 // TODO: Role check logic
 // TODO: Update Nav Bar
@@ -38,21 +40,18 @@ const CreateEvaluation = () => {
   const [questions, setQuestions] = useState<Question[]>([
     { id: 999, question: "what?" },
   ]);
-  const [reviewerList, setReviewerList] = useState<Array<string>>([]);
+  const [title, setTitle] = useState<string>("");
   const [selectedQuestions, setSelectedQuestions] = useState<Array<string>>([]);
-  const items = ["ryder", "paola", "elias", "cesar", "hacker"];
-  const apprentices = ["EM apprentice", "HM app 1", "HM app 2"];
-  const [selectedApprentice, setApprentice] = useState<string>("");
-  const [filteredItems, setFilteredItems] = React.useState<Array<string>>([
-    ...items,
-  ]);
+  const items = [{ name: "ryder" }];
+  const [apprentices, setApprentices] = useState([]);
+  const [selectedApprentice, setSelectedApprentice] = useState<string>("");
+  const [filteredItems, setFilteredItems] = useState([...items]);
+  const [managers, setManagers] = useState([]);
 
-  const baseURL: string = "http://localhost:3000";
   const seed = useUIDSeed();
   const formPillState = useFormPillState();
   const inputId = seed("input-element");
-
-  // TODO: GET apprentice assigned api/v1/users/managers/id/apprentices
+  let role = 3;
 
   const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
@@ -64,27 +63,64 @@ const CreateEvaluation = () => {
   };
 
   useEffect(() => {
+    getReviewers();
     getQuestions();
+    getApprentices();
   }, []);
 
   const getQuestions = () => {
-    axios.get(baseURL + "/questions").then((res) => {
+    // TODO: Connect to backend /api/v1/questions
+    axios.get(baseURL + "questions").then((res) => {
       let newQuestions = res.data;
       setQuestions(newQuestions);
     });
   };
 
   const getReviewers = () => {
-    axios.get(baseURL + "/api/v1/users/reviewers").then((res) => {
-      let newReviewers = res.data;
-      setQuestions(newReviewers);
+    // TODO: /api/v1/users/
+    axios.get(baseURL + "users").then((res) => {
+      let users = res.data;
+      let currentReviewers = users.filter((user: any) => user.roleID !== "1");
+      setFilteredItems(currentReviewers);
     });
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const getApprentices = () => {
+    if (role === 4) {
+      // TODO: /api/v1/users/apprentices/
+
+      axios.get(baseURL + "apprentices").then((res) => {
+        setApprentices(res.data);
+      });
+    } else {
+      // TODO: GET apprentice assigned api/v1/users/managers/id/apprentices
+      //       grab id from meta data
+      axios.get(baseURL + "apprenticeByManagerID").then((res) => {
+        setApprentices(res.data);
+      });
+    }
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     // TODO: POST eval api/v1/evalutations
     //       on post have confirm modal or redirect
     // selected reviews array are stored in selectedItems
+    e.preventDefault();
+    let reviewData = Object.keys(selectedItems).map((key: any) => {
+      return selectedItems[key].id;
+    });
+
+    let data = {
+      title,
+      apprenticeId: selectedApprentice,
+      managerId: "manager id",
+      reviewerIds: reviewData,
+      questionIds: selectedQuestions,
+    };
+    console.log(data);
+    axios.post(baseURL + "questions" + 1, data).then((res) => {
+      console.log("POST Response:", res);
+    });
   };
 
   const handleChange = () => {
@@ -97,7 +133,7 @@ const CreateEvaluation = () => {
     addSelectedItem,
     removeSelectedItem,
     selectedItems,
-  } = useMultiSelectPrimitive({});
+  } = useMultiSelectPrimitive<any>({});
 
   const handleSelectItemOnClick = React.useCallback(
     (selectedItem) => {
@@ -157,21 +193,22 @@ const CreateEvaluation = () => {
             name="title"
             type="text"
             placeholder="Hatch Eval #1"
-            onChange={handleChange}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
         </Box>
+
         <Label htmlFor="apprentice_select">Select Apprentice</Label>
         <Box marginBottom="space80">
           <Select
             id="apprentice_select"
-            onChange={(e) => setApprentice(e.target.value)}
+            onChange={(e) => setSelectedApprentice(e.target.value)}
             required
           >
-            {apprentices.map((apprentice, i: any) => {
+            {apprentices.map((apprentice: any, i: any) => {
               return (
-                <Option value={apprentice} id={i}>
-                  {apprentice}
+                <Option value={apprentice.id} id={i}>
+                  {apprentice.Name}
                 </Option>
               );
             })}
@@ -186,7 +223,7 @@ const CreateEvaluation = () => {
                 <input
                   type="checkbox"
                   name="selected-questions"
-                  value={question.question}
+                  value={question.id}
                   onChange={handleChecked}
                 />{" "}
                 {question.question}
@@ -210,49 +247,55 @@ const CreateEvaluation = () => {
                     ...getToggleButtonProps({ tabIndex: 0 }),
                   }),
                 })}
-                value={selectedItem || ""}
+                value={""}
               />
             </Box>
             <ComboboxListbox hidden={!isOpen} {...getMenuProps()}>
               <ComboboxListboxGroup>
-                {filteredItems.map((filteredItem, index) => (
+                {filteredItems.map((filteredItem: any, index) => (
                   <ComboboxListboxOption
                     highlighted={highlightedIndex === index}
                     variant="default"
+                    key={index}
                     {...getItemProps({
                       item: filteredItem,
                       index,
-                      key: seed("filtered-item-" + filteredItem),
+                      key: filteredItem.id,
                     })}
                   >
-                    {filteredItem}
+                    {filteredItem.name}
                   </ComboboxListboxOption>
                 ))}
               </ComboboxListboxGroup>
             </ComboboxListbox>
           </Box>
           <FormPillGroup {...formPillState} aria-label="Selected components">
-            {selectedItems.map((item, index) => {
+            {selectedItems.map((item: any, index) => {
               return (
                 <FormPill
                   {...getSelectedItemProps({
                     selectedItem,
                     index,
-                    key: "selected-item-" + item,
+                    key: item.id,
                   })}
                   tabIndex={null}
                   {...formPillState}
                   onDismiss={() => handleRemoveItemOnClick(item)}
                 >
-                  {item}
+                  {item.name}
                 </FormPill>
               );
             })}
           </FormPillGroup>
+          <br />
         </>
         <Box justifyContent="end">
-          <Button size="default" type="submit" variant="primary">
-            {/* TODO: Handle Submit*/}
+          <Button
+            size="default"
+            onClick={handleSubmit}
+            type="submit"
+            variant="primary"
+          >
             Submit
           </Button>
         </Box>

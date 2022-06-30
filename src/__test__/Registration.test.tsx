@@ -7,7 +7,6 @@ import { render, RenderResult, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import Registration from "../Registration";
-import { Theme } from "@twilio-paste/core/dist/theme";
 
 // let documentBody: RenderResult;
 
