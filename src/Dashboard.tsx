@@ -21,6 +21,16 @@ import { Link } from "react-router-dom";
 import "array-sort";
 import { reverse } from "cypress/types/lodash";
 
+
+
+
+
+/**
+ * This is the component 
+ * @date 6/30/2022 - 2:33:43 PM
+ *
+ * @returns {*}
+ */
 const Dashboard = () => {
   const currentUser = {
     id: 2,
@@ -231,6 +241,7 @@ const Dashboard = () => {
               <DataGridCell>
                 <Anchor
                   href="#"
+                 
                   id="detailsLink"
                   onClick={() => {
                     console.log("Linking to /evaluations/" + evaluation.id);

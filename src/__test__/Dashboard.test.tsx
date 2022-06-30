@@ -2,27 +2,19 @@
  * @jest-environment jsdom
  */
 
- import * as React from "react";
- import { render, RenderResult, screen } from "@testing-library/react";
- import { MemoryRouter } from 'react-router-dom';
- import Dashboard from '../Dashboard';
-  
-  let documentBody: RenderResult;
-  
-  describe("Rendering Dashboard", () => {
-    test("renders Header component", () => {
-      render(<Dashboard />, {wrapper: MemoryRouter});
-    });
+import React from "react";
+import { render, RenderResult, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+
+import Dashboard from "../Dashboard";
+import { Theme } from "@twilio-paste/core/dist/theme";
+
+// let documentBody: RenderResult;
+
+describe("Should render Dashboard component", () => {
+  test("renders Dashboard component, has Evaluations", () => {
+    render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>);
+    const evals= expect(screen.getByLabelText(/Evaluations/))
+    // screen.debug();
   });
-  
-//TODO: working on jest testing lol
-
-
-//   test("retrieves an object", () => {
-//     render(<Dashboard />, {wrapper: MemoryRouter});
-//     expect(React.useState.evaluations)
-//   });
-//   test("renders header component", () => {
-//     render(<Header />, {wrapper: MemoryRouter});
-//     screen.debug();
-//   });
+});
