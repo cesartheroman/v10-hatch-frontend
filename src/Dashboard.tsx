@@ -218,7 +218,7 @@ const Dashboard = () => {
           {evaluations.map((evaluation) => (
             <DataGridRow key={evaluation.id}>
               <DataGridCell>
-                <Heading as="h2" variant="heading50">
+                <Heading as="h2" aria-label="Title of Eval" variant="heading50">
                   {evaluation.title}
                 </Heading>
               </DataGridCell>
