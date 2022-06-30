@@ -51,8 +51,8 @@ const Dashboard = () => {
       apprentice: { id: 420, name: "PLACEHOLDER" },
       manager: { id: 69, name: "PLACEHOLDER" },
       reviews: [
-        { reviewId: 100, reviewer: "PLACEHOLDER 01" },
-        { reviewId: 101, reviewer: "PLACEHOLDER 02" },
+        { reviewId: 100, reviewer: {id: 69, name: "PLACEHOLDER 01" }},
+        { reviewId: 101, reviewer: {id: 692, name: "PLACEHOLDER 02" }},
       ],
     },
   ]);
@@ -67,8 +67,8 @@ const Dashboard = () => {
       apprentice: { id: 420, name: "PLACEHOLDER" },
       manager: { id: 69, name: "PLACEHOLDER" },
       reviews: [
-        { reviewId: 100, reviewer: "PLACEHOLDER 01" },
-        { reviewId: 101, reviewer: "PLACEHOLDER 02" },
+        { reviewId: 100, reviewer: {id: 69, name: "PLACEHOLDER 01" }},
+        { reviewId: 101, reviewer: {id: 692, name: "PLACEHOLDER 02" }},
       ],
     },
   ]);
@@ -83,20 +83,19 @@ const Dashboard = () => {
   ];
 
   useEffect(() => {
-    let currentUserName = currentUser.name;
     axios.get(baseURL + "evaluations").then((response) => {
       setEvaluations(
         response.data.filter((object: any) => {
           return (
             object.apprentice.id === currentUser.id || object.manager.id === currentUser.id ||
-            (object.reviews.some((rev: any) => rev.reviewer === (currentUserName)))
+            (object.reviews.some((rev: any) => rev.reviewer.id === currentUser.id))
           );
         })
       );
       setSavedEvaluations(
         response.data.filter((object: any) => {
           return (
-            object.apprentice.id === currentUser.id || object.manager.id === currentUser.id || (object.reviews.some((rev: any) => rev.reviewer === (currentUserName)))
+            object.apprentice.id === currentUser.id || object.manager.id === currentUser.id || (object.reviews.some((rev: any) => rev.reviewer.id === currentUser.id))
           );
         })
       );
@@ -129,7 +128,7 @@ const Dashboard = () => {
   function FilterReviewerNames(param: string): void {
     if (param.length >= 1) {
       let filteredEvals: any = savedEvaluations.filter((eva) =>
-        eva.reviews.some((review) => review.reviewer.includes(param))
+        eva.reviews.some((review) => review.reviewer.name.includes(param))
       );
       setEvaluations(filteredEvals);
     } else {
@@ -217,7 +216,7 @@ const Dashboard = () => {
         </DataGridHead>
         <DataGridBody>
           {evaluations.map((evaluation) => (
-            <DataGridRow key={evaluation.title}>
+            <DataGridRow key={evaluation.id}>
               <DataGridCell>
                 <Heading as="h2" variant="heading50">
                   {evaluation.title}
@@ -231,8 +230,8 @@ const Dashboard = () => {
               <DataGridCell>
                 <ul className="list">
                   {evaluation.reviews.map((review) => (
-                    <li className="listItems" key={review.reviewId}>
-                      {review.reviewer}
+                    <li className="listItems" key={review.reviewer.id}>
+                      {review.reviewer.name}
                     </li>
                   ))}
                 </ul>
