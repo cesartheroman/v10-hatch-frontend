@@ -249,51 +249,74 @@
                 }
             ]
         }
-    ],
-    "reviews": [
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Title Of A Review? ",
+      "creation": "06/27/2022",
+      "finalized": null,
+      "status": "completed",
+      "questions": [],
+      "apprentice": { "id": 4, "name": "Barack Obama" },
+      "manager": { "id": 2, "name": "Jiminy Cricket" },
+      "reviews": [
+        { "reviewId": 5981, "reviewer": "Gregg G. Greggory" },
+        { "reviewId": 3693, "reviewer": "Barack Obama" },
+        { "reviewId": 4469, "reviewer": "Jiminy Cricket" }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Testing Reviewer Filtering - Jiminy as Reviewer ",
+      "creation": "09/03/2022",
+      "finalized": null,
+      "status": "open",
+      "questions": [],
+      "apprentice": { "id": 4, "name": "Barack Obama" },
+      "manager": { "id": 3, "name": "Gregg G. Greggory" },
+      "reviews": [
+        { "reviewId": 59812, "reviewer": "Gregg G. Greggory" },
+        { "reviewId": 36932, "reviewer": "Barack Obama" },
+        { "reviewId": 44692, "reviewer": "Jiminy Cricket" }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "THIS SHOULD NOT BE VISIBLE - JIMINY IS NOT IN THIS ONE ",
+      "creation": "09/03/2022",
+      "finalized": null,
+      "status": "open",
+      "questions": [],
+      "apprentice": { "id": 4, "name": "Barack Obama" },
+      "manager": { "id": 3, "name": "Gregg G. Greggory" },
+      "reviews": [
+        { "reviewId": 598112, "reviewer": "Gregg G. Greggory" },
+        { "reviewId": 369132, "reviewer": "Barack Obama" },
+        { "reviewId": 446912, "reviewer": "James L Cricketting" }
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "status": "closed",
+      "reviewer": {
+        "id": 3,
+        "name": "Ruthie"
+      },
+      "QA": [
         {
-            "id": 1,
-            "status": "closed",
-            "reviewer": {
-                "id": 3,
-                "name": "Ruthie"
-            },
-            "QA": [
-                {
-                    "question": "What are the strenghts of the apprentice?",
-                    "answer": "answer 1"
-                },
-                {
-                    "question": "What are the areas of growth for the apprentice?",
-                    "answer": "answer 2"
-                },
-                {
-                    "question": "What are the core values of the apprentice?",
-                    "answer": "answer3"
-                }
-            ]
+          "question": "What are the strenghts of the apprentice?",
+          "answer": "answer 1"
         },
         {
-            "id": 2,
-            "status": "open",
-            "reviewer": {
-                "id": 1,
-                "name": "Ruthie"
-            },
-            "QA": [
-                {
-                    "question": "What are the strenghts of the apprentice?",
-                    "answer": ""
-                },
-                {
-                    "question": "What are the areas of growth for the apprentice?",
-                    "answer": ""
-                },
-                {
-                    "question": "What are the core values of the apprentice?",
-                    "answer": ""
-                }
-            ]
+          "question": "What are the areas of growth for the apprentice?",
+          "answer": "answer 2"
+        },
+        {
+          "question": "What are the core values of the apprentice?",
+          "answer": "answer3"
         }
     ],
     "questions": [
