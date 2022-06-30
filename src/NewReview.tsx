@@ -22,7 +22,7 @@ type EvaluationSchema = {
 
 
 const NewReview = (prop: {evaluation: EvaluationSchema}) => {
-    const baseURL: string = 'http://localhost:3000/reviews/'
+    const baseURL: string = `http://localhost:3000/evaluations/`
     const [reviewAnswers, setReviewAnswers] = useState<UpdateReviewAnswer>({
         id: 1,
         status: 'TEST',
@@ -48,8 +48,9 @@ const NewReview = (prop: {evaluation: EvaluationSchema}) => {
        
 
     React.useEffect(() => {
-        axios.get(baseURL + 1).then((response) => {
-            setReviewAnswers(response.data);
+        axios.get(baseURL + 4).then((response) => {
+            // setReviewAnswers(response.data.reviews[1]);
+            console.log(response.data.reviews[1])
         });
     }, [])
 

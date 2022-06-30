@@ -9,7 +9,7 @@ import { Route, Routes } from "react-router";
 import CreateEvaluation from "./CreateEvaluation";
 import NewReview from "./NewReview";
 import Dashboard from "./Dashboard";
-import SingleReviewView from "./SingleReviewView";
+import SingleEvaluationView from "./SingleEvaluationView";
 
 const App = () => {
   const evaluation = {
@@ -53,7 +53,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/newreview" element={<NewReview evaluation={evaluation} />} />
-          <Route path="/evaluation" element={<SingleReviewView/>}/>
+          <Route path="/evaluation" element={<SingleEvaluationView/>}/>
         </Routes>
       </Router>
       <Footer />

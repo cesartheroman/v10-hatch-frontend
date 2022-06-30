@@ -186,11 +186,11 @@
             ],
             "apprentice": {
                 "id": 4,
-                "name": "Barack Obama"
+                "name": "Apprentice"
             },
             "manager": {
                 "id": 2,
-                "name": "Jiminy Cricket"
+                "name": "Manager"
             },
             "reviews": [
                 {
@@ -198,7 +198,7 @@
                     "status": "closed",
                     "reviewer": {
                         "id": 2,
-                        "name": "Jiminy Cricket"
+                        "name": "Manager"
                     },
                     "QA": [
                         {
@@ -216,7 +216,25 @@
                     "status": "open",
                     "reviewer": {
                         "id": 4,
-                        "name": "Barack Obama"
+                        "name": "Apprentice"
+                    },
+                    "QA": [
+                        {
+                            "question": "This is a question",
+                            "answer": ""
+                        },
+                        {
+                            "question": "This is another question",
+                            "answer": ""
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "status": "open",
+                    "reviewer": {
+                        "id": 1,
+                        "name": "Reviewer"
                     },
                     "QA": [
                         {
