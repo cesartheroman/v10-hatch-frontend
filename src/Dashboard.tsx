@@ -208,6 +208,7 @@ const Dashboard = () => {
   }
 
   return (
+   
     <div id="dashboard">
       <div id="filterContainer">
         <Box id="greetingBox">
@@ -324,7 +325,9 @@ const Dashboard = () => {
           ))}
         </DataGridBody>
       </DataGrid>
+      
     </div>
+    
   );
 };
 export default Dashboard;
