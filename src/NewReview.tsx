@@ -142,6 +142,7 @@ const NewReview = () => {
     };
     axios.put(baseURL + 1, data).then((response) => {
       console.log("response from closeReview:", response);
+      
     });
   };
 

@@ -308,7 +308,7 @@ const Dashboard = () => {
               <DataGridCell>{Status(evaluation)}</DataGridCell>
               <DataGridCell>
                 <Anchor
-                  href="#"
+                  href="/evaluation"
                   id="detailsLink"
                   onClick={() => {
                     console.log("Linking to /evaluations/" + evaluation.id);

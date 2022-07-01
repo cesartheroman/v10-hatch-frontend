@@ -389,85 +389,23 @@
     },
     {
       "id": 8,
-      "title": "Paola Test Evaluation ",
-      "creation": "09/03/2022",
-      "finalized": "",
-      "status": "open",
-      "questions": [],
-      "apprentice": {
-        "id": 1,
-        "name": "Apprentice Name"
+      "status": "submitted",
+      "reviewer": {
+        "id": 3,
+        "name": "Ruthie"
       },
-      "manager": {
-        "id": 2,
-        "name": "Manager Name"
-      },
-      "reviews": [
+      "QA": [
         {
-          "reviewId": 598112,
-          "reviewer": {
-            "id": 1,
-            "name": "Apprentice Name"
-          },
-          "status": "closed",
-          "QA": [
-            {
-              "question": "What are the strenghts of the apprentice?",
-              "answer": "answer 1"
-            },
-            {
-              "question": "What are the areas of growth for the apprentice?",
-              "answer": "answer 2"
-            },
-            {
-              "question": "What are the core values of the apprentice?",
-              "answer": "answer3"
-            }
-          ]
+          "question": "What are the strenghts of the apprentice?",
+          "answer": "this is the manager review"
         },
         {
-          "reviewId": 369132,
-          "reviewer": {
-            "id": 2,
-            "name": "Manager Name"
-          },
-          "status": "open",
-          "QA": [
-            {
-              "question": "What are the strenghts of the apprentice?",
-              "answer": ""
-            },
-            {
-              "question": "What are the areas of growth for the apprentice?",
-              "answer": ""
-            },
-            {
-              "question": "What are the core values of the apprentice?",
-              "answer": ""
-            }
-          ]
+          "question": "What are the areas of growth for the apprentice?",
+          "answer": "this is the manager review"
         },
         {
-          "reviewId": 446912,
-          "reviewer": {
-            "id": 3,
-            "name": "External Reviewer Name"
-          },
-          "status": "open",
-          "QA": [
-            {
-              "question": "What are the strenghts of the apprentice?",
-              "answer": ""
-            },
-            {
-              "question": "What are the areas of growth for the apprentice?",
-              "answer": ""
-            },
-            {
-              "question": "What are the core values of the apprentice?",
-              "answer": ""
-            }
-          ]
+          "question": "What are the core values of the apprentice?",
+          "answer": "this is the manager review"
         }
       ]
     }
