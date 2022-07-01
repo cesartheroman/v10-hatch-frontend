@@ -21,13 +21,12 @@ import { Anchor } from "@twilio-paste/core";
 // TODO: Add login/logout toggle logic once user auth is implemented
 
 /**
- * 
+ *
  * This is the Header for the app. It is persistant on every page view and has the basic navigation between
  * different views/components in the app. The links in the navItems box will differ depending on the user
- * and their role. 
- * 
+ * and their role.
+ *
  */
-
 
 const Header = () => {
   const styles = {
@@ -45,22 +44,23 @@ const Header = () => {
           color="colorTextIconBrandInverse"
           size="sizeIcon90"
         />
-        <Heading id="heading" as="h1" variant="heading10">Twilio Hatch Evaluations</Heading>
+        <Heading id="heading" as="h1" variant="heading10">
+          Twilio Hatch Evaluations
+        </Heading>
       </Box>
       <Box id="navItems">
         <Anchor href="/" variant="inverse" id="headerLink">
           Home
         </Anchor>
         <Anchor href="/CreateEvaluation" variant="inverse" id="headerLink">
-            Create Evaluation
-          </Anchor>
-        
+          Create Evaluation
+        </Anchor>
         <Anchor href="/login" variant="inverse" id="headerLink">
-            Login
-          </Anchor>
+          Login
+        </Anchor>
         <Anchor href="/registration" variant="inverse" id="headerLink">
-            Registration
-          </Anchor>
+          Registration
+        </Anchor>
         {/* <Button variant="secondary">Login/Logout</Button> */}
       </Box>
       {/* <Breadcrumb>
