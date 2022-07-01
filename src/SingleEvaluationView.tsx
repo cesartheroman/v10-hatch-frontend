@@ -70,6 +70,8 @@ const SingleEvaluationView = () => {
     const [reviewerReview, setReviewerReview] = React.useState<UpdateReviewAnswer[]>([])
     const [managerReview, setManagerReview] = React.useState<UpdateReviewAnswer[]>([])
 
+    //////////////////////
+    //This is a mock user, this info will be available with the token of the logged in user
     const user = {
         id: 2,
         name: "Ruthie Clark",
