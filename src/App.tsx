@@ -12,37 +12,7 @@ import Dashboard from "./Dashboard";
 import SingleEvaluationView from "./SingleEvaluationView";
 
 const App = () => {
-  const evaluation = {
-
-    title: "July - First Review",
-    creation: "07/22/2022",
-    finalized: "",
-    status: "open",
-    questions: [],
-    arprentice: {
-      id: 1,
-      name: "Ruthie Clark"
-    },
-    manager: {
-      id: 3,
-      name: "Jiminy Cricket"
-    },
-    reviews: [
-      {
-        reviewId: 501,
-        reviewer: "Gregg G. Greggory"
-      },
-      {
-        reviewId: 33,
-        reviewer: "Ruthie Clark"
-      },
-      {
-        reviewId: 44,
-        reviewer: "Jiminy Cricket"
-      }
-    ]
-
-  }
+  
   return (
     <Theme.Provider theme="default">
       <Router>
@@ -52,7 +22,7 @@ const App = () => {
           <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
-          <Route path="/newreview" element={<NewReview evaluation={evaluation} />} />
+          <Route path="/newreview" element={<NewReview />} />
           <Route path="/evaluation" element={<SingleEvaluationView/>}/>
         </Routes>
       </Router>

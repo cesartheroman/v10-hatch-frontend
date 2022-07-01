@@ -4,6 +4,16 @@ import * as React from 'react'
 import { useUID } from 'react-uid';
 import QAView from './Components/QAView';
 
+/**
+ * Component that returns an evaluation's reviews. 
+ * Display conditionally set by role
+ * 
+ * @component
+ * @typedef UpdateReviewAnswer
+ * @typedef EvaluationSchema
+ * 
+ */
+
 type UpdateReviewAnswer = {
     id: number;
     status: string;
@@ -68,9 +78,8 @@ const SingleEvaluationView = () => {
     }
 
     React.useEffect(() => {
-        axios.get<EvaluationSchema>(baseURL + 4).then((response) =>
+        axios.get<EvaluationSchema>(baseURL + 8).then((response) =>
             setEvaluationTodisplay(response.data)
-
         )
     }, [])
     React.useEffect(() => {
@@ -89,7 +98,7 @@ const SingleEvaluationView = () => {
 
 
 
-    console.log("Eval:", evaluationTodisplay)
+    //console.log("Eval:", evaluationTodisplay)
     // console.log("submitted", needReview)
     return (
         <div id='singleEval'>

@@ -1,378 +1,525 @@
 {
-    "users": [
-      {
+  "users": [
+    {
+      "id": 1,
+      "name": "Ruthie Clark",
+      "roleID": 1,
+      "email": "ruthie@elias.com"
+    },
+    {
+      "id": 2,
+      "name": "Jiminy Cricket",
+      "roleID": 3,
+      "email": "jcricket@twilio.com"
+    },
+    {
+      "id": 3,
+      "name": "Lil Nas X",
+      "roleID": 2,
+      "email": "lilnasx@twilio.com"
+    },
+    {
+      "name": "Barack Obama",
+      "email": "bobama@twilio.com",
+      "roleID": 1,
+      "id": 4
+    },
+    {
+      "name": "Marilyn Monroe",
+      "email": "mmonroe@twilio.com",
+      "roleID": 4,
+      "id": 5
+    },
+    {
+      "name": "Gregg G. Greggory",
+      "email": "greg@twilio.com",
+      "roleID": 3,
+      "id": 6
+    },
+    {
+      "name": "Lilluthe d'Zymmer",
+      "email": "ldzymmer@twilio.com",
+      "roleID": 2,
+      "id": 7
+    }
+  ],
+  "evaluations": [
+    {
+      "id": 0,
+      "title": "August 2022 Eval",
+      "creation": "08/22/2022",
+      "finalized": "08/26/2022",
+      "status": "completed",
+      "questions": [],
+      "apprentice": {
         "id": 1,
-        "name": "Ruthie Clark",
-        "roleID": 1,
-        "email": "ruthie@elias.com"
+        "name": "Ruthie Clark"
       },
-      {
+      "manager": {
         "id": 2,
-        "name": "Jiminy Cricket",
-        "roleID": 3,
-        "email": "jcricket@twilio.com"
+        "name": "Jiminy Cricket"
       },
-      {
-        "id": 3,
-        "name": "Lil Nas X",
-        "roleID": 2,
-        "email": "lilnasx@twilio.com"
-      },
-      {
-        "name": "Barack Obama",
-        "email": "bobama@twilio.com",
-        "roleID": 1,
-        "id": 4
-      },
-      {
-        "name": "Marilyn Monroe",
-        "email": "mmonroe@twilio.com",
-        "roleID": 4,
-        "id": 5
-      },
-      {
-        "name": "Gregg G. Greggory",
-        "email": "greg@twilio.com",
-        "roleID": 3,
-        "id": 6
-      },
-      {
-        "name": "Lilluthe d'Zymmer",
-        "email": "ldzymmer@twilio.com",
-        "roleID": 2,
-        "id": 7
-      }
-    ],
-  
-    "evaluations": [
-      {
-        "id": 0,
-        "title": "August 2022 Eval",
-        "creation": "08/22/2022",
-        "finalized": "08/26/2022",
-        "status": "completed",
-        "questions": [],
-        "apprentice": {
-          "id": 1,
-          "name": "Ruthie Clark"
-        },
-        "manager": {
-          "id": 2,
-          "name": "Jiminy Cricket"
-        },
-        "reviews": [
-          {
-            "reviewId": 2,
-            "reviewer": {
-              "id": 7,
-              "name": "Lilluthe d'Zymmer"
-            }
-          },
-          {
-            "reviewId": 500,
-            "reviewer": {
-              "id": 6,
-              "name": "Gregg G. Greggory"
-            }
-          },
-          {
-            "reviewId": 3,
-            "reviewer": {
-              "id": 1,
-              "name": "Ruthie Clark"
-            }
-          },
-          {
-            "reviewId": 4,
-            "reviewer": {
-              "id": 2,
-              "name": "Jiminy Cricket"
-            }
+      "reviews": [
+        {
+          "reviewId": 2,
+          "reviewer": {
+            "id": 7,
+            "name": "Lilluthe d'Zymmer"
           }
-        ]
-      },
-      {
-        "id": 1,
-        "title": "Midsummer review 2022",
-        "creation": "08/22/2022",
-        "finalized": "08/26/2022",
-        "status": "open",
-        "questions": [],
-        "apprentice": {
-          "id": 4,
-          "name": "Barack Obama"
         },
-        "manager": {
-          "id": 2,
-          "name": "Jiminy Cricket"
-        },
-        "reviews": [
-          {
-            "reviewId": 504,
-            "reviewer": {
-              "id": 7,
-              "name":"Lilluthe d'Zymmer"}
-          },
-          {
-            "reviewId": 73,
-            "reviewer": {
-              "id": 4,
-             "name":"Barack Obama"}
-          },
-          {
-            "reviewId": 4,
-            "reviewer": {
-              "id":2,
-              "name":"Jiminy Cricket"}
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "title": "July - First Review",
-        "creation": "07/22/2022",
-        "finalized": null,
-        "status": "in progress",
-        "questions": [],
-        "apprentice": {
-          "id": 1,
-          "name": "Ruthie Clark"
-        },
-        "manager": {
-          "id": 2,
-          "name": "Jiminy Cricket"
-        },
-        "reviews": [
-          {
-            "reviewId": 501,
-            "reviewer": {
-              "id": 6,
-              "name": "Gregg G. Greggory"
-            }
-          },
-          {
-            "reviewId": 33,
-            "reviewer": {
-              "id": 1,
-              "name": "Ruthie Clark"
-            }
-          },
-          {
-            "reviewId": 44,
-            "reviewer": {
-              "id": 2,
-              "name": "Jiminy Cricket"
-            }
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "title": "Title Of A Review? ",
-        "creation": "06/27/2022",
-        "finalized": null,
-        "status": "completed",
-        "questions": [],
-        "apprentice": {
-          "id": 4,
-          "name": "Barack Obama"
-        },
-        "manager": {
-          "id": 2,
-          "name": "Jiminy Cricket"
-        },
-        "reviews": [
-          {
-            "reviewId": 5981,
-            "reviewer": {
-              "id": 6,
-              "name": "Gregg G. Greggory"
-            }
-          },
-          {
-            "reviewId": 3693,
-            "reviewer": {
-              "id": 4,
-              "name": "Barack Obama"
-            }
-          },
-          {
-            "reviewId": 4469,
-            "reviewer": {
-              "id": 2,
-              "name": "Jiminy Cricket"
-            }
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "title": "Evaluation - Paola",
-        "creation": "06/27/2022",
-        "finalized": "",
-        "status": "open",
-        "questions": [
-          {
-            "id": 1,
-            "question": "This is a question"
-          },
-          {
-            "id": 2,
-            "question": "This is another question"
-          }
-        ],
-        "apprentice": {
-          "id": 4,
-          "name": "Barack Obama"
-        },
-        "manager": {
-          "id": 2,
-          "name": "Jiminy Cricket"
-        },
-        "reviews": [
-          {
-            "id": 1,
-            "status": "closed",
-            "reviewer": {
-              "id": 2,
-              "name": "Jiminy Cricket"
-            },
-            "QA": [
-              {
-                "question": "This is a question",
-                "answer": "answer 1"
-              },
-              {
-                "question": "This is another question",
-                "answer": "answer 2"
-              }
-            ]
-          },
-          {
-            "id": 2,
-            "status": "open",
-            "reviewer": {
-              "id": 4,
-              "name": "Barack Obama"
-            },
-            "QA": [
-              {
-                "question": "This is a question",
-                "answer": ""
-              },
-              {
-                "question": "This is another question",
-                "answer": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": 5,
-        "title": "Title Of A Review?2 ",
-        "creation": "06/27/2022",
-        "finalized": null,
-        "status": "completed",
-        "questions": [],
-        "apprentice": { "id": 4, "name": "Barack Obama" },
-        "manager": { "id": 2, "name": "Jiminy Cricket" },
-        "reviews": [
-          {
-            "reviewId": 5981,
-            "reviewer": { "id": 6, "name": "Gregg G. Greggory" }
-          },
-          { "reviewId": 3693, "reviewer": { "id": 4, "name": "Barack Obama" } },
-          { "reviewId": 4469, "reviewer": { "id": 2, "name": "Jiminy Cricket" } }
-        ]
-      },
-      {
-        "id": 6,
-        "title": "Testing Reviewer Filtering - Jiminy as Reviewer ",
-        "creation": "09/03/2022",
-        "finalized": null,
-        "status": "open",
-        "questions": [],
-        "apprentice": { "id": 4, "name": "Barack Obama" },
-        "manager": { "id": 3, "name": "Gregg G. Greggory" },
-        "reviews": [
-          {
-            "reviewId": 59812,
-            "reviewer": { "id": 6, "name": "Gregg G. Greggory" }
-          },
-          { "reviewId": 36932, "reviewer": { "id": 4, "name": "Barack Obama" } },
-          { "reviewId": 44692, "reviewer": { "id": 2, "name": "Jiminy Cricket" } }
-        ]
-      },
-      {
-        "id": 7,
-        "title": "THIS SHOULD NOT BE VISIBLE - JIMINY IS NOT IN THIS ONE ",
-        "creation": "09/03/2022",
-        "finalized": null,
-        "status": "open",
-        "questions": [],
-        "apprentice": { "id": 4, "name": "Barack Obama" },
-        "manager": { "id": 3, "name": "Gregg G. Greggory" },
-        "reviews": [
-          {
-            "reviewId": 598112,
-            "reviewer": { "id": 6, "name": "Gregg G. Greggory" }
-          },
-          { "reviewId": 369132, "reviewer": { "id": 4, "name": "Barack Obama" } },
-          {
-            "reviewId": 446912,
-            "reviewer": { "id": 69, "name": "James L Cricketting" }
-          }
-        ]
-      }
-    ],
-    "reviews": [
-      {
-        "id": 1,
-        "status": "closed",
-        "reviewer": {
-          "id": 3,
-          "name": "Ruthie"
-        },
-        "QA": [
-          {
-            "question": "What are the strenghts of the apprentice?",
-            "answer": "answer 1"
-          },
-          {
-            "question": "What are the areas of growth for the apprentice?",
-            "answer": "answer 2"
-          },
-          {
-            "question": "What are the core values of the apprentice?",
-            "answer": "answer3"
-          }
-        ]}],
-        "questions": [
-          {
-            "id": 1,
-            "question": "This is a question"
-          },
-          {
-            "id": 2,
-            "question": "This is another question"
-          },
-          {
-            "id": 3,
-            "question": "Don't forget about this question"
-          },
-          {
-            "id": 4,
-            "question": "Maybe this question is better"
-          },
-          {
-            "id": 5,
-            "question": "Perhaps this is the best question"
-          },
-          {
+        {
+          "reviewId": 500,
+          "reviewer": {
             "id": 6,
-            "question": "What is a question but a question..."
+            "name": "Gregg G. Greggory"
           }
-        ]
-      }
- 
+        },
+        {
+          "reviewId": 3,
+          "reviewer": {
+            "id": 1,
+            "name": "Ruthie Clark"
+          }
+        },
+        {
+          "reviewId": 4,
+          "reviewer": {
+            "id": 2,
+            "name": "Jiminy Cricket"
+          }
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Midsummer review 2022",
+      "creation": "08/22/2022",
+      "finalized": "08/26/2022",
+      "status": "open",
+      "questions": [],
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Jiminy Cricket"
+      },
+      "reviews": [
+        {
+          "reviewId": 504,
+          "reviewer": {
+            "id": 7,
+            "name": "Lilluthe d'Zymmer"
+          }
+        },
+        {
+          "reviewId": 73,
+          "reviewer": {
+            "id": 4,
+            "name": "Barack Obama"
+          }
+        },
+        {
+          "reviewId": 4,
+          "reviewer": {
+            "id": 2,
+            "name": "Jiminy Cricket"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "July - First Review",
+      "creation": "07/22/2022",
+      "finalized": null,
+      "status": "in progress",
+      "questions": [],
+      "apprentice": {
+        "id": 1,
+        "name": "Ruthie Clark"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Jiminy Cricket"
+      },
+      "reviews": [
+        {
+          "reviewId": 501,
+          "reviewer": {
+            "id": 6,
+            "name": "Gregg G. Greggory"
+          }
+        },
+        {
+          "reviewId": 33,
+          "reviewer": {
+            "id": 1,
+            "name": "Ruthie Clark"
+          }
+        },
+        {
+          "reviewId": 44,
+          "reviewer": {
+            "id": 2,
+            "name": "Jiminy Cricket"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Title Of A Review? ",
+      "creation": "06/27/2022",
+      "finalized": null,
+      "status": "completed",
+      "questions": [],
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Jiminy Cricket"
+      },
+      "reviews": [
+        {
+          "reviewId": 5981,
+          "reviewer": {
+            "id": 6,
+            "name": "Gregg G. Greggory"
+          }
+        },
+        {
+          "reviewId": 3693,
+          "reviewer": {
+            "id": 4,
+            "name": "Barack Obama"
+          }
+        },
+        {
+          "reviewId": 4469,
+          "reviewer": {
+            "id": 2,
+            "name": "Jiminy Cricket"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Evaluation - Paola",
+      "creation": "06/27/2022",
+      "finalized": "",
+      "status": "open",
+      "questions": [
+        {
+          "id": 1,
+          "question": "This is a question"
+        },
+        {
+          "id": 2,
+          "question": "This is another question"
+        }
+      ],
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Jiminy Cricket"
+      },
+      "reviews": [
+        {
+          "id": 1,
+          "status": "closed",
+          "reviewer": {
+            "id": 2,
+            "name": "Jiminy Cricket"
+          },
+          "QA": [
+            {
+              "question": "This is a question",
+              "answer": "answer 1"
+            },
+            {
+              "question": "This is another question",
+              "answer": "answer 2"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "status": "open",
+          "reviewer": {
+            "id": 4,
+            "name": "Barack Obama"
+          },
+          "QA": [
+            {
+              "question": "This is a question",
+              "answer": ""
+            },
+            {
+              "question": "This is another question",
+              "answer": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Title Of A Review?2 ",
+      "creation": "06/27/2022",
+      "finalized": null,
+      "status": "completed",
+      "questions": [],
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Jiminy Cricket"
+      },
+      "reviews": [
+        {
+          "reviewId": 5981,
+          "reviewer": {
+            "id": 6,
+            "name": "Gregg G. Greggory"
+          }
+        },
+        {
+          "reviewId": 3693,
+          "reviewer": {
+            "id": 4,
+            "name": "Barack Obama"
+          }
+        },
+        {
+          "reviewId": 4469,
+          "reviewer": {
+            "id": 2,
+            "name": "Jiminy Cricket"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Testing Reviewer Filtering - Jiminy as Reviewer ",
+      "creation": "09/03/2022",
+      "finalized": null,
+      "status": "open",
+      "questions": [],
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 3,
+        "name": "Gregg G. Greggory"
+      },
+      "reviews": [
+        {
+          "reviewId": 59812,
+          "reviewer": {
+            "id": 6,
+            "name": "Gregg G. Greggory"
+          }
+        },
+        {
+          "reviewId": 36932,
+          "reviewer": {
+            "id": 4,
+            "name": "Barack Obama"
+          }
+        },
+        {
+          "reviewId": 44692,
+          "reviewer": {
+            "id": 2,
+            "name": "Jiminy Cricket"
+          }
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "THIS SHOULD NOT BE VISIBLE - JIMINY IS NOT IN THIS ONE ",
+      "creation": "09/03/2022",
+      "finalized": null,
+      "status": "open",
+      "questions": [],
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 3,
+        "name": "Gregg G. Greggory"
+      },
+      "reviews": [
+        {
+          "reviewId": 598112,
+          "reviewer": {
+            "id": 6,
+            "name": "Gregg G. Greggory"
+          }
+        },
+        {
+          "reviewId": 369132,
+          "reviewer": {
+            "id": 4,
+            "name": "Barack Obama"
+          }
+        },
+        {
+          "reviewId": 446912,
+          "reviewer": {
+            "id": 69,
+            "name": "James L Cricketting"
+          }
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Paola Test Evaluation ",
+      "creation": "09/03/2022",
+      "finalized": "",
+      "status": "open",
+      "questions": [],
+      "apprentice": {
+        "id": 1,
+        "name": "Apprentice Name"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Manager Name"
+      },
+      "reviews": [
+        {
+          "reviewId": 598112,
+          "reviewer": {
+            "id": 1,
+            "name": "Apprentice Name"
+          },
+          "status": "closed",
+          "QA": [
+            {
+              "question": "What are the strenghts of the apprentice?",
+              "answer": "answer 1"
+            },
+            {
+              "question": "What are the areas of growth for the apprentice?",
+              "answer": "answer 2"
+            },
+            {
+              "question": "What are the core values of the apprentice?",
+              "answer": "answer3"
+            }
+          ]
+        },
+        {
+          "reviewId": 369132,
+          "reviewer": {
+            "id": 2,
+            "name": "Manager Name"
+          },
+          "status": "open",
+          "QA": [
+            {
+              "question": "What are the strenghts of the apprentice?",
+              "answer": ""
+            },
+            {
+              "question": "What are the areas of growth for the apprentice?",
+              "answer": ""
+            },
+            {
+              "question": "What are the core values of the apprentice?",
+              "answer": ""
+            }
+          ]
+        },
+        {
+          "reviewId": 446912,
+          "reviewer": {
+            "id": 3,
+            "name": "External Reviewer Name"
+          },
+          "status": "open",
+          "QA": [
+            {
+              "question": "What are the strenghts of the apprentice?",
+              "answer": ""
+            },
+            {
+              "question": "What are the areas of growth for the apprentice?",
+              "answer": ""
+            },
+            {
+              "question": "What are the core values of the apprentice?",
+              "answer": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "status": "closed",
+      "reviewer": {
+        "id": 3,
+        "name": "Ruthie"
+      },
+      "QA": [
+        {
+          "question": "What are the strenghts of the apprentice?",
+          "answer": "answer 1"
+        },
+        {
+          "question": "What are the areas of growth for the apprentice?",
+          "answer": "answer 2"
+        },
+        {
+          "question": "What are the core values of the apprentice?",
+          "answer": "answer3"
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "This is a question"
+    },
+    {
+      "id": 2,
+      "question": "This is another question"
+    },
+    {
+      "id": 3,
+      "question": "Don't forget about this question"
+    },
+    {
+      "id": 4,
+      "question": "Maybe this question is better"
+    },
+    {
+      "id": 5,
+      "question": "Perhaps this is the best question"
+    },
+    {
+      "id": 6,
+      "question": "What is a question but a question..."
+    }
+  ]
+}

@@ -10,26 +10,11 @@ import { Theme } from "@twilio-paste/core/dist/theme";
 
 
 function renderNewReviewFrom() {
-    return render(<NewReview evaluation={{
-        title: "",
-        creation: "",
-        finalized: "",
-        status: "",
-        questions: [],
-        arprentice: {
-            id: 0,
-            name: ""
-        },
-        manager: {
-            id: 0,
-            name: ""
-        },
-        reviews: []
-    }} />)
+    return render(<NewReview  />)
 }
 
 describe("<NewReview/>", () => {
-    test("should display a blank login form",async () => {
+    test("should display a blank new review form",async () => {
         const { findByTestId } = renderNewReviewFrom();
 
         const newReviewForm = await findByTestId('newreview-form');
@@ -41,3 +26,17 @@ describe("<NewReview/>", () => {
         })
     })
 })
+
+/**
+ * @jest-environment jsdom
+ */
+
+
+  
+  let documentBody: RenderResult;
+  
+//   describe("SingleEvaluationView", () => {
+//     test("renders SingleEvaluationView component", () => {
+//       render(<NewReview />);
+//     });
+//   });

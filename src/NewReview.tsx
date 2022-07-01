@@ -1,30 +1,39 @@
 import React, { useState } from "react";
 import axios from 'axios'
-
 import { Card, Button, Box, Label, Input } from '@twilio-paste/core'
+/**
+ * Component for fulfilling a review.
+ * We receive the review throug the endpoint: /api/v1/evaluations/:id/reviews/:id
+ * We make a PUT request with the answer inputs 
+ * This PUT modifies the evaluation object
+ * 
+ * @component
+ * 
+ */
 
 type UpdateReviewAnswer = {
-    id: number;
+    reviewId: number;
     status: string;
     reviewer: {id:number, name:string};
     QA: { question: string, answer: string }[];
 }
 type EvaluationSchema = {
+    id:number;
     title: string;
     creation: string;
     finalized: string;
     status: string;
     questions: string[];
-    arprentice: {id: number,name: string},
+    apprentice: {id: number,name: string},
     manager: {id: number, name: string},
-    reviews: { reviewId: number, reviewer: string }[];
+    reviews: UpdateReviewAnswer[];
 }
 
 
-const NewReview = (prop: {evaluation: EvaluationSchema}) => {
-    const baseURL: string = `http://localhost:3000/evaluations/`
+const NewReview = () => {
+    const baseURL: string = `http://localhost:3000/evaluations/8`
     const [reviewAnswers, setReviewAnswers] = useState<UpdateReviewAnswer>({
-        id: 1,
+        reviewId: 1,
         status: 'TEST',
         reviewer: { id: 3, name: "Ruthie" },
         QA: [
@@ -42,40 +51,91 @@ const NewReview = (prop: {evaluation: EvaluationSchema}) => {
             }
         ]
     })
-    const [managerAction, setManagerAction] = useState(false)
+    const [singleEvaluation, setSingleEvaluation] = useState<EvaluationSchema>({
+        /**
+         * Evaluation format - typescript needs a mock object to reference the hook
+         */
+        id: 8,
+       title: "Paola Test Evaluation ",
+        creation: "09/03/2022",
+        finalized: "",
+        status: "open",
+        questions: [],
+        apprentice: {
+          id: 1,
+          name: "Apprentice Name"
+        },
+        manager: {
+          id: 2,
+          name: "Manager Name"
+        },
+        reviews: [
+          {
+            reviewId: 598112,
+            reviewer: {
+              id: 1,
+              name: "Apprentice Name"
+            },
+            status: "closed",
+            QA: [
+              {
+                question: "What are the strenghts of the apprentice?",
+                answer: "answer 1"
+              }
+            ]
+          },
+        ]
+      })
 
-  
-       
+      /**
+       * If managerAction is true the button to close the review is displayed 
+       */
+    const [managerAction, setManagerAction] = useState(false)
+    
 
     React.useEffect(() => {
-        axios.get(baseURL + 4).then((response) => {
-            // setReviewAnswers(response.data.reviews[1]);
-            console.log(response.data.reviews[1])
+        /**
+         * get single evaluation
+        */
+        axios.get(baseURL).then((response) => {
+            setSingleEvaluation(response.data)
+            let responseReviews = response.data.reviews[1]
+            setReviewAnswers(responseReviews);
+            //console.log(response.data)
         });
     }, [])
 
     React.useEffect(() => {
-        if (prop.evaluation.manager.id === reviewAnswers.reviewer.id) {
+        /**
+         * Compare evaluation manager Id with reviewer Id
+         */
+        if (singleEvaluation.manager.id === reviewAnswers.reviewer.id) {
             setManagerAction(true);
         }
     }, [])
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
+        /**
+         * Submit answers to review in the evaluation
+         */
         e.preventDefault();
         let data = {
-            id: reviewAnswers.id,
+            id: reviewAnswers.reviewId,
             status: "submitted",
             reviewer: reviewAnswers.reviewer,
             QA: reviewAnswers.QA
         }
-        axios.put(baseURL + 1, data).then((response) => {
+        axios.put(baseURL, data).then((response) => {
             console.log('response from submit:', response)
         })
     }
     const closeReview = (e: React.MouseEvent<HTMLButtonElement>) => {
+        /**
+         * Close review, only available for EM annd HM
+         */
         e.preventDefault();
         let data = {
-            id: reviewAnswers.id,
+            id: reviewAnswers.reviewId,
             status: "closed",
             reviewer: reviewAnswers.reviewer,
             QA: reviewAnswers.QA
@@ -86,6 +146,9 @@ const NewReview = (prop: {evaluation: EvaluationSchema}) => {
     }
 
     const updateAnswById = (answer: string, id: number) => {
+        /**
+         * Update the answers inside the QA object in the Review
+         */
         setReviewAnswers((state) => {
             return {
                 ...state,
@@ -106,7 +169,7 @@ const NewReview = (prop: {evaluation: EvaluationSchema}) => {
 
 
     //console.log(reviewAnswers)
-    console.log(prop.evaluation)
+    //console.log(prop.evaluation)
     return (
         <>
             <div style={{ maxWidth: 600, padding: 10, margin: 10 }}>
