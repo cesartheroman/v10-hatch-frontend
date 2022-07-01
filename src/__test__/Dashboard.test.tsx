@@ -3,18 +3,37 @@
  */
 
 import React from "react";
-import { render, RenderResult, screen } from "@testing-library/react";
+import { act, render, RenderResult, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import Dashboard from "../Dashboard";
 import { Theme } from "@twilio-paste/core/dist/theme";
 
-// let documentBody: RenderResult;
+let documentBody: RenderResult;
+let container: any;
 
-describe("Should render Dashboard component", () => {
-  test("renders Dashboard component, has Evaluations", () => {
-    render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>);
-    const evals= expect(screen.getByLabelText(/Evaluations/))
-    // screen.debug();
-  });
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
 });
+
+afterEach(() => {
+  document.body.removeChild(container);
+  container = null;
+});
+
+
+  test("rendered Dashboard component has Evaluations", async () => {
+    act(() => {render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>);});
+    const results = await screen.findAllByLabelText(/Evaluations/)
+    expect(!results).toBeFalsy();
+  });
+
+  test("rendered Dashboard component has Titles", async () => {
+    act(() => {render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>);});
+    const results = await screen.findAllByLabelText(/Title of Eval/)
+   
+    expect(!results).toBeFalsy()
+  });
+
+

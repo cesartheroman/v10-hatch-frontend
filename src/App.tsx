@@ -15,6 +15,7 @@ const App = () => {
   
   return (
     <Theme.Provider theme="default">
+      <div id="content-wrap">
       <Router>
         <Header />
         <Routes>
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/evaluation" element={<SingleEvaluationView/>}/>
         </Routes>
       </Router>
+      </div>
       <Footer />
     </Theme.Provider>
   );

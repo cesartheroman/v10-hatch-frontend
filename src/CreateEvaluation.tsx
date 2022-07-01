@@ -180,7 +180,8 @@ const CreateEvaluation = () => {
   });
 
   return (
-    <Box marginBottom="space10" marginTop="space10" padding="space100">
+    // <Box marginBottom="space10" marginTop="space10" padding="space100">
+    <Box style={{padding: "0 25px"}}>
       <Card>
         <h2>New Evaluation</h2>
         <Box marginBottom="space80">

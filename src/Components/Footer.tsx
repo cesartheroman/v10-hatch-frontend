@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <Box className="footerItems">
-        //TODO: Any footer items TBD should live here
+       Copyright © 2022 Twilio.  All Rights Reversed.  Created by Hatch cohort V10.
       </Box>
     </footer>
   );
