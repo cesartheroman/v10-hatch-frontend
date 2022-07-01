@@ -43,7 +43,6 @@
       "id": 7
     }
   ],
-
   "evaluations": [
     {
       "id": 0,
@@ -111,19 +110,22 @@
           "reviewId": 504,
           "reviewer": {
             "id": 7,
-            "name":"Lilluthe d'Zymmer"}
+            "name": "Lilluthe d'Zymmer"
+          }
         },
         {
           "reviewId": 73,
           "reviewer": {
             "id": 4,
-           "name":"Barack Obama"}
+            "name": "Barack Obama"
+          }
         },
         {
           "reviewId": 4,
           "reviewer": {
-            "id":2,
-            "name":"Jiminy Cricket"}
+            "id": 2,
+            "name": "Jiminy Cricket"
+          }
         }
       ]
     },
@@ -275,15 +277,36 @@
       "finalized": null,
       "status": "completed",
       "questions": [],
-      "apprentice": { "id": 4, "name": "Barack Obama" },
-      "manager": { "id": 2, "name": "Jiminy Cricket" },
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Jiminy Cricket"
+      },
       "reviews": [
         {
           "reviewId": 5981,
-          "reviewer": { "id": 6, "name": "Gregg G. Greggory" }
+          "reviewer": {
+            "id": 6,
+            "name": "Gregg G. Greggory"
+          }
         },
-        { "reviewId": 3693, "reviewer": { "id": 4, "name": "Barack Obama" } },
-        { "reviewId": 4469, "reviewer": { "id": 2, "name": "Jiminy Cricket" } }
+        {
+          "reviewId": 3693,
+          "reviewer": {
+            "id": 4,
+            "name": "Barack Obama"
+          }
+        },
+        {
+          "reviewId": 4469,
+          "reviewer": {
+            "id": 2,
+            "name": "Jiminy Cricket"
+          }
+        }
       ]
     },
     {
@@ -293,15 +316,36 @@
       "finalized": null,
       "status": "open",
       "questions": [],
-      "apprentice": { "id": 4, "name": "Barack Obama" },
-      "manager": { "id": 3, "name": "Gregg G. Greggory" },
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 3,
+        "name": "Gregg G. Greggory"
+      },
       "reviews": [
         {
           "reviewId": 59812,
-          "reviewer": { "id": 6, "name": "Gregg G. Greggory" }
+          "reviewer": {
+            "id": 6,
+            "name": "Gregg G. Greggory"
+          }
         },
-        { "reviewId": 36932, "reviewer": { "id": 4, "name": "Barack Obama" } },
-        { "reviewId": 44692, "reviewer": { "id": 2, "name": "Jiminy Cricket" } }
+        {
+          "reviewId": 36932,
+          "reviewer": {
+            "id": 4,
+            "name": "Barack Obama"
+          }
+        },
+        {
+          "reviewId": 44692,
+          "reviewer": {
+            "id": 2,
+            "name": "Jiminy Cricket"
+          }
+        }
       ]
     },
     {
@@ -311,17 +355,119 @@
       "finalized": null,
       "status": "open",
       "questions": [],
-      "apprentice": { "id": 4, "name": "Barack Obama" },
-      "manager": { "id": 3, "name": "Gregg G. Greggory" },
+      "apprentice": {
+        "id": 4,
+        "name": "Barack Obama"
+      },
+      "manager": {
+        "id": 3,
+        "name": "Gregg G. Greggory"
+      },
       "reviews": [
         {
           "reviewId": 598112,
-          "reviewer": { "id": 6, "name": "Gregg G. Greggory" }
+          "reviewer": {
+            "id": 6,
+            "name": "Gregg G. Greggory"
+          }
         },
-        { "reviewId": 369132, "reviewer": { "id": 4, "name": "Barack Obama" } },
+        {
+          "reviewId": 369132,
+          "reviewer": {
+            "id": 4,
+            "name": "Barack Obama"
+          }
+        },
         {
           "reviewId": 446912,
-          "reviewer": { "id": 69, "name": "James L Cricketting" }
+          "reviewer": {
+            "id": 69,
+            "name": "James L Cricketting"
+          }
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Paola Test Evaluation ",
+      "creation": "09/03/2022",
+      "finalized": "",
+      "status": "open",
+      "questions": [],
+      "apprentice": {
+        "id": 1,
+        "name": "Apprentice Name"
+      },
+      "manager": {
+        "id": 2,
+        "name": "Manager Name"
+      },
+      "reviews": [
+        {
+          "reviewId": 598112,
+          "reviewer": {
+            "id": 1,
+            "name": "Apprentice Name"
+          },
+          "status": "closed",
+          "QA": [
+            {
+              "question": "What are the strenghts of the apprentice?",
+              "answer": "answer 1"
+            },
+            {
+              "question": "What are the areas of growth for the apprentice?",
+              "answer": "answer 2"
+            },
+            {
+              "question": "What are the core values of the apprentice?",
+              "answer": "answer3"
+            }
+          ]
+        },
+        {
+          "reviewId": 369132,
+          "reviewer": {
+            "id": 2,
+            "name": "Manager Name"
+          },
+          "status": "open",
+          "QA": [
+            {
+              "question": "What are the strenghts of the apprentice?",
+              "answer": ""
+            },
+            {
+              "question": "What are the areas of growth for the apprentice?",
+              "answer": ""
+            },
+            {
+              "question": "What are the core values of the apprentice?",
+              "answer": ""
+            }
+          ]
+        },
+        {
+          "reviewId": 446912,
+          "reviewer": {
+            "id": 3,
+            "name": "External Reviewer Name"
+          },
+          "status": "open",
+          "QA": [
+            {
+              "question": "What are the strenghts of the apprentice?",
+              "answer": ""
+            },
+            {
+              "question": "What are the areas of growth for the apprentice?",
+              "answer": ""
+            },
+            {
+              "question": "What are the core values of the apprentice?",
+              "answer": ""
+            }
+          ]
         }
       ]
     }
@@ -347,36 +493,10 @@
           "question": "What are the core values of the apprentice?",
           "answer": "answer3"
         }
-      ],
-      "questions": [
-        {
-          "id": 1,
-          "question": "This is a question"
-        },
-        {
-          "id": 2,
-          "question": "This is another question"
-        },
-        {
-          "id": 3,
-          "question": "Don't forget about this question"
-        },
-        {
-          "id": 4,
-          "question": "Maybe this question is better"
-        },
-        {
-          "id": 5,
-          "question": "Perhaps this is the best question"
-        },
-        {
-          "id": 6,
-          "question": "What is a question but a question..."
-        }
       ]
     }
   ],
-    "questions": [
+  "questions": [
     {
       "id": 1,
       "question": "This is a question"
