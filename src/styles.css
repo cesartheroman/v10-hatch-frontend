@@ -1,50 +1,72 @@
 /* Styling for header component */
 
 .nav {
-  margin: 0;
+  margin: 0 0 40px 0 ;
   background-color: rgb(235, 86, 86);
-  display: flex;
-  justify-content: space-between;
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
+ 
 
 }
-.navButton {
-      
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: end;
-  gap: 10px;
+#heading {
+  font-weight: 300;
+  color:white;
+  margin: 5px 0 0 20px;
 }
+
+#headerLink{
+  font-weight: 400;
+  font-size: 17px;
+  text-decoration: none;
+}
+
 
 .logo {
   display: flex;
   justify-content: left;
   padding: 20px 10px;
+  margin: 0 10px;
  
   
 }
-.headerButton {
-  background-color: white;
-  margin: 50px;
-}
-.navItems {
+#navItems {
+ 
   display: flex;
-  justify-content: space-between;
-  border: 5px solid rgb(235, 86, 86);
-  padding: 10px;
+  flex-direction: row;
+  margin: 43px 30px -10px 0;
+  max-height: 36px;
+  gap: 20px;
   
 }
 
+
+/* Styling for footer component  */
+App {
+  position:relative;
+  min-height: 100vh;
+}
+#content-wrap {
+  padding-bottom: 3.5rem;
+}
 .footer {
-  margin: 1rem;
+  position: absolute;
+  height: 2.5rem;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(235, 86, 86);
+  color:white;
+  /* margin: 30px -2px 0 -2px; */
 }
 
 .footerItems {
   display: flex;
-  justify-content: space-between;
-  border-style: solid;
-  border-width: 1px;
-  padding: 1rem;
+  letter-spacing: 2px;
+  font-size: 12px;
+  font-weight: 200;
+  justify-content: center;
+  padding: 10px 0 0 0;
+  
 }
 
 
@@ -70,13 +92,18 @@
 #filterContainer {
   text-align: right;
   padding: 20px;
-  box-shadow: 0px 0px 5px -1px rgb(122, 122, 122);
-  /* border-radius: 20px; */
+  /* box-shadow: 0px 0px 5px -1px rgb(122, 122, 122); */
+  border-radius: 20px;
+  border: 5px dotted rgb(235, 86, 86);
   margin: 0 25px 0 0;
-  height: 300px;
+  height: 400px;
   width: 200px;
+  
 }
-
+#greetingBox{
+ 
+  margin: 5px 0 69px 0;
+}
 #detailsLink {
   font-weight: 500;
   color: rgb(209, 0, 0);
