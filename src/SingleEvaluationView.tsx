@@ -34,7 +34,7 @@ type EvaluationSchema = {
 
 const SingleEvaluationView = () => {
     const selectedId = useUID();
-    const baseURL: string = 'http://localhost:3000/evaluations/'
+    const baseURL: string = 'http://localhost:3000/evaluations/4'
     const [evaluationTodisplay, setEvaluationTodisplay] = React.useState<EvaluationSchema>({
         id: 4,
         title: "October evaluation",
@@ -80,8 +80,9 @@ const SingleEvaluationView = () => {
     }
 
     React.useEffect(() => {
-        axios.get<EvaluationSchema>(baseURL + 8).then((response) =>
+        axios.get<EvaluationSchema>(baseURL).then((response) =>
             setEvaluationTodisplay(response.data)
+           
         )
     }, [])
     React.useEffect(() => {
@@ -243,7 +244,7 @@ const SingleEvaluationView = () => {
                 </div>
 
             }
-            {/* Reviewer View: */}
+            {/* Apprentice View: */}
             {user.roleID === 2 &&
                 <div id='singleEval'>
                     <Tabs orientation="vertical" selectedId={selectedId} baseId="vertical-tabs-example" >
