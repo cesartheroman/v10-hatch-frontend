@@ -521,5 +521,49 @@
       "id": 6,
       "question": "What is a question but a question..."
     }
+  ],
+  "apprentices": [
+    {
+      "id": 1,
+      "Name": "Ryder Wendt",
+      "EvaluationsID": "1",
+      "roleID": 1,
+      "Email": "Ryder@test.com",
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 2,
+      "Name": "Invader Zim",
+      "EvaluationsID": "2",
+      "roleID": 1,
+      "Email": "IZ@test.com",
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 3,
+      "Name": "Tommy Pickles",
+      "EvaluationsID": "3",
+      "roleID": 1,
+      "Email": "TP@test.com",
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 4,
+      "Name": "Danny Phantom",
+      "EvaluationsID": "4",
+      "roleID": 1,
+      "Email": "DP@test.com",
+      "Password": "Shhhhh"
+    }
+  ],
+  "apprenticeByManagerID": [
+    {
+      "id": 2,
+      "Name": "Invader Zim",
+      "EvaluationsID": "2",
+      "roleID": 1,
+      "Email": "IZ@test.com",
+      "Password": "Shhhhh"
+    }
   ]
 }
