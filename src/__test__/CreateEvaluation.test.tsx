@@ -3,19 +3,14 @@
  */
 
 import React from "react";
-import { render, RenderResult, screen } from "@testing-library/react";
+import { act, render, RenderResult, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import CreateEvaluation from "../CreateEvaluation";
+import { Theme } from "@twilio-paste/core/dist/theme";
 
-// let documentBody: RenderResult;
-
-describe("Should render Registration component", () => {
-  test("renders Registration component", () => {
+describe("App component", () => {
+  test("it renders", () => {
     render(<CreateEvaluation />);
-    // expect(screen.getByText(/New/)).toBeInTheDocument();
-    //  expect(screen.getByText("Choose role")).toBeInTheDocument();
-
-    // screen.debug();
   });
 });

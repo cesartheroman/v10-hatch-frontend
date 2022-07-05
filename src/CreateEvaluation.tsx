@@ -13,10 +13,16 @@ import {
   ComboboxListboxOption,
   Option,
   Select,
+  Grid,
+  Column,
 } from "@twilio-paste/core";
 import { useUID, useUIDSeed } from "react-uid";
 
-const baseURL: string = "http://localhost:3000/";
+/**
+ * This is the Evaluation Creation view for the EM and HM Roles
+ * Filling out all input elements other than reviewers is required and upon completion sends/creates a new
+ * evaluation in the database. Major styling is handled via Paste.
+ */
 
 // TODO: Role check logic
 // TODO: Update Nav Bar
@@ -26,32 +32,62 @@ type Question = {
   question: string;
 };
 
-const styles = {
-  submitButton: {
-    margin: 0,
-    padding: 0,
-    display: "flex",
-    justifyContent: "end",
-    gap: 10,
-  },
-};
-
 const CreateEvaluation = () => {
+  /**
+   * CONSTANTS
+   *
+   * questions = avaialable questions for use in Evaluation
+   * title = title input entered by user
+   * selectedQuestions = array of question id from user input
+   * items = default filtered items for Paste pillgroup
+   * apprentices = all apprentices receiver from database
+   * selectedApprentice = apprentice selected by user
+   * filteredItems = review array for user selection
+   * formPillState - seed - inputId = used for Paste component multi combobox https://paste.twilio.design/primitives/combobox-primitive/#about-the-combobox-primitive
+   * baseURL = the url of the API server that will be connected via Axios GET command.
+   * userID - role = will be prop of user meta data
+   *
+   */
+
   const [questions, setQuestions] = useState<Question[]>([
     { id: 999, question: "what?" },
   ]);
   const [title, setTitle] = useState<string>("");
   const [selectedQuestions, setSelectedQuestions] = useState<Array<string>>([]);
   const items = [{ name: "ryder" }];
-  const [apprentices, setApprentices] = useState([]);
-  const [selectedApprentice, setSelectedApprentice] = useState<string>("");
+  const [apprentices, setApprentices] = useState([
+    {
+      id: 1,
+      Name: "Ryder Wendt",
+      EvaluationsID: "1",
+      roleID: 1,
+      Email: "Ryder@test.com",
+      Password: "Shhhhh",
+    },
+    {
+      id: 2,
+      Name: "Invader Zim",
+      EvaluationsID: "2",
+      roleID: 1,
+      Email: "IZ@test.com",
+      Password: "Shhhhh",
+    },
+  ]);
+  const [selectedApprentice, setSelectedApprentice] = useState<number>(1);
   const [filteredItems, setFilteredItems] = useState([...items]);
-  const [managers, setManagers] = useState([]);
 
   const seed = useUIDSeed();
   const formPillState = useFormPillState();
   const inputId = seed("input-element");
-  let role = 3;
+  const baseURL: string = "http://localhost:3000/";
+  // TODO: Get Meta data as props
+  let role = 4;
+  let userID = 2;
+
+  /**
+   * handleChecked - Handles checkbox state in question selection
+   * @param e = click event object
+   */
 
   const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
@@ -62,28 +98,49 @@ const CreateEvaluation = () => {
     }
   };
 
+  /**
+   * UseEffect - on page render UseEffect gets called and runs 3 functions, getting all
+   * reviewers exept apprentices, gets all questions avaiable to be assigned, gets all apprentices
+   * based on users role
+   */
+
   useEffect(() => {
     getReviewers();
     getQuestions();
     getApprentices();
   }, []);
 
+  /**
+   * getQuestions = pulls questions from data base and sets to questions
+   */
+
   const getQuestions = () => {
     // TODO: Connect to backend /api/v1/questions
     axios.get(baseURL + "questions").then((res) => {
-      let newQuestions = res.data;
-      setQuestions(newQuestions);
+      setQuestions(res.data);
     });
   };
+
+  /**
+   * getReviewers - pulls most recent list of reviewers from database excluding reviewers
+   * with the role of apprentice -> roleID = 1
+   */
 
   const getReviewers = () => {
     // TODO: /api/v1/users/
     axios.get(baseURL + "users").then((res) => {
-      let users = res.data;
-      let currentReviewers = users.filter((user: any) => user.roleID !== "1");
+      let currentReviewers = res.data.filter(
+        (user: any) => user.roleID !== "1"
+      );
       setFilteredItems(currentReviewers);
     });
   };
+
+  /**
+   * getApprentices - Retreives apprentices based on role.
+   * 4 = HM roleId, function will grab all apprentices to choose from
+   * 3 = EM roleId, function will grab only apprentices assigned to EM
+   */
 
   const getApprentices = () => {
     if (role === 4) {
@@ -91,15 +148,24 @@ const CreateEvaluation = () => {
 
       axios.get(baseURL + "apprentices").then((res) => {
         setApprentices(res.data);
+        setSelectedApprentice(res.data[0].id);
       });
     } else {
       // TODO: GET apprentice assigned api/v1/users/managers/id/apprentices
       //       grab id from meta data
       axios.get(baseURL + "apprenticeByManagerID").then((res) => {
         setApprentices(res.data);
+        setSelectedApprentice(res.data[0].id);
       });
     }
   };
+
+  /**
+   * submit function - posts eval to database with data from form selection.
+   * reviewData filters selected reviewrs and grabs only the ids to be sent to database
+   *
+   * @param {React.MouseEvent<HTMLButtonElement>} e = event
+   */
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     // TODO: POST eval api/v1/evalutations
@@ -123,9 +189,10 @@ const CreateEvaluation = () => {
     });
   };
 
-  const handleChange = () => {
-    console.log("change handled 0_0");
-  };
+  /**
+   * This section belongs to select reviewer logic, ends on component return.
+   * Paste multi combo box component
+   */
 
   const {
     getSelectedItemProps,
@@ -180,151 +247,137 @@ const CreateEvaluation = () => {
   });
 
   return (
-    // <Box marginBottom="space10" marginTop="space10" padding="space100">
-    <Box style={{padding: "0 25px"}}>
-      <Card>
-        <h2>New Evaluation</h2>
-        <Box marginBottom="space80">
-          <Label htmlFor="email_address" required>
-            Title
-          </Label>
-          <Input
-            aria-describedby="title_help_text"
-            id="title"
-            name="title"
-            type="text"
-            placeholder="Hatch Eval #1"
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </Box>
-
-        <Label htmlFor="apprentice_select">Select Apprentice</Label>
-        <Box marginBottom="space80">
-          <Select
-            id="apprentice_select"
-            onChange={(e) => setSelectedApprentice(e.target.value)}
-            required
-          >
-            {apprentices.map((apprentice: any, i: any) => {
-              return (
-                <Option value={apprentice.id} id={i}>
-                  {apprentice.Name}
-                </Option>
-              );
-            })}
-          </Select>
-        </Box>
-
-        <Box padding={"space100"} marginBottom="space80">
-          <div>
-            <h2>Select questions to appear on evaluation</h2>
-            {questions.map((question, i) => (
-              <label key={i}>
-                <input
-                  type="checkbox"
-                  name="selected-questions"
-                  value={question.id}
-                  onChange={handleChecked}
-                />{" "}
-                {question.question}
-                <br />
-              </label>
-            ))}
-          </div>
-        </Box>
-        <>
-          <Box marginBottom="space40" position="relative">
-            <Label htmlFor={inputId} {...getLabelProps()}>
-              Choose a Reviewer
-            </Label>
-            <Box {...getComboboxProps({ role: "combobox" })}>
+    <Box marginBottom="space10" marginTop="space10" padding="space100">
+      <Grid gutter="space30">
+        <Column span={8} offset={2}>
+          <Card>
+            <h2>New Evaluation</h2>
+            <Box marginBottom="space80">
+              <Label htmlFor="email_address" required>
+                Title
+              </Label>
               <Input
-                id={inputId}
+                aria-describedby="title_help_text"
+                id="title"
+                name="title"
                 type="text"
-                {...getInputProps({
-                  ...getDropdownProps({
-                    preventKeyAction: isOpen,
-                    ...getToggleButtonProps({ tabIndex: 0 }),
-                  }),
-                })}
-                value={""}
+                placeholder="Hatch Eval #1"
+                onChange={(e) => setTitle(e.target.value)}
+                required
               />
             </Box>
-            <ComboboxListbox hidden={!isOpen} {...getMenuProps()}>
-              <ComboboxListboxGroup>
-                {filteredItems.map((filteredItem: any, index) => (
-                  <ComboboxListboxOption
-                    highlighted={highlightedIndex === index}
-                    variant="default"
-                    key={index}
-                    {...getItemProps({
-                      item: filteredItem,
-                      index,
-                      key: filteredItem.id,
-                    })}
-                  >
-                    {filteredItem.name}
-                  </ComboboxListboxOption>
+
+            <Label htmlFor="apprentice_select">Select Apprentice</Label>
+            <Box marginBottom="space80">
+              <Select
+                id="apprentice_select"
+                onChange={(e: any) => setSelectedApprentice(e.target.value)}
+                defaultValue={apprentices[0].id}
+                required
+              >
+                {apprentices.map((apprentice: any, i: any) => {
+                  return (
+                    <Option key={apprentice.id} value={apprentice.id} id={i}>
+                      {apprentice.Name}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </Box>
+
+            <Box padding={"space10"} marginBottom="space80">
+              <div>
+                <h2>Select questions to appear on evaluation</h2>
+                {questions.map((question, i) => (
+                  <label key={i}>
+                    <input
+                      type="checkbox"
+                      name="selected-questions"
+                      value={question.id}
+                      onChange={handleChecked}
+                    />{" "}
+                    {question.question}
+                    <br />
+                  </label>
                 ))}
-              </ComboboxListboxGroup>
-            </ComboboxListbox>
-          </Box>
-          <FormPillGroup {...formPillState} aria-label="Selected components">
-            {selectedItems.map((item: any, index) => {
-              return (
-                <FormPill
-                  {...getSelectedItemProps({
-                    selectedItem,
-                    index,
-                    key: item.id,
-                  })}
-                  tabIndex={null}
-                  {...formPillState}
-                  onDismiss={() => handleRemoveItemOnClick(item)}
-                >
-                  {item.name}
-                </FormPill>
-              );
-            })}
-          </FormPillGroup>
-          <br />
-        </>
-        <Box justifyContent="end">
-          <Button
-            size="default"
-            onClick={handleSubmit}
-            type="submit"
-            variant="primary"
-          >
-            Submit
-          </Button>
-        </Box>
-      </Card>
+              </div>
+            </Box>
+            <>
+              <Box marginBottom="space40" position="relative">
+                <Label htmlFor={inputId} {...getLabelProps()}>
+                  Choose a Reviewer
+                </Label>
+                <Box {...getComboboxProps({ role: "combobox" })}>
+                  <Input
+                    id={inputId}
+                    type="text"
+                    {...getInputProps({
+                      ...getDropdownProps({
+                        preventKeyAction: isOpen,
+                        ...getToggleButtonProps({ tabIndex: 0 }),
+                      }),
+                    })}
+                    value={""}
+                  />
+                </Box>
+                <ComboboxListbox hidden={!isOpen} {...getMenuProps()}>
+                  <ComboboxListboxGroup>
+                    {filteredItems.map((filteredItem: any, index) => (
+                      <ComboboxListboxOption
+                        highlighted={highlightedIndex === index}
+                        variant="default"
+                        key={index}
+                        {...getItemProps({
+                          item: filteredItem,
+                          index,
+                          key: filteredItem.id,
+                        })}
+                      >
+                        {filteredItem.name}
+                      </ComboboxListboxOption>
+                    ))}
+                  </ComboboxListboxGroup>
+                </ComboboxListbox>
+              </Box>
+              <FormPillGroup
+                {...formPillState}
+                aria-label="Selected components"
+              >
+                {selectedItems.map((item: any, index) => {
+                  return (
+                    <FormPill
+                      {...getSelectedItemProps({
+                        selectedItem,
+                        index,
+                        key: item.id,
+                      })}
+                      tabIndex={null}
+                      {...formPillState}
+                      onDismiss={() => handleRemoveItemOnClick(item)}
+                    >
+                      {item.name}
+                    </FormPill>
+                  );
+                })}
+              </FormPillGroup>
+              <br />
+            </>
+            <Box justifyContent="end">
+              {/* TODO: Add toast on submit! */}
+              <Button
+                size="default"
+                onClick={handleSubmit}
+                type="submit"
+                variant="primary"
+              >
+                Submit
+              </Button>
+            </Box>
+          </Card>
+        </Column>
+      </Grid>
     </Box>
   );
 };
 
 export default CreateEvaluation;
-
-//------------------- Paste Checkbox if there is time I want to revisit -------------
-{
-  /* <CheckboxGroup
-            name="questions_group"
-            legend="Select the answers to appear on the evaluation."
-            // onChange={handleQuestions}
-          >
-            {questions.map((obj) => (
-              <Checkbox
-                name={obj.question}
-                id={obj.question}
-                value={obj.question}
-                key={obj.id}
-                // checked={false}
-                onChange={handleChecked}
-              >
-                {obj.question}
-              </Checkbox>
-            ))}
-          </CheckboxGroup> */
-}

@@ -61,8 +61,9 @@
   padding: 7px;
 }
 
-/* Styling for dashboard component  */
-
+input[type="checkbox"] {
+  transform: scale(1.5);
+}
 #dashboard {
   display: flex;
   justify-content: space-evenly;
@@ -138,7 +139,9 @@
   font-weight: 600;
 }
 
-/* Single evaluation component */
 #singleEval {
   margin: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
 }
