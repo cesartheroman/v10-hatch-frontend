@@ -387,36 +387,6 @@
         }
       ]
     }
-    // {
-    //   "id": 8,
-    //   "title": "Oops it broke",
-    //   "creation" : "02/02/2020",
-    //   "finalized": null,
-    //   "status": "in progress",
-    //   "apprentice": {
-    //     "id": 4,
-    //     "name": "Barack Obama"
-    //   },
-    //   "manager": {
-    //     "id": 3,
-    //     "name": "Gregg G. Greggory"
-    //   },
-      
-    //   "QA": [
-    //     {
-    //       "question": "What are the strenghts of the apprentice?",
-    //       "answer": "this is the manager review"
-    //     },
-    //     {
-    //       "question": "What are the areas of growth for the apprentice?",
-    //       "answer": "this is the manager review"
-    //     },
-    //     {
-    //       "question": "What are the core values of the apprentice?",
-    //       "answer": "this is the manager review"
-    //     }
-    //   ]
-    // }
   ],
   "reviews": [
     {
