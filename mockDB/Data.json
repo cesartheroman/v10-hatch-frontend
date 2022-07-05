@@ -386,28 +386,6 @@
           }
         }
       ]
-    },
-    {
-      "id": 8,
-      "status": "submitted",
-      "reviewer": {
-        "id": 3,
-        "name": "Ruthie"
-      },
-      "QA": [
-        {
-          "question": "What are the strenghts of the apprentice?",
-          "answer": "this is the manager review"
-        },
-        {
-          "question": "What are the areas of growth for the apprentice?",
-          "answer": "this is the manager review"
-        },
-        {
-          "question": "What are the core values of the apprentice?",
-          "answer": "this is the manager review"
-        }
-      ]
     }
   ],
   "reviews": [
