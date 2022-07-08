@@ -52,9 +52,10 @@ const Dashboard = () => {
   const currentUser = {
     id: 2,
     name: "Jiminy Cricket",
-    role: 3,
+    role: 4,
   };
-  const baseURL: string = "http://localhost:3000/";
+
+  const baseURL: string = "http://localhost:9876/api/v1/";
   const [isDesc, setIsDesc] = useState(true);
   const [filter, setFilter] = useState("");
   const [savedEvaluations, setSavedEvaluations] = useState([
@@ -68,8 +69,8 @@ const Dashboard = () => {
       apprentice: { id: 420, name: "PLACEHOLDER" },
       manager: { id: 69, name: "PLACEHOLDER" },
       reviews: [
-        { reviewId: 100, reviewer: { id: 69, name: "PLACEHOLDER 01" } },
-        { reviewId: 101, reviewer: { id: 692, name: "PLACEHOLDER 02" } },
+        { id: 100, reviewer: { id: 69, name: "PLACEHOLDER 01" } },
+        { id: 101, reviewer: { id: 692, name: "PLACEHOLDER 02" } },
       ],
     },
   ]);
@@ -84,8 +85,8 @@ const Dashboard = () => {
       apprentice: { id: 420, name: "PLACEHOLDER" },
       manager: { id: 69, name: "PLACEHOLDER" },
       reviews: [
-        { reviewId: 100, reviewer: { id: 69, name: "PLACEHOLDER 01" } },
-        { reviewId: 101, reviewer: { id: 692, name: "PLACEHOLDER 02" } },
+        { id: 100, reviewer: { id: 69, name: "PLACEHOLDER 01" } },
+        { id: 101, reviewer: { id: 692, name: "PLACEHOLDER 02" } },
       ],
     },
   ]);
@@ -107,7 +108,21 @@ const Dashboard = () => {
    * */
 
   useEffect(() => {
-    axios.get(baseURL + "evaluations").then((response) => {
+
+    //TODO: if hatch manager - call @ /evaluations endpoint
+    // if they are not, call @ /users/:ID/evaluations endpoint !!!!!!
+
+    
+    var config = {
+      method: 'get',
+      url: 'http://localhost:3000/evaluations/',
+    //  url: 'https://cors-anywhere.herokuapp.com/' + 'ngrok token',
+      headers: { 
+        'Authorization': 'Bearer {TOKEN HERE}'
+      }
+    };
+
+    axios(config).then((response) => {
       setEvaluations(
         response.data.filter((object: any) => {
           return (
@@ -239,12 +254,12 @@ const Dashboard = () => {
       <DataGrid aria-label="Evaluations list" data-testid="data-grid" striped>
         <DataGridHead>
           <DataGridRow>
-            <DataGridHeader width="200px">
+            <DataGridHeader data-testid="test-title" width="200px">
               Evaluation Title{" "}
               <DataGridHeaderSort
                 direction="none"
                 //TODO: write function that changes direction of arrow depending on status above
-                onClick={() => FilterEvaluations("id")}
+                onClick={() => FilterEvaluations("title")}
               />
             </DataGridHeader>
             <DataGridHeader width="150px">
@@ -307,19 +322,16 @@ const Dashboard = () => {
               </DataGridCell>
               <DataGridCell>{Status(evaluation)}</DataGridCell>
               <DataGridCell>
-                <Anchor
-                  href="/evaluation"
+                <Link
+                  to={`evaluation/${evaluation.id}`}
                   id="detailsLink"
-                  onClick={() => {
-                    console.log("Linking to /evaluations/" + evaluation.id);
-                  }}
                 >
                   <span id="viewDetails">View Details</span>
                   <FileIcon
                     decorative={true}
                     title="Link to Details of Evaluation"
                   />
-                </Anchor>
+                </Link>
               </DataGridCell>
             </DataGridRow>
           ))}

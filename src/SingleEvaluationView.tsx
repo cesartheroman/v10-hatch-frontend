@@ -1,7 +1,9 @@
 import { Card, Heading, Paragraph, Separator, Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from '@twilio-paste/core'
 import axios from 'axios';
 import * as React from 'react'
+import { useParams } from 'react-router-dom';
 import { useUID } from 'react-uid';
+import { stringify } from 'ts-jest';
 import QAView from './Components/QAView';
 
 /**
@@ -33,34 +35,33 @@ type EvaluationSchema = {
 }
 
 const SingleEvaluationView = () => {
-    const selectedId = useUID();
-    const baseURL: string = 'http://localhost:3000/evaluations/4'
-    const [evaluationTodisplay, setEvaluationTodisplay] = React.useState<EvaluationSchema>({
-        id: 4,
-        title: "October evaluation",
+    const baseURL: string = 'http://localhost:3000/evaluations/'
+    const [evaluationTodisplay, setEvaluationToDisplay] = React.useState<EvaluationSchema>({
+        id: 69,
+        title: "PLACEHOLDER TITLE",
         creation: "06/27/2022",
-        finalized: "",
+        finalized: "06/28/2022",
         status: "completed",
         questions: [""],
-        apprentice: { id: 4, name: "Barack Obama" },
-        manager: { id: 2, name: "Jiminy Cricket" },
+        apprentice: { id: 4, name: "PLACEHOLDER APPRENTICE" },
+        manager: { id: 2, name: "PLACEHOLDER MANAGER" },
         reviews: [
             {
                 id: 1,
                 status: "closed",
-                reviewer: { id: 3, name: "Ruthie" },
+                reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
                 QA: [
                     {
-                        question: "What are the strenghts of the apprentice?",
-                        answer: "answer 1"
+                        question: "PLACEHOLDER QUESTION 1?",
+                        answer: "PLACEHOLDER ANSWER 1"
                     },
                     {
-                        question: "What are the areas of growth for the apprentice?",
-                        answer: "answer 2"
+                        question: "PLACEHOLDER QUESTION 2?",
+                        answer: "PLACEHOLDER ANSWER 2"
                     },
                     {
-                        question: "What are the core values of the apprentice?",
-                        answer: "answer3"
+                        question: "PLACEHOLDER QUESTION 3?",
+                        answer: "PLACEHOLDER ANSWER 3"
                     }
                 ]
             }
@@ -79,24 +80,38 @@ const SingleEvaluationView = () => {
         email: "ruthie@elias.com"
     }
 
-    React.useEffect(() => {
-        axios.get<EvaluationSchema>(baseURL).then((response) =>
-            setEvaluationTodisplay(response.data)
-           
-        )
-    }, [])
-    React.useEffect(() => {
 
-        setApprenticeReview(evaluationTodisplay.reviews.filter((review) => (
-            review.reviewer.id === evaluationTodisplay.apprentice.id  
-        )));
-        setManagerReview(evaluationTodisplay.reviews.filter((review) => (
-            review.reviewer.id === evaluationTodisplay.manager.id
-        )));
-        setReviewerReview(evaluationTodisplay.reviews.filter((review) => (
-            review.reviewer.id !== evaluationTodisplay.manager.id && review.reviewer.id !== evaluationTodisplay.apprentice.id
-        )));
-    }, [evaluationTodisplay])
+
+    let params = useParams();
+    let evaluationID = params.id;
+    React.useEffect(() => {
+        axios.get<EvaluationSchema>(baseURL + evaluationID).then((response) => {
+            setEvaluationToDisplay(response.data);
+            setApprenticeReview(response.data.reviews.filter((review) => (
+                review.reviewer.id === evaluationTodisplay.apprentice.id  
+            )));
+            setManagerReview(response.data.reviews.filter((review) => (
+                review.reviewer.id === evaluationTodisplay.manager.id
+            )));
+            setReviewerReview(response.data.reviews.filter((review) => (
+                review.reviewer.id !== evaluationTodisplay.manager.id && review.reviewer.id !== evaluationTodisplay.apprentice.id
+            )));
+        }
+        )
+    }, [evaluationID]);
+    // }, [])
+    // React.useEffect(() => {
+
+    //     setApprenticeReview(evaluationTodisplay.reviews.filter((review) => (
+    //         review.reviewer.id === evaluationTodisplay.apprentice.id  
+    //     )));
+    //     setManagerReview(evaluationTodisplay.reviews.filter((review) => (
+    //         review.reviewer.id === evaluationTodisplay.manager.id
+    //     )));
+    //     setReviewerReview(evaluationTodisplay.reviews.filter((review) => (
+    //         review.reviewer.id !== evaluationTodisplay.manager.id && review.reviewer.id !== evaluationTodisplay.apprentice.id
+    //     )));
+    // }, [evaluationTodisplay])
 
 
 
@@ -111,9 +126,9 @@ const SingleEvaluationView = () => {
             {/* // Hatch Manager View: */}
             {user.roleID === 3 &&
                 <div id='singleEval'>
-                    <Tabs orientation="vertical" selectedId={selectedId} baseId="vertical-tabs-example" >
+                    <Tabs orientation="vertical" selectedId={evaluationID} baseId="vertical-tabs-example" >
                         <TabList aria-label="Vertical product tabs">
-                            <Tab id={selectedId}>Apprentice</Tab>
+                            <Tab id={evaluationID}>Apprentice</Tab>
                             <Tab>Manager</Tab>
                             <Tab>Reviewer</Tab>
                         </TabList>
@@ -180,11 +195,11 @@ const SingleEvaluationView = () => {
             {/* Reviewer View: */}
             {user.roleID === 1 &&
                 <div id='singleEval'>
-                    <Tabs orientation="vertical" selectedId={selectedId} baseId="vertical-tabs-example" >
+                    <Tabs orientation="vertical" selectedId={evaluationID} baseId="vertical-tabs-example" >
                         <TabList aria-label="Vertical product tabs">
                             <Tab disabled>Apprentice</Tab>
                             <Tab disabled>Manager</Tab>
-                            <Tab id={selectedId}>Reviewer</Tab>
+                            <Tab id={evaluationID}>Reviewer</Tab>
                         </TabList>
                         <TabPanels>
                             <TabPanel>
@@ -247,9 +262,9 @@ const SingleEvaluationView = () => {
             {/* Apprentice View: */}
             {user.roleID === 2 &&
                 <div id='singleEval'>
-                    <Tabs orientation="vertical" selectedId={selectedId} baseId="vertical-tabs-example" >
+                    <Tabs orientation="vertical" selectedId={evaluationID} baseId="vertical-tabs-example" >
                         <TabList aria-label="Vertical product tabs">
-                            <Tab id={selectedId}>Apprentice</Tab>
+                            <Tab id={evaluationID}>Apprentice</Tab>
                             <Tab disabled>Manager</Tab>
                             <Tab disabled>Reviewer</Tab>
                         </TabList>

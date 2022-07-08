@@ -12,28 +12,17 @@ import { Theme } from "@twilio-paste/core/dist/theme";
 let documentBody: RenderResult;
 let container: any;
 
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
 
 
   test("rendered Dashboard component has Evaluations", async () => {
-    act(() => {render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>);});
+    await act(async () => {render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>, container);});
     const results = await screen.findAllByLabelText(/Evaluations/)
     expect(!results).toBeFalsy();
   });
 
   test("rendered Dashboard component has Titles", async () => {
-    act(() => {render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>);});
-    const results = await screen.findAllByLabelText(/Title of Eval/)
-   
-    expect(!results).toBeFalsy()
+    await act(async () => {render(<Theme.Provider theme="default"><Dashboard /></Theme.Provider>, container);});
+    expect(await screen.findByTestId("test-title")).toHaveTextContent("Evaluation Title");
   });
 
 

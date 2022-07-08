@@ -11,23 +11,24 @@ import NewReview from "./NewReview";
 import Dashboard from "./Dashboard";
 import Questions from "./Questions";
 import SingleEvaluationView from "./SingleEvaluationView";
+import EvaluationDetails from "./EvaluationDetails";
 
 const App = () => {
   return (
     <Theme.Provider theme="default">
       <div id="content-wrap">
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/registration" element={<Registration />} />
-            <Route path="/newreview" element={<NewReview />} />
-            <Route path="/evaluation" element={<SingleEvaluationView />} />
-            <Route path="/questions" element={<Questions />} />
-          </Routes>
-        </Router>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/newreview" element={<NewReview />} />
+          <Route path="/evaluation/:id" element={<EvaluationDetails />}/>
+          <Route path="/questions" element={<Questions />} />
+        </Routes>
+      </Router>
       </div>
       <Footer />
     </Theme.Provider>
