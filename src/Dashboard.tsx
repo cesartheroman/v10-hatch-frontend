@@ -64,7 +64,7 @@ const Dashboard = () => {
       title: "PLACEHOLDER",
       creation: 10 - 22 - 2022,
       finalized: 10 - 23 - 2022,
-      status: "PLACEHOLDER",
+      is_completed: false,
       questions: [],
       apprentice: { id: 420, name: "PLACEHOLDER" },
       manager: { id: 69, name: "PLACEHOLDER" },
@@ -80,7 +80,7 @@ const Dashboard = () => {
       title: "PLACEHOLDER",
       creation: 10 - 22 - 2022,
       finalized: 10 - 23 - 2022,
-      status: "PLACEHOLDER",
+      is_completed: false,
       questions: [],
       apprentice: { id: 420, name: "PLACEHOLDER" },
       manager: { id: 69, name: "PLACEHOLDER" },
@@ -201,10 +201,8 @@ const Dashboard = () => {
    */
 
   function Status(evaluation: any) {
-    if (evaluation.status === "open") {
+    if (!evaluation.is_completed) {
       return <Box id="openBox">Open</Box>;
-    } else if (evaluation.status === "in progress") {
-      return <Box id="inProgressBox">In Progress</Box>;
     } else {
       return <Box id="completedBox">Completed</Box>;
     }

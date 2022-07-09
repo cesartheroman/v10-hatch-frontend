@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   Heading,
   Paragraph,
@@ -31,14 +32,24 @@ type UpdateReviewAnswer = {
   id: number;
   status: string;
   reviewer: { id: number; name: string };
-  QA: { question: string; answer: string }[];
+  QA: {
+    QAID: number,
+    question: {
+      id: number;
+      text: string;
+    };
+    answer: {
+      id: number;
+      text: string;
+    };
+  }[];
 };
 type EvaluationSchema = {
   id: number;
   title: string;
   creation: string;
   finalized: string;
-  status: string;
+  is_completed: boolean;
   questions: string[];
   apprentice: { id: number; name: string };
   manager: { id: number; name: string };
@@ -52,7 +63,7 @@ const EvaluationDetails = () => {
     title: "PLACEHOLDER TITLE",
     creation: "06/27/2022",
     finalized: "06/28/2022",
-    status: "completed",
+    is_completed: false,
     questions: [""],
     apprentice: { id: 4, name: "PLACEHOLDER APPRENTICE" },
     manager: { id: 2, name: "PLACEHOLDER MANAGER" },
@@ -62,17 +73,15 @@ const EvaluationDetails = () => {
         status: "closed",
         reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
         QA: [
-          {
-            question: "PLACEHOLDER QUESTION 1?",
-            answer: "PLACEHOLDER ANSWER 1",
-          },
-          {
-            question: "PLACEHOLDER QUESTION 2?",
-            answer: "PLACEHOLDER ANSWER 2",
-          },
-          {
-            question: "PLACEHOLDER QUESTION 3?",
-            answer: "PLACEHOLDER ANSWER 3",
+          { QAID: 42069,
+            question: {
+              id: 555,
+              text: "PLACEHOLDER QUESTION 1?",
+            },
+            answer: {
+              id: 666,
+              text: "PLACEHOLDER ANSWER 1",
+            },
           },
         ],
       },
@@ -110,16 +119,33 @@ const EvaluationDetails = () => {
     return tabArray;
   }
 
+  function DisplayReviews(review: any, id: number) {
+    if (review.reviewer.id === id) {
+      return (review.QA.map((obj: any) => {
+        <Box key={obj.QAID}>
+          <Heading as="h4" variant="heading60">
+            {obj.question.text}
+          </Heading>
+          <Paragraph>{obj.answer.text}</Paragraph>
+          {obj.answer.text}
+        </Box>
+      }))
+    } else {
+      return <></>;
+    }
+  }
+
   return (
     <div id="evaluation">
-        <div id="evaluationHeader">
-      <Heading as="h2" variant="heading20">
-        {evaluation.title}
-      </Heading>
-      <Heading as="h3" variant="heading50">
-        Evaluation For {evaluation.apprentice.name}  -  Created {evaluation.creation}
+      <div id="evaluationHeader">
+        <Heading as="h2" variant="heading20">
+          {evaluation.title}
         </Heading>
-        </div>
+        <Heading as="h3" variant="heading50">
+          Evaluation For {evaluation.apprentice.name} - Created{" "}
+          {evaluation.creation}
+        </Heading>
+      </div>
       <Tabs
         orientation="vertical"
         selectedId={tabSelectedID}
@@ -150,15 +176,13 @@ const EvaluationDetails = () => {
         <TabPanels>
           <TabPanel>
             <Heading as="h3" variant="heading30">
-              Apprentice Review: {evaluation.apprentice.name} Self-Evaluation
+              Review: {evaluation.apprentice.name} Self-Evaluation
             </Heading>
             <Stack orientation="vertical" spacing="space60">
               {evaluation.reviews.map((review) => {
-                if (review.reviewer.id === evaluation.apprentice.id) {
-                  return <Card> Review will go here for Apprentice! </Card>;
-                } else {
-                  return <></>;
-                }
+                <div key={review.id}>
+                 {DisplayReviews(review, evaluation.apprentice.id)}
+                </div>
               })}
             </Stack>
           </TabPanel>

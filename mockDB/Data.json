@@ -49,8 +49,8 @@
       "title": "August 2022 Eval",
       "creation": "08/22/2022",
       "finalized": "08/26/2022",
-      "status": "completed",
-      "questions": [],
+      "is_completed": true,
+      "questions": [1,2,3],
       "apprentice": {
         "id": 1,
         "name": "Ruthie Clark"
@@ -61,32 +61,153 @@
       },
       "reviews": [
         {
-          "id": 2,
+          "id": 204464,
           "reviewer": {
             "id": 7,
             "name": "Lilluthe d'Zymmer"
-          }
+          },
+          "status": "closed",
+          "QA": [
+            {
+              "question": {
+                "id": 1,
+                "text": "What are the strengths of the apprentice?"
+              },
+              "answer": {
+                "id": 1,
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+            }},
+            {
+              "question": {
+                "id": 2,
+                "text": "What are the areas of growth for the apprentice?"
+              },
+              "answer": {
+                "id":2,
+                "text": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+            }},
+            {
+              "question": {
+                "id": 3,
+                "text": "What are the core values of the apprentice?"
+              },
+              "answer": {
+                "id": 3,
+                "text": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+            }}
+          ]
         },
         {
-          "id": 500,
+          "id": 500436346,
           "reviewer": {
             "id": 6,
             "name": "Gregg G. Greggory"
-          }
+          },
+          "status": "closed",
+          "QA": [
+            {
+              "question": {
+                "id": 1,
+                "text": "What are the strengths of the apprentice?"
+              },
+              "answer": {
+                "id": 1,
+                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+            }},
+            {
+              "question": {
+                "id": 2,
+                "text": "What are the areas of growth for the apprentice?"
+              },
+              "answer": {
+                "id":2,
+                "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+            }},
+            {
+              "question": {
+                "id": 3,
+                "text": "What are the core values of the apprentice?"
+              },
+              "answer": {
+                "id": 3,
+                "answer": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+            }}
+          ]
+          
         },
         {
-          "id": 3,
+          "id": 3436346,
           "reviewer": {
             "id": 1,
             "name": "Ruthie Clark"
-          }
+          },
+          "status": "closed",
+          "QA": [
+            { "QAID": 2001,
+              "question": {
+                "id": 1,
+                "text": "What are the strengths of the apprentice?"
+              },
+              "answer": {
+                "id": 2,
+                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+            }},
+            {"QAID": 2002,
+              "question": {
+                "id": 3,
+                "text": "What are the areas of growth for the apprentice?"
+              },
+              "answer": {
+                "id":4,
+                "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+            }},
+            {"QAID": 2003,
+              "question": {
+                "id": 5,
+                "text": "What are the core values of the apprentice?"
+              },
+              "answer": {
+                "id": 6,
+                "answer": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+            }}
+          ]
         },
         {
-          "id": 4,
+          "id": 4436346,
           "reviewer": {
             "id": 2,
             "name": "Jiminy Cricket"
-          }
+          },
+          "status": "completed",
+          "QA": [
+            {
+              "question": {
+                "id": 1,
+                "text": "What are the strengths of the apprentice?"
+              },
+              "answer": {
+                "id": 1,
+                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+            }},
+            {
+              "question": {
+                "id": 2,
+                "text": "What are the areas of growth for the apprentice?"
+              },
+              "answer": {
+                "id":2,
+                "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+            }},
+            {
+              "question": {
+                "id": 3,
+                "text": "What are the core values of the apprentice?"
+              },
+              "answer": {
+                "id": 3,
+                "answer": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+            }}
+          ]
         }
       ]
     },
@@ -95,7 +216,7 @@
       "title": "Midsummer review 2022",
       "creation": "08/22/2022",
       "finalized": "08/26/2022",
-      "status": "open",
+      "is_completed": false,
       "questions": [],
       "apprentice": {
         "id": 4,
@@ -134,7 +255,7 @@
       "title": "July - First Review",
       "creation": "07/22/2022",
       "finalized": null,
-      "status": "in progress",
+      "is_completed": true,
       "questions": [],
       "apprentice": {
         "id": 1,
@@ -173,7 +294,7 @@
       "title": "Title Of A Review? ",
       "creation": "06/27/2022",
       "finalized": null,
-      "status": "completed",
+      "is_completed": true,
       "questions": [],
       "apprentice": {
         "id": 4,
@@ -212,7 +333,7 @@
       "title": "Evaluation - Paola",
       "creation": "06/27/2022",
       "finalized": "",
-      "status": "open",
+      "is_completed":true,
       "questions": [
         {
           "id": 1,
@@ -369,14 +490,74 @@
           "reviewer": {
             "id": 6,
             "name": "Gregg G. Greggory"
-          }
+          },
+          "status": "closed",
+          "QA": [
+            {
+              "question": {
+                "id": 1,
+                "question": "What are the strengths of the apprentice?"
+              },
+              "answer": {
+                "id": 1,
+                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+            }},
+            {
+              "question": {
+                "id": 2,
+                "question": "What are the areas of growth for the apprentice?"
+              },
+              "answer": {
+                "id":2,
+                "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+            }},
+            {
+              "question": {
+                "id": 3,
+                "question": "What are the core values of the apprentice?"
+              },
+              "answer": {
+                "id": 3,
+                "answer": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+            }}
+          ]
         },
         {
           "id": 369132,
           "reviewer": {
             "id": 4,
             "name": "Barack Obama"
-          }
+          },
+          "status": "open",
+          "QA": [
+            {
+              "question": {
+                "id": 1,
+                "question": "What are the strengths of the apprentice?"
+              },
+              "answer": {
+                "id": 1,
+                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+            }},
+            {
+              "question": {
+                "id": 2,
+                "question": "What are the areas of growth for the apprentice?"
+              },
+              "answer": {
+                "id":2,
+                "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+            }},
+            {
+              "question": {
+                "id": 3,
+                "question": "What are the core values of the apprentice?"
+              },
+              "answer": {
+                "id": 3,
+                "answer": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+            }}
+          ]
         },
         {
           "id": 446912,
@@ -398,17 +579,32 @@
       },
       "QA": [
         {
-          "question": "What are the strenghts of the apprentice?",
-          "answer": "answer 1"
-        },
+          "question": {
+            "id": 1,
+            "question": "What are the strengths of the apprentice?"
+          },
+          "answer": {
+            "id": 1,
+            "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+        }},
         {
-          "question": "What are the areas of growth for the apprentice?",
-          "answer": "answer 2"
-        },
+          "question": {
+            "id": 2,
+            "question": "What are the areas of growth for the apprentice?"
+          },
+          "answer": {
+            "id":2,
+            "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+        }},
         {
-          "question": "What are the core values of the apprentice?",
-          "answer": "answer3"
-        }
+          "question": {
+            "id": 3,
+            "question": "What are the core values of the apprentice?"
+          },
+          "answer": {
+            "id": 3,
+            "answer": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+        }}
       ]
     }
   ],
