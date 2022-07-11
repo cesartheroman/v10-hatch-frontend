@@ -122,7 +122,7 @@ const Dashboard = () => {
       }
     };
 
-    axios(config).then((response) => {
+    try { (axios(config).then((response) => {
       setEvaluations(
         response.data.filter((object: any) => {
           return (
@@ -145,7 +145,7 @@ const Dashboard = () => {
           );
         })
       );
-    });
+    }))} catch(error) {console.log(error)}
   }, []);
 
   /**
