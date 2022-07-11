@@ -150,15 +150,16 @@ input[type="checkbox"] {
 
 #evaluation {
   max-width: 1500px;
-  margin: 30px;
+  margin: 0px 20px 60px 20px;
   border: 4px dotted rgb(235, 86, 86);
   border-radius: 20px;
   padding: 30px;
 }
 
+
 #evaluationHeader{
   margin-bottom: 30px;
-  margin-left: 50px;
+  margin-left: 20px;
   
   /* padding: 50px; */
 }
@@ -166,4 +167,9 @@ input[type="checkbox"] {
   font-weight: 400;
   letter-spacing: 0.75px;
   color: rgb(150, 150, 150);
+}
+
+#QAcard {
+  max-width: 1000px;
+  border-radius: 20px;
 }

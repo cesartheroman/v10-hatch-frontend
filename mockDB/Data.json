@@ -71,11 +71,11 @@
             {
               "question": {
                 "id": 1,
-                "text": "What are the strengths of the apprentice?"
+                "text": "1111What are the strengths of the apprentice?"
               },
               "answer": {
                 "id": 1,
-                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+                "text": "1Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
             }},
             {
               "question": {
@@ -84,7 +84,7 @@
               },
               "answer": {
                 "id":2,
-                "text": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+                "text": "11111Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
             }},
             {
               "question": {
@@ -93,7 +93,16 @@
               },
               "answer": {
                 "id": 3,
-                "text": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+                "text": "1111Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+            }},
+            {
+              "question": {
+                "id": 9,
+                "text": "What are dfsdgsgsdg the core values of the apprentice?"
+              },
+              "answer": {
+                "id": 399,
+                "text": "fdhfdkjhdflkhjdklfhj dflkhjklhdf gdflacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
             }}
           ]
         },
@@ -112,7 +121,7 @@
               },
               "answer": {
                 "id": 1,
-                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+                "text": "44444Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
             }},
             {
               "question": {
@@ -121,7 +130,7 @@
               },
               "answer": {
                 "id":2,
-                "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+                "text": "4444Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
             }},
             {
               "question": {
@@ -130,7 +139,7 @@
               },
               "answer": {
                 "id": 3,
-                "answer": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+                "text": "444Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
             }}
           ]
           
@@ -143,32 +152,32 @@
           },
           "status": "closed",
           "QA": [
-            { "QAID": 2001,
+            { 
               "question": {
                 "id": 1,
                 "text": "What are the strengths of the apprentice?"
               },
               "answer": {
                 "id": 2,
-                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
             }},
-            {"QAID": 2002,
+            {
               "question": {
                 "id": 3,
                 "text": "What are the areas of growth for the apprentice?"
               },
               "answer": {
                 "id":4,
-                "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+                "text": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
             }},
-            {"QAID": 2003,
+            {
               "question": {
                 "id": 5,
                 "text": "What are the core values of the apprentice?"
               },
               "answer": {
                 "id": 6,
-                "answer": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+                "text": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
             }}
           ]
         },
@@ -187,7 +196,7 @@
               },
               "answer": {
                 "id": 1,
-                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
+                "text": "22222Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis imperdiet proin fermentum leo vel orci. Elit pellentesque habitant morbi tristique senectus et netus et. Congue eu consequat ac felis donec et odio pellentesque. Libero justo laoreet sit amet cursus sit. Enim diam vulputate ut pharetra sit amet aliquam. In ante metus dictum at tempor. Suspendisse sed nisi lacus sed viverra tellus in. "
             }},
             {
               "question": {
@@ -196,7 +205,7 @@
               },
               "answer": {
                 "id":2,
-                "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
+                "text": "22222Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
             }},
             {
               "question": {
@@ -205,7 +214,7 @@
               },
               "answer": {
                 "id": 3,
-                "answer": "Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
+                "text": "2222Ut porttitor leo a diam sollicitudin tempor. Vel risus commodo viverra maecenas accumsan lacus vel. Lectus arcu bibendum at varius. Nunc id cursus metus aliquam eleifend. Id volutpat lacus laoreet non curabitur gravida arcu ac tortor. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Volutpat lacus laoreet non curabitur. Arcu cursus euismod quis viverra. Etiam sit amet nisl purus in mollis nunc sed id. Dictum non consectetur a erat nam at lectus urna."
             }}
           ]
         }
