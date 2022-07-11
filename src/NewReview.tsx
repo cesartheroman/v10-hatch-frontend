@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Card, Button, Box, Label, Input } from "@twilio-paste/core";
+import { Card, Button, Box, Label, Input, Toaster, useToaster } from "@twilio-paste/core";
+import { useNavigate } from "react-router-dom";
 /**
  * Component for fulfilling a review.
  * We receive the review throug the endpoint: /api/v1/evaluations/:id/reviews/:id
@@ -30,7 +31,9 @@ type EvaluationSchema = {
 };
 
 const NewReview = () => {
-  const baseURL: string = `http://localhost:3000/evaluations/8`;
+  const baseURL: string = `http://localhost:3000/reviews/3`;
+  const navigate = useNavigate();
+  const toaster = useToaster();
   const [reviewAnswers, setReviewAnswers] = useState<UpdateReviewAnswer>({
     reviewId: 1,
     status: "TEST",
@@ -96,10 +99,10 @@ const NewReview = () => {
      * get single evaluation
      */
     axios.get(baseURL).then((response) => {
-      setSingleEvaluation(response.data);
-      let responseReviews = response.data.reviews[1];
-      setReviewAnswers(responseReviews);
-      //console.log(response.data)
+      // setSingleEvaluation(response.data);
+      // let responseReviews = response.data.reviews[1];
+      setReviewAnswers(response.data);
+      console.log(response.data)
     });
   }, []);
 
@@ -125,9 +128,19 @@ const NewReview = () => {
       reviewer: reviewAnswers.reviewer,
       QA: reviewAnswers.QA,
     };
-    axios.put(baseURL, data).then((response) => {
-      console.log("response from submit:", response);
-    });
+    axios
+      .patch(baseURL, data)
+      .then((response) => {
+     // console.log("response from submit:", response);
+      if (response.status === 200) {
+        toaster.push({
+          message: "Review submitted succesfully",
+          variant: "success",
+        });
+      }
+    })
+    .catch(err => console.log(err))
+    //.finally(() => navigate('/'))
   };
   const closeReview = (e: React.MouseEvent<HTMLButtonElement>) => {
     /**
@@ -140,10 +153,19 @@ const NewReview = () => {
       reviewer: reviewAnswers.reviewer,
       QA: reviewAnswers.QA,
     };
-    axios.put(baseURL + 1, data).then((response) => {
-      console.log("response from closeReview:", response);
-      
-    });
+    axios
+      .patch(baseURL + 1, data)
+      .then((response) => {
+        console.log("response from submit:", response);
+        if (response.status === 200) {
+          toaster.push({
+            message: "Review finalized succesfully",
+            variant: "success",
+          });
+        }
+      })
+      .catch(err => console.log(err))
+      .finally(() => navigate('/'));
   };
 
   const updateAnswById = (answer: string, id: number) => {
@@ -172,6 +194,7 @@ const NewReview = () => {
   return (
     <>
       <div style={{ maxWidth: 600, padding: 10, margin: 10 }}>
+      <Toaster {...toaster} />
         <Card style={{ margin: "10px" }}>
           <div>
             <form onSubmit={handleSubmit} data-testid="newreview-form">
