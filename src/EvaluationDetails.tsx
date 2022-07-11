@@ -163,7 +163,7 @@ const EvaluationDetails = () => {
   
 
   React.useEffect(() => {
-    axios.get<any>(baseURL + params.id).then((response) => {
+    try {axios.get<any>(baseURL + params.id).then((response) => {
       console.log(response.data);
       console.log(params.id);
       setEvaluation(response.data);
@@ -181,7 +181,7 @@ const EvaluationDetails = () => {
         response.data.reviews.filter((review:any) => (review.reviewer.id != response.data.manager.id && review.reviewer.id != response.data.apprentice.id))
       )
     })
-    
+  } catch(error) {console.log(error)}
   }, []);
 
   const tabSelectedID = useUID();
