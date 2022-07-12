@@ -11,8 +11,8 @@ import NewReview from "./NewReview";
 import Dashboard from "./Dashboard";
 import Questions from "./Questions";
 import SingleEvaluationView from "./SingleEvaluationView";
+import UserMaintenance from "./Components/UserMaintenance";
 import EvaluationDetails from "./EvaluationDetails";
-
 
 const App = () => {
   return (
@@ -28,6 +28,7 @@ const App = () => {
           <Route path="/newreview" element={<NewReview />} />
           <Route path="/evaluation/:id" element={<EvaluationDetails />}/>
           <Route path="/questions" element={<Questions />} />
+          <Route path="/userMaintenance" element={<UserMaintenance />} />
         </Routes>
       </Router>
       </div>

@@ -210,20 +210,19 @@ const Dashboard = () => {
     }
   }
 
-  function DisplayRole(roleID: number): string{
+  function DisplayRole(roleID: number): string {
     if (roleID === 1) {
-      return "Apprentice"
-    } else if (roleID ===2){
-      return "Reviewer"
-    } else if (roleID === 3){
-      return "Manager"
+      return "Apprentice";
+    } else if (roleID === 2) {
+      return "Reviewer";
+    } else if (roleID === 3) {
+      return "Manager";
     } else {
-      return "New God"
+      return "New God";
     }
   }
 
   return (
-   
     <div id="dashboard">
       <div id="filterContainer">
         <Box id="greetingBox">
@@ -231,7 +230,7 @@ const Dashboard = () => {
           <br /> <br />
           Your id number is: <b>{currentUser.id}</b>
           <br /> and your role is: <b>{DisplayRole(currentUser.role)}</b>.
-          <br /> 
+          <br />
         </Box>
         <Box>
           <Label htmlFor="filterAppMan">Filter by Apprentice/Manager: </Label>
@@ -337,9 +336,7 @@ const Dashboard = () => {
           ))}
         </DataGridBody>
       </DataGrid>
-      
     </div>
-    
   );
 };
 export default Dashboard;
