@@ -16,7 +16,14 @@ import { Heading } from "@twilio-paste/core";
 const UserMaintainance = () => {
   const BASE_URL: string = "http://localhost:3000/users";
   const HEADER_DATA: string[] = ["Name", "Role", "Email", "Update"];
-  const [users, setUsers] = useState([{}]);
+  const [users, setUsers] = useState<User[]>([]);
+
+  interface User {
+    id: number;
+    email: string;
+    name: string;
+    roleID: number;
+  }
 
   const getUsers = async () => {
     try {
@@ -47,17 +54,15 @@ const UserMaintainance = () => {
           </DataGridRow>
         </DataGridHead>
         <DataGridBody>
-          {users.length <= 1 ? (
-            <DataGridRow>
-              <DataGridCell>{"text"}</DataGridCell>
-            </DataGridRow>
-          ) : (
-            users.map((user, idx) => {
-              <DataGridRow key={idx}>
-                <DataGridCell>{user}</DataGridCell>
-              </DataGridRow>;
-            })
-          )}
+          {users.map((user: User) => {
+            return (
+              <DataGridRow key={user.id}>
+                <DataGridCell>{user.name}</DataGridCell>
+                <DataGridCell>{user.roleID}</DataGridCell>
+                <DataGridCell>{user.email}</DataGridCell>
+              </DataGridRow>
+            );
+          })}
         </DataGridBody>
       </DataGrid>
     </div>
