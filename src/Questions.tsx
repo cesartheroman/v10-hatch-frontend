@@ -104,8 +104,9 @@ const Questions = () => {
         }
       })
       .catch((err) => console.log(err))
-      .finally(() => {});
-    getQuestions();
+      .finally(() => {
+        getQuestions();
+      });
   };
 
   /**

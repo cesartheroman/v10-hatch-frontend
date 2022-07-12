@@ -51,6 +51,7 @@ const QuestionCreation = (props: QuestionCreationProps) => {
             aria-describedby="message_help_text"
             id="message"
             name="message"
+            placeholder="Enter question here"
             required
           />
           <HelpText id="message_help_text">Click done to submit</HelpText>
