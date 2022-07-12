@@ -266,7 +266,7 @@ const EvaluationDetails = () => {
         <TabList aria-label="review-tabs">
           <ApprenticeTab />
           <ManagerTab />
-          <ReviewerTabs />
+          {/* <ReviewerTabs /> */}
         </TabList>
 
         <TabPanels>

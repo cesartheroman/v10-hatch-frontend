@@ -55,7 +55,7 @@ const Dashboard = () => {
     role: 4,
   };
 
-  const baseURL: string = "http://localhost:9876/api/v1/";
+  const baseURL: string = "http://localhost:3000/";
   const [isDesc, setIsDesc] = useState(true);
   const [filter, setFilter] = useState("");
   const [savedEvaluations, setSavedEvaluations] = useState([
@@ -117,8 +117,9 @@ const Dashboard = () => {
       method: 'get',
       url: 'http://localhost:3000/evaluations/',
     //  url: 'https://cors-anywhere.herokuapp.com/' + 'ngrok token',
+    // url: "http://localhost:9876/v1/api/evaluations/",
       headers: { 
-        'Authorization': 'Bearer {TOKEN HERE}'
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsInJvbGUiOiJIQVRDSF9NQU5BR0VSIiwidXNlciI6IkFETUlOX0VNQUlMQHR3aWxpby5jb20iLCJ1c2VySUQiOiIxMCIsImlhdCI6MTY1NzYzOTQ0OCwiZXhwIjoxNjU3NjQxMjQ4LCJqdGkiOiJGckphWDFyRHJTem5ZSjVSWk9MRnRRIn0.ZOM4vTwq3OCzYXXYz0N6NRjmOLXw3mphjsBkc5hRsAE'
       }
     };
 
