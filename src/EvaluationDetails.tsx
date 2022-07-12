@@ -19,7 +19,7 @@ import { useParams } from "react-router-dom";
 import { useUID } from "react-uid";
 import { stringify } from "ts-jest";
 import QAView from "./Components/QAView";
-import  params  from "./App";
+import params from "./App";
 
 /**
  * Component that returns an evaluation's reviews.
@@ -89,46 +89,40 @@ const EvaluationDetails = () => {
       },
     ],
   });
-  const [apprenticeReview, setApprenticeReview] = useState(
-    
+  const [apprenticeReview, setApprenticeReview] = useState({
+    id: 1,
+    status: "closed",
+    reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
+    QA: [
       {
-        id: 1,
-        status: "closed",
-        reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
-        QA: [
-          {
-            question: {
-              id: 555,
-              text: "PLACEHOLDER QUESTION 1?",
-            },
-            answer: {
-              id: 666,
-              text: "PLACEHOLDER ANSWER 1",
-            },
-          },
-        ],
-      },
-    
-  );
-  const [managerReview, setManagerReview] = useState(
-    {
-      id: 1,
-      status: "closed",
-      reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
-      QA: [
-        {
-          question: {
-            id: 555,
-            text: "PLACEHOLDER QUESTION 1?",
-          },
-          answer: {
-            id: 666,
-            text: "PLACEHOLDER ANSWER 1",
-          },
+        question: {
+          id: 555,
+          text: "PLACEHOLDER QUESTION 1?",
         },
-      ],
-    },
-  );
+        answer: {
+          id: 666,
+          text: "PLACEHOLDER ANSWER 1",
+        },
+      },
+    ],
+  });
+  const [managerReview, setManagerReview] = useState({
+    id: 1,
+    status: "closed",
+    reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
+    QA: [
+      {
+        question: {
+          id: 555,
+          text: "PLACEHOLDER QUESTION 1?",
+        },
+        answer: {
+          id: 666,
+          text: "PLACEHOLDER ANSWER 1",
+        },
+      },
+    ],
+  });
   const [reviewerReviews, setReviewerReviews] = useState([
     {
       id: 1,
@@ -158,32 +152,98 @@ const EvaluationDetails = () => {
     email: "ruthie@elias.com",
   };
 
-
-  let  params  = useParams();
-  
+  let params = useParams();
 
   React.useEffect(() => {
-   axios.get<any>(baseURL + params.id).then((response) => {
-      console.log(response.data);
-      console.log(params.id);
-      setEvaluation(response.data);
-      setApprenticeReview(
-        response.data.reviews.find(
-          (review: any) => (review.reviewer.id === response.data.apprentice.id)
-        )
-      );
-      setManagerReview(
-        response.data.reviews.find(
-          (review: any) => (review.reviewer.id === response.data.manager.id)
-        )
-      );
-      setReviewerReviews(
-        response.data.reviews.filter((review:any) => (review.reviewer.id != response.data.manager.id && review.reviewer.id != response.data.apprentice.id))
-      )
-    }).catch((error) => {
-      console.log("Error: " + error);
-    })
+    axios
+      .get<any>(baseURL + params.id)
+      .then((response) => {
+        console.log(response.data);
+        console.log(params.id);
+        setEvaluation(response.data);
+        setApprenticeReview(
+          response.data.reviews.find(
+            (review: any) => review.reviewer.id === response.data.apprentice.id
+          )
+        );
+        setManagerReview(
+          response.data.reviews.find(
+            (review: any) => review.reviewer.id === response.data.manager.id
+          )
+        );
+        setReviewerReviews(
+          response.data.reviews.filter(
+            (review: any) =>
+              review.reviewer.id != response.data.manager.id &&
+              review.reviewer.id != response.data.apprentice.id
+          )
+        );
+      })
+      .catch((error) => {
+        console.log("Error: " + error);
+      });
   }, []);
+
+  const [ApprenticeTabIsVisible, setApprenticeTabIsVisible] = useState(true);
+  const [ManagerTabIsVisible, setManagerTabIsVisible] = useState(true);
+
+  function ApprenticeTab() {
+    if (
+      evaluation.apprentice.id === user.id ||
+      apprenticeReview.status === "finalized"
+    ) {
+      setApprenticeTabIsVisible(true);
+      return (
+        <Tab id={tabSelectedID}>Apprentice: {evaluation.apprentice.name} </Tab>
+      );
+    } else {
+      setApprenticeTabIsVisible(false);
+      return <Tab disabled>Apprentice: {evaluation.apprentice.name}</Tab>;
+    }
+  }
+
+  function ManagerTab() {
+    if (
+      (evaluation.manager.id === user.id ||
+        managerReview.status === "finalized") &&
+      !ApprenticeTabIsVisible
+    ) {
+      return <Tab id={tabSelectedID}>Manager: {evaluation.manager.name} </Tab>;
+    } else if (
+      evaluation.manager.id === user.id ||
+      managerReview.status === "finalized"
+    ) {
+      return <Tab>Manager: {evaluation.manager.name} </Tab>;
+    } else {
+      return <Tab disabled>Manager: {evaluation.manager.name} </Tab>;
+    }
+  }
+
+  function ReviewerTabs() {
+    evaluation.reviews.map((review) => {
+      if (
+        review.reviewer.id === evaluation.apprentice.id ||
+        review.reviewer.id === evaluation.manager.id
+      ) {
+        return <></>;
+      } else if (
+        review.status !== "finalized" &&
+        review.reviewer.id !== user.id
+      ) {
+        return (
+          <Tab key={review.id} disabled>
+            Reviewer: {review.reviewer.name}
+          </Tab>
+        );
+      } else if (!ApprenticeTabIsVisible && !ManagerTabIsVisible) {
+       return( <Tab id={tabSelectedID} key={review.id}>
+          Reviewer: {review.reviewer.name}
+        </Tab>)
+      } else {
+        return <Tab key={review.id}>Reviewer: {review.reviewer.name}</Tab>;
+      }
+    });
+  }
 
   const tabSelectedID = useUID();
 
@@ -204,27 +264,10 @@ const EvaluationDetails = () => {
         baseId="evaluation-reviews"
       >
         <TabList aria-label="review-tabs">
-          {/* TODO: logic for disabling tabs according to user's role */}
-          <Tab id={tabSelectedID}>
-            Apprentice: {evaluation.apprentice.name}{" "}
-          </Tab>
-          <Tab>Manager: {evaluation.manager.name} </Tab>
-          {evaluation.reviews.map((review) => {
-            if (
-              review.reviewer.id === evaluation.apprentice.id ||
-              review.reviewer.id === evaluation.manager.id
-            ) {
-              return <></>;
-            } else {
-              return (
-                <Tab key={review.id}>
-                  Reviewer: {review.reviewer.name}
-                </Tab>
-              );
-            }
-          })}
+          <ApprenticeTab />
+          <ManagerTab />
+          <ReviewerTabs />
         </TabList>
-
 
         <TabPanels>
           <TabPanel>
@@ -234,49 +277,49 @@ const EvaluationDetails = () => {
             <Stack orientation="vertical" spacing="space60">
               {apprenticeReview.QA.map((obj, index) => (
                 <Card key={index} id="QAcard">
-                <Heading as="h4" variant="heading50"><em>{obj.question.text}</em></Heading>
-                <Paragraph>{obj.answer.text}</Paragraph>
+                  <Heading as="h4" variant="heading50">
+                    <em>{obj.question.text}</em>
+                  </Heading>
+                  <Paragraph>{obj.answer.text}</Paragraph>
                 </Card>
-              ))} 
-              
+              ))}
             </Stack>
           </TabPanel>
-
-
 
           <TabPanel>
             <Heading as="h3" variant="heading30">
               Manager Reviewer: {evaluation.manager.name}
             </Heading>
             <Stack orientation="vertical" spacing="space60">
-            {managerReview.QA.map((obj, index) => (
+              {managerReview.QA.map((obj, index) => (
                 <Card key={index} id="QAcard">
-                <Heading as="h4" variant="heading50"><em>{obj.question.text}</em></Heading>
-                <Paragraph>{obj.answer.text}</Paragraph>
+                  <Heading as="h4" variant="heading50">
+                    <em>{obj.question.text}</em>
+                  </Heading>
+                  <Paragraph>{obj.answer.text}</Paragraph>
                 </Card>
-              ))} 
+              ))}
             </Stack>
           </TabPanel>
-
 
           {reviewerReviews.map((review) => (
             <TabPanel key={review.id}>
-            <Heading as="h3" variant="heading30">
-              Reviewer: {review.reviewer.name}
-            </Heading>
-            <Stack orientation="vertical" spacing="space60">
-            {review.QA.map((obj, index) => (
-                <Card key={index} id="QAcard">
-                <Heading as="h4" variant="heading50"><em>{obj.question.text}</em></Heading>
-                <Paragraph>{obj.answer.text}</Paragraph>
-                </Card>
-              ))} 
-            </Stack>
-          </TabPanel>
-
-            ))}
+              <Heading as="h3" variant="heading30">
+                Reviewer: {review.reviewer.name}
+              </Heading>
+              <Stack orientation="vertical" spacing="space60">
+                {review.QA.map((obj, index) => (
+                  <Card key={index} id="QAcard">
+                    <Heading as="h4" variant="heading50">
+                      <em>{obj.question.text}</em>
+                    </Heading>
+                    <Paragraph>{obj.answer.text}</Paragraph>
+                  </Card>
+                ))}
+              </Stack>
+            </TabPanel>
+          ))}
         </TabPanels>
-     
       </Tabs>
     </div>
   );
