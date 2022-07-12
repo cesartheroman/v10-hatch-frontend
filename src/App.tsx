@@ -11,28 +11,28 @@ import NewReview from "./NewReview";
 import Dashboard from "./Dashboard";
 import Questions from "./Questions";
 import SingleEvaluationView from "./SingleEvaluationView";
-import UserMaintenance from "./Components/UserMaintenance";
+import UserMaintenanceView from "./Components/UserMaintenanceView";
 import EvaluationDetails from "./EvaluationDetails";
 
 const App = () => {
   return (
     <Theme.Provider theme="default">
       <div id="content-wrap">
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route path="/newreview" element={<NewReview />} />
-          <Route path="/evaluation/:id" element={<EvaluationDetails />}/>
-          <Route path="/questions" element={<Questions />} />
-          <Route path="/userMaintenance" element={<UserMaintenance />} />
-        </Routes>
-      </Router>
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/newreview" element={<NewReview />} />
+            <Route path="/evaluation/:id" element={<EvaluationDetails />} />
+            <Route path="/questions" element={<Questions />} />
+            <Route path="/UserMaintenance" element={<UserMaintenanceView />} />
+          </Routes>
+          <Footer />
+        </Router>
       </div>
-      <Footer />
     </Theme.Provider>
   );
 };

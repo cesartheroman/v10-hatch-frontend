@@ -148,11 +148,6 @@ input[type="checkbox"] {
   padding: 10px;
 }
 
-#userHeading {
-  display: flex;
-  justify-content: center;
-}
-
 #evaluation {
   max-width: 1500px;
   margin: 0px 20px 60px 20px;
@@ -177,3 +172,14 @@ input[type="checkbox"] {
   max-width: 1000px;
   border-radius: 20px;
 }
+
+/* Styling for UserManintenance  component  */
+#userHeading {
+  display: flex;
+  justify-content: center;
+}
+
+.usersTable {
+  margin: 1em;
+}
+

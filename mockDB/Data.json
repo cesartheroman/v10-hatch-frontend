@@ -3,44 +3,114 @@
     {
       "id": 1,
       "name": "Ruthie Clark",
+      "email": "ruthie@elias.com",
       "roleID": 1,
-      "email": "ruthie@elias.com"
+      "evaluationIDs": []
     },
     {
       "id": 2,
       "name": "Jiminy Cricket",
+      "email": "jcricket@twilio.com",
       "roleID": 3,
-      "email": "jcricket@twilio.com"
+      "evaluationIDs": []
     },
     {
       "id": 3,
       "name": "Lil Nas X",
+      "email": "lilnasx@twilio.com",
       "roleID": 2,
-      "email": "lilnasx@twilio.com"
+      "evaluationIDs": []
     },
     {
+      "id": 4,
       "name": "Barack Obama",
       "email": "bobama@twilio.com",
       "roleID": 1,
-      "id": 4
+      "evaluationIDs": []
     },
     {
+      "id": 5,
       "name": "Marilyn Monroe",
       "email": "mmonroe@twilio.com",
       "roleID": 4,
-      "id": 5
+      "evaluationIDs": []
     },
     {
+      "id": 6,
       "name": "Gregg G. Greggory",
       "email": "greg@twilio.com",
       "roleID": 3,
-      "id": 6
+      "evaluationIDs": []
     },
     {
+      "id": 7,
       "name": "Lilluthe d'Zymmer",
       "email": "ldzymmer@twilio.com",
       "roleID": 2,
-      "id": 7
+      "evaluationIDs": []
+    },
+    {
+      "id": 10,
+      "name": "Cesar Roman",
+      "email": "cesar@test.com",
+      "roleID": 2,
+      "evaluationIDs": []
+    },
+    {
+      "id": 11,
+      "name": "Ryder Wendt",
+      "email": "Ryder@test.com",
+      "roleID": 1,
+      "evaluationIDs": [11]
+    },
+    {
+      "id": 12,
+      "name": "Andrew Luck",
+      "email": "aluck@colts.com",
+      "roleID": 1,
+      "evaluationIDs": [10]
+    },
+    {
+      "id": 13,
+      "name": "Tommy Pickles",
+      "email": "TP@test.com",
+      "roleID": 1,
+      "evaluationIDs": [12]
+    },
+    {
+      "id": 14,
+      "name": "Danny Phantom",
+      "email": "DP@test.com",
+      "roleID": 1,
+      "evaluationIDs": [12]
+    },
+    {
+      "id": 15,
+      "name": "Invader Zim",
+      "email": "IZ@test.com",
+      "roleID": 1,
+      "evaluationIDs": [11]
+    },
+    {
+      "id": 18,
+      "name": "Peyton Manning",
+      "email": "pmanning@colts.com",
+      "roleID": 3,
+      "evaluationIDs": [10]
+    },
+    {
+      "id": 21,
+      "name": "Michael Scott",
+      "roleID": 3,
+      "email": "mscott@dundermifflin.com",
+      "evaluationIDs": [11]
+    },
+    {
+      "id": 22,
+      "name": "Jim Halpert",
+      "roleID": 3,
+      "email": "jhalpert@dundermifflin.com",
+      "evaluationIDs": [12]
     }
   ],
   "evaluations": [
@@ -646,36 +716,127 @@
   "apprentices": [
     {
       "id": 1,
-      "Name": "Ryder Wendt",
-      "EvaluationsID": "1",
+      "name": "Ruthie Clark",
+      "email": "ruthie@elias.com",
       "roleID": 1,
-      "Email": "Ryder@test.com",
-      "Password": "Shhhhh"
-    },
-    {
-      "id": 2,
-      "Name": "Invader Zim",
-      "EvaluationsID": "2",
-      "roleID": 1,
-      "Email": "IZ@test.com",
-      "Password": "Shhhhh"
-    },
-    {
-      "id": 3,
-      "Name": "Tommy Pickles",
-      "EvaluationsID": "3",
-      "roleID": 1,
-      "Email": "TP@test.com",
-      "Password": "Shhhhh"
+      "evaluationIDs": []
     },
     {
       "id": 4,
-      "Name": "Danny Phantom",
-      "EvaluationsID": "4",
+      "name": "Barack Obama",
+      "email": "bobama@twilio.com",
       "roleID": 1,
-      "Email": "DP@test.com",
+      "evaluationIDs": []
+    },
+    {
+      "id": 11,
+      "name": "Ryder Wendt",
+      "email": "Ryder@test.com",
+      "roleID": 1,
+      "evaluationsIDs": [11],
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 12,
+      "name": "Andrew Luck",
+      "email": "aluck@colts.com",
+      "roleID": 1,
+      "evaluationsIDs": [],
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 13,
+      "name": "Tommy Pickles",
+      "email": "TP@test.com",
+      "roleID": 1,
+      "evaluationsIDs": [12],
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 14,
+      "name": "Danny Phantom",
+      "email": "DP@test.com",
+      "roleID": 1,
+      "evaluationsIDs": [12],
+      "Password": "Shhhhh"
+    },
+    {
+      "id": 15,
+      "name": "Invader Zim",
+      "email": "IZ@test.com",
+      "roleID": 1,
+      "evaluationsIDs": [11],
       "Password": "Shhhhh"
     }
+  ],
+  "managers": [
+  {
+    "id": 2,
+    "name": "Jiminy Cricket",
+    "roleID": 3,
+    "email": "jcricket@twilio.com",
+    "apprentices": []
+  },
+  {
+    "id": 6,
+    "name": "Gregg G. Greggory",
+    "roleID": 3,
+    "email": "greg@twilio.com",
+    "apprentices": []
+  },
+  {
+    "id": 18,
+    "name": "Peyton Manning",
+    "roleID": 3,
+    "email": "pmanning@colts.com",
+    "evaluationIDs": [
+      10
+    ],
+    "apprentices": [
+      {
+        "id": 12,
+        "Name": "Andrew Luck"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Michael Scott",
+    "roleID": 3,
+    "email": "mscott@dundermifflin.com",
+    "evaluationIDs": [
+      11
+    ],
+    "apprentices": [
+      {
+        "id": 11,
+        "Name": "Ryder Wendt"
+      },
+      {
+        "id": 15,
+        "Name": "Invader Zim"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Jim Halpert",
+    "roleID": 3,
+    "email": "jhalpert@dundermifflin.com",
+    "evaluationIDs": [
+      12
+    ],
+    "apprentices": [
+      {
+        "id": 14,
+        "Name": "Danny Phantom"
+      },
+      {
+        "id": 13,
+        "Name": "Tommy Pickles"
+      }
+    ]
+  }
   ],
   "apprenticeByManagerID": [
     {
