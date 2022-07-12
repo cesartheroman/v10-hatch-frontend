@@ -1,8 +1,12 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Card, Input, Box, Label, Button, HelpText } from "@twilio-paste/core";
 import axios from "axios";
 import {
+  Card,
+  Input,
+  Box,
+  Label,
+  Button,
   useComboboxPrimitive,
   useMultiSelectPrimitive,
   useFormPillState,
@@ -16,7 +20,7 @@ import {
   Grid,
   Column,
 } from "@twilio-paste/core";
-import { useUID, useUIDSeed } from "react-uid";
+import { useUIDSeed } from "react-uid";
 
 /**
  * This is the Evaluation Creation view for the EM and HM Roles
@@ -81,8 +85,15 @@ const CreateEvaluation = () => {
   const inputId = seed("input-element");
   const baseURL: string = "http://localhost:3000/";
   // TODO: Get Meta data as props
-  let role = 4;
-  let userID = 2;
+
+  /**
+   * Mock meta data from login
+   */
+  const currentUser = {
+    id: 2,
+    name: "Jiminy Cricket",
+    role: 4,
+  };
 
   /**
    * handleChecked - Handles checkbox state in question selection
@@ -116,9 +127,12 @@ const CreateEvaluation = () => {
 
   const getQuestions = () => {
     // TODO: Connect to backend /api/v1/questions
-    axios.get(baseURL + "questions").then((res) => {
-      setQuestions(res.data);
-    });
+    axios
+      .get(baseURL + "questions")
+      .then((res) => {
+        setQuestions(res.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   /**
@@ -128,12 +142,15 @@ const CreateEvaluation = () => {
 
   const getReviewers = () => {
     // TODO: /api/v1/users/
-    axios.get(baseURL + "users").then((res) => {
-      let currentReviewers = res.data.filter(
-        (user: any) => user.roleID !== "1"
-      );
-      setFilteredItems(currentReviewers);
-    });
+    axios
+      .get(baseURL + "users")
+      .then((res) => {
+        let currentReviewers = res.data.filter(
+          (user: any) => user.roleID !== "1"
+        );
+        setFilteredItems(currentReviewers);
+      })
+      .catch((err) => console.log(err));
   };
 
   /**
@@ -143,20 +160,24 @@ const CreateEvaluation = () => {
    */
 
   const getApprentices = () => {
-    if (role === 4) {
-      // TODO: /api/v1/users/apprentices/
+    try {
+      if (currentUser.role === 4) {
+        // TODO: /api/v1/users/apprentices/
 
-      axios.get(baseURL + "apprentices").then((res) => {
-        setApprentices(res.data);
-        setSelectedApprentice(res.data[0].id);
-      });
-    } else {
-      // TODO: GET apprentice assigned api/v1/users/managers/id/apprentices
-      //       grab id from meta data
-      axios.get(baseURL + "apprenticeByManagerID").then((res) => {
-        setApprentices(res.data);
-        setSelectedApprentice(res.data[0].id);
-      });
+        axios.get(baseURL + "apprentices").then((res) => {
+          setApprentices(res.data);
+          setSelectedApprentice(res.data[0].id);
+        });
+      } else {
+        // TODO: GET apprentice assigned api/v1/users/managers/id/apprentices
+        //       grab id from meta data
+        axios.get(baseURL + "apprenticeByManagerID").then((res) => {
+          setApprentices(res.data);
+          setSelectedApprentice(res.data[0].id);
+        });
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -178,10 +199,10 @@ const CreateEvaluation = () => {
 
     let data = {
       title,
-      apprenticeId: selectedApprentice,
-      managerId: "manager id",
-      reviewerIds: reviewData,
-      questionIds: selectedQuestions,
+      apprenticeID: selectedApprentice,
+      managerID: "manager id",
+      reviewerIDs: reviewData,
+      questionIDs: selectedQuestions,
     };
     console.log(data);
     axios.post(baseURL + "questions" + 1, data).then((res) => {
