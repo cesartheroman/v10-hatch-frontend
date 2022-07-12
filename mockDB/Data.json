@@ -574,7 +574,11 @@
                 "question": "What are the areas of growth for the apprentice?"
               },
               "answer": {
+<<<<<<< HEAD
                 "id": 25555,
+=======
+                "id": 2,
+>>>>>>> 2bc3af8 (working on api requests)
                 "answer": "Feugiat nibh sed pulvinar proin. Habitant morbi tristique senectus et netus et malesuada fames. Lobortis feugiat vivamus at augue eget. Purus sit amet volutpat consequat mauris. Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Placerat in egestas erat imperdiet sed euismod nisi porta. Ac ut consequat semper viverra nam libero justo. Porttitor massa id neque aliquam vestibulum morbi. Sollicitudin aliquam ultrices sagittis orci. "
               }
             },

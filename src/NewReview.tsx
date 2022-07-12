@@ -93,6 +93,8 @@ const NewReview = () => {
    * If managerAction is true the button to close the review is displayed
    */
   const [managerAction, setManagerAction] = useState(false);
+  const [disable, setDisable] = useState(false);
+
 
   React.useEffect(() => {
     /**
@@ -131,16 +133,16 @@ const NewReview = () => {
     axios
       .patch(baseURL, data)
       .then((response) => {
-     // console.log("response from submit:", response);
-      if (response.status === 200) {
-        toaster.push({
-          message: "Review submitted succesfully",
-          variant: "success",
-        });
-      }
-    })
-    .catch(err => console.log(err))
-    //.finally(() => navigate('/'))
+        // console.log("response from submit:", response);
+        if (response.status === 200) {
+          toaster.push({
+            message: "Review submitted succesfully",
+            variant: "success",
+          });
+        }
+      })
+      .catch(err => console.log(err))
+    .finally(() => setDisable(true))
   };
   const closeReview = (e: React.MouseEvent<HTMLButtonElement>) => {
     /**
@@ -154,7 +156,7 @@ const NewReview = () => {
       QA: reviewAnswers.QA,
     };
     axios
-      .patch(baseURL + 1, data)
+      .patch(baseURL, data)
       .then((response) => {
         console.log("response from submit:", response);
         if (response.status === 200) {
@@ -194,7 +196,7 @@ const NewReview = () => {
   return (
     <>
       <div style={{ maxWidth: 600, padding: 10, margin: 10 }}>
-      <Toaster {...toaster} />
+        <Toaster {...toaster} />
         <Card style={{ margin: "10px" }}>
           <div>
             <form onSubmit={handleSubmit} data-testid="newreview-form">
@@ -240,9 +242,11 @@ const NewReview = () => {
                   required
                 />
               </Box>
-              <Button type="submit" variant="primary">
-                Submit
-              </Button>
+         
+                <Button type="submit" variant="primary" disabled={disable}>
+                  Submit
+                </Button>
+            
               {managerAction && (
                 <Button type="submit" variant="primary" onClick={closeReview}>
                   Close Review
