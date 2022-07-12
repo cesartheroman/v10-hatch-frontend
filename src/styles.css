@@ -139,6 +139,8 @@ input[type="checkbox"] {
   font-weight: 600;
 }
 
+/* Styling for Evaluation Details component  */
+
 #singleEval {
   margin: 20px;
   border: 1px solid black;
@@ -149,4 +151,28 @@ input[type="checkbox"] {
 #userHeading {
   display: flex;
   justify-content: center;
+  
+#evaluation {
+  max-width: 1500px;
+  margin: 0px 20px 60px 20px;
+  border: 4px dotted rgb(235, 86, 86);
+  border-radius: 20px;
+  padding: 30px;
+}
+
+#evaluationHeader{
+  margin-bottom: 30px;
+  margin-left: 20px;
+  
+  /* padding: 50px; */
+}
+#evaluationHeader > h3 {
+  font-weight: 400;
+  letter-spacing: 0.75px;
+  color: rgb(150, 150, 150);
+}
+
+#QAcard {
+  max-width: 1000px;
+  border-radius: 20px;
 }

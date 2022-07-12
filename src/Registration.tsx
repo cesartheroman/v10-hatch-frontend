@@ -17,7 +17,7 @@ import axios from "axios";
 const Registration = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [role, setRole] = useState<string>("reviewer");
+  const [role, setRole] = useState("1");
   const [name, setName] = useState<string>("");
 
   const baseURL: string = "http://localhost:3000/users";
@@ -28,9 +28,12 @@ const Registration = () => {
   };
 
   const postUser = () => {
-    axios.post(baseURL, { name, email, password, role }).then((response) => {
-      console.log("Response Data: ", response.data);
-    });
+    axios
+      .post(baseURL, { name, password, email, roleID: Number(role) })
+      .then((response) => {
+        console.log("Response Data: ", response.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -91,20 +94,16 @@ const Registration = () => {
                 legend="Choose role"
                 helpText="User role determines what access rights your account will be provided"
                 value={role}
-                onChange={(newValue) => {
+                onChange={(newValue: any) => {
                   setRole(newValue);
                 }}
               >
-                <Radio
-                  id={"reviewer"}
-                  value="reviewer"
-                  name="controlled-radio-group"
-                >
+                <Radio id={"reviewer"} value="2" name="controlled-radio-group">
                   reviewer
                 </Radio>
                 <Radio
                   id={"apprentice"}
-                  value="apprentice"
+                  value="1"
                   name="controlled-radio-group"
                 >
                   apprentice

@@ -41,6 +41,9 @@ const Header = () => {
         <Anchor href="/CreateEvaluation" variant="inverse" id="headerLink">
           Create Evaluation
         </Anchor>
+        <Anchor href="/Questions" variant="inverse" id="headerLink">
+          Questions
+        </Anchor>
         <Anchor href="/login" variant="inverse" id="headerLink">
           Login
         </Anchor>

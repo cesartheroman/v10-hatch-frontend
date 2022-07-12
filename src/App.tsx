@@ -5,29 +5,32 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import { Theme } from "@twilio-paste/core/theme";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useParams } from "react-router";
 import CreateEvaluation from "./CreateEvaluation";
 import NewReview from "./NewReview";
 import Dashboard from "./Dashboard";
+import Questions from "./Questions";
 import SingleEvaluationView from "./SingleEvaluationView";
 import UserMaintenance from "./Components/UserMaintenance";
+import EvaluationDetails from "./EvaluationDetails";
 
 const App = () => {
   return (
     <Theme.Provider theme="default">
       <div id="content-wrap">
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/userMaintenance" element={<UserMaintenance />} />
-            <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/registration" element={<Registration />} />
-            <Route path="/newreview" element={<NewReview />} />
-            <Route path="/evaluation" element={<SingleEvaluationView />} />
-          </Routes>
-        </Router>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/CreateEvaluation" element={<CreateEvaluation />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/newreview" element={<NewReview />} />
+          <Route path="/evaluation/:id" element={<EvaluationDetails />}/>
+          <Route path="/questions" element={<Questions />} />
+          <Route path="/userMaintenance" element={<UserMaintenance />} />
+        </Routes>
+      </Router>
       </div>
       <Footer />
     </Theme.Provider>
