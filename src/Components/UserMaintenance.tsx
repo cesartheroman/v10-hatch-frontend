@@ -36,6 +36,10 @@ const UserMaintainance = () => {
     }
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(e.target);
+  };
+
   useEffect(() => {
     getUsers();
   }, []);
@@ -61,7 +65,9 @@ const UserMaintainance = () => {
                 <DataGridCell>{USER_ROLES[user.roleID - 1]}</DataGridCell>
                 <DataGridCell>{user.email}</DataGridCell>
                 <DataGridCell>
-                  <Button variant="primary">Update</Button>
+                  <Button variant="primary" onClick={(e) => handleClick(e)}>
+                    Update
+                  </Button>
                 </DataGridCell>
               </DataGridRow>
             );
