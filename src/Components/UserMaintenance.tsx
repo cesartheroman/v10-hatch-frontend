@@ -2,6 +2,8 @@ import * as React from "react";
 import axios from "axios";
 import "../styles.css";
 import { useEffect, useState } from "react";
+import { Button } from "@twilio-paste/core/button";
+import { Heading } from "@twilio-paste/core";
 import {
   DataGrid,
   DataGridHead,
@@ -9,13 +11,12 @@ import {
   DataGridHeader,
   DataGridBody,
   DataGridCell,
-  DataGridFoot,
 } from "@twilio-paste/core/data-grid";
-import { Heading } from "@twilio-paste/core";
 
 const UserMaintainance = () => {
   const BASE_URL: string = "http://localhost:3000/users";
   const HEADER_DATA: string[] = ["Name", "Role", "Email", "Update"];
+  const USER_ROLES: string[] = ["Apprentice", "Reviewer", "Manager", "ADMIN"];
   const [users, setUsers] = useState<User[]>([]);
 
   interface User {
@@ -39,7 +40,6 @@ const UserMaintainance = () => {
     getUsers();
   }, []);
 
-  console.log("these are users: ", users);
   return (
     <div>
       <Heading as="h1" variant="heading10" id="userHeading">
@@ -58,8 +58,11 @@ const UserMaintainance = () => {
             return (
               <DataGridRow key={user.id}>
                 <DataGridCell>{user.name}</DataGridCell>
-                <DataGridCell>{user.roleID}</DataGridCell>
+                <DataGridCell>{USER_ROLES[user.roleID - 1]}</DataGridCell>
                 <DataGridCell>{user.email}</DataGridCell>
+                <DataGridCell>
+                  <Button variant="primary">Update</Button>
+                </DataGridCell>
               </DataGridRow>
             );
           })}
