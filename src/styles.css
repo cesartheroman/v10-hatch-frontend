@@ -151,7 +151,8 @@ input[type="checkbox"] {
 #userHeading {
   display: flex;
   justify-content: center;
-  
+}
+
 #evaluation {
   max-width: 1500px;
   margin: 0px 20px 60px 20px;
