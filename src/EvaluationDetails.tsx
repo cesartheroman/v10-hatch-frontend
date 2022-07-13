@@ -13,6 +13,7 @@ import {
 } from "@twilio-paste/core";
 import axios from "axios";
 import { any } from "cypress/types/bluebird";
+import { WarningIcon } from "@twilio-paste/icons/esm/WarningIcon";
 import * as React from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -21,45 +22,13 @@ import { stringify } from "ts-jest";
 import QAView from "./Components/QAView";
 import params from "./App";
 
-/**
- * Component that returns an evaluation's reviews.
- * Display conditionally set by role
- *
- * @component
- * @typedef UpdateReviewAnswer
- * @typedef EvaluationSchema
- *
- */
-
-// type ReviewSchema = {
-//   id: number;
-//   status: string;
-//   reviewer: { id: number; name: string };
-//   QA: {
-//     question: {
-//       id: number;
-//       text: string;
-//     };
-//     answer: {
-//       id: number;
-//       text: string;
-//     };
-//   }[];
-// };
-// type EvaluationSchema = {
-//   id: number;
-//   title: string;
-//   creation: string;
-//   finalized: string;
-//   is_completed: boolean;
-//   questions: string[];
-//   apprentice: { id: number; name: string };
-//   manager: { id: number; name: string };
-//   reviews: ReviewSchema[];
-// };
-
 const EvaluationDetails = () => {
   const baseURL: string = "http://localhost:3000/evaluations/";
+
+  /////////////////////////////
+  // The below useState instances contain placeholder data. Ideally this would be switched out for some sort of Loading mechanic
+  // at a later date.
+
   const [evaluation, setEvaluation] = useState({
     id: 69,
     title: "PLACEHOLDER TITLE",
@@ -144,7 +113,8 @@ const EvaluationDetails = () => {
   ]);
 
   //////////////////////
-  //This is a mock user, this info will be available with the token of the logged in user
+  //This is a mock user, this info will be available with the token of the logged in user.
+
   const user = {
     id: 2,
     name: "Jiminy Cricket",
@@ -152,14 +122,16 @@ const EvaluationDetails = () => {
     email: "ruthie@elias.com",
   };
 
+  /////////////////
+  // The below param variable gets the parameter for the axios call from the url, and then is used in the get from the /evaluations/:id
+  // endpoint. It also filters and sets the reviews for the Apprentice, the Manager, and the remaining Reviewers at that time.
+
   let params = useParams();
 
   React.useEffect(() => {
     axios
       .get<any>(baseURL + params.id)
       .then((response) => {
-        console.log(response.data);
-        console.log(params.id);
         setEvaluation(response.data);
         setApprenticeReview(
           response.data.reviews.find(
@@ -184,71 +156,154 @@ const EvaluationDetails = () => {
       });
   }, []);
 
-  const [ApprenticeTabIsVisible, setApprenticeTabIsVisible] = useState(true);
-  const [ManagerTabIsVisible, setManagerTabIsVisible] = useState(true);
+  //////////////////
+  // The following two functions display if the review needs to be marked finalized by a manager .
+
+  function ReviewFinalizeCheckTab(status: string) {
+    if (status === "submitted" && user.roleID === 3) {
+      return (
+        <span className="attention">
+          <WarningIcon
+            decorative={true}
+            color="colorTextIconBrandHighlight"
+            title="Finalization Needed"
+            alt="Review Needs Manager Approval!"
+            size="sizeIcon70"
+          />
+          <Heading as="h5" variant="heading50">
+            {" "}
+            MANAGER APPROVAL NEEDED
+          </Heading>
+        </span>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
+  function ReviewFinalizeCheckHeader(status: string) {
+    if (status === "submitted" && user.roleID === 3) {
+      return (
+        <>
+          <span className="attention">
+            <WarningIcon
+              decorative={true}
+              color="colorTextIconBrandHighlight"
+              title="Finalization Needed"
+              alt="Review Needs Manager Approval!"
+              size="sizeIcon70"
+            />
+            <Heading as="h5" variant="heading30">
+              {" "}
+              MANAGER APPROVAL NEEDED
+            </Heading>
+          </span>
+          <span className="attention">
+            <i>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Please review the following
+              submitted review.
+            </i>
+          </span>
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
+/////////////////////
+// The following three functions use if/else logic to display which version of the Tab appears for the Apprentice, the Manager,
+// and then any remaining Reviews after that. They also contain the ReviewFinalizedCheckTab function, and display the appropriate
+// message depending on the status of their particular review. 
 
   function ApprenticeTab() {
     if (
       evaluation.apprentice.id === user.id ||
+      user.roleID === 3 ||
       apprenticeReview.status === "finalized"
     ) {
-      setApprenticeTabIsVisible(true);
       return (
-        <Tab id={tabSelectedID}>Apprentice: {evaluation.apprentice.name} </Tab>
+        <Tab id={tabSelectedID}>
+          Apprentice: {evaluation.apprentice.name}{" "}
+          {ReviewFinalizeCheckTab(apprenticeReview.status)}
+        </Tab>
       );
     } else {
-      setApprenticeTabIsVisible(false);
-      return <Tab disabled>Apprentice: {evaluation.apprentice.name}</Tab>;
+      return (
+        <Tab disabled>
+          Apprentice: {evaluation.apprentice.name}{" "}
+          {ReviewFinalizeCheckTab(apprenticeReview.status)}
+        </Tab>
+      );
     }
   }
 
   function ManagerTab() {
     if (
-      (evaluation.manager.id === user.id ||
-        managerReview.status === "finalized") &&
-      !ApprenticeTabIsVisible
-    ) {
-      return <Tab id={tabSelectedID}>Manager: {evaluation.manager.name} </Tab>;
-    } else if (
       evaluation.manager.id === user.id ||
       managerReview.status === "finalized"
     ) {
-      return <Tab>Manager: {evaluation.manager.name} </Tab>;
+      return (
+        <Tab>
+          Manager: {evaluation.manager.name}{" "}
+          {ReviewFinalizeCheckTab(managerReview.status)}{" "}
+        </Tab>
+      );
     } else {
-      return <Tab disabled>Manager: {evaluation.manager.name} </Tab>;
+      return (
+        <Tab disabled>
+          Manager: {evaluation.manager.name}{" "}
+          {ReviewFinalizeCheckTab(managerReview.status)}{" "}
+        </Tab>
+      );
     }
   }
 
   function ReviewerTabs() {
-    evaluation.reviews.map((review) => {
+    const tabs = reviewerReviews.map((review) => {
       if (
         review.reviewer.id === evaluation.apprentice.id ||
         review.reviewer.id === evaluation.manager.id
       ) {
         return <></>;
       } else if (
-        review.status !== "finalized" &&
-        review.reviewer.id !== user.id
+        review.status != "finalized" &&
+        review.reviewer.id != user.id &&
+        user.id != evaluation.manager.id
       ) {
         return (
           <Tab key={review.id} disabled>
-            Reviewer: {review.reviewer.name}
+            Reviewer: {review.reviewer.name}{" "}
+            {ReviewFinalizeCheckTab(review.status)}
           </Tab>
         );
-      } else if (!ApprenticeTabIsVisible && !ManagerTabIsVisible) {
-       return( <Tab id={tabSelectedID} key={review.id}>
-          Reviewer: {review.reviewer.name}
-        </Tab>)
       } else {
-        return <Tab key={review.id}>Reviewer: {review.reviewer.name}</Tab>;
+        return (
+          <Tab key={review.id}>
+            Reviewer: {review.reviewer.name}{" "}
+            {ReviewFinalizeCheckTab(review.status)}{" "}
+          </Tab>
+        );
       }
     });
+    return tabs;
   }
 
   const tabSelectedID = useUID();
 
+  // ====================================================================================================
+
+  // ====================================================================================================
+  // 
+  // ====================================================================================================
+
   return (
     <div id="evaluation">
+      
+      {/* 
+HEADING FOR EVAL
+ */}
+
       <div id="evaluationHeader">
         <Heading as="h2" variant="heading20">
           {evaluation.title}
@@ -258,21 +313,31 @@ const EvaluationDetails = () => {
           {evaluation.creation}
         </Heading>
       </div>
+
+      {/* 
+TABS
+ */}
+
       <Tabs
         orientation="vertical"
         selectedId={tabSelectedID}
         baseId="evaluation-reviews"
       >
         <TabList aria-label="review-tabs">
-          <ApprenticeTab />
-          <ManagerTab />
-          {/* <ReviewerTabs /> */}
+          {ApprenticeTab()}
+          {ManagerTab()}
+          {ReviewerTabs()}
         </TabList>
+
+        {/* 
+TAB PANELS 
+ */}
 
         <TabPanels>
           <TabPanel>
             <Heading as="h3" variant="heading30">
-              Apprentice Review: {evaluation.apprentice.name}
+              {ReviewFinalizeCheckHeader(apprenticeReview.status)} Apprentice
+              Review: {evaluation.apprentice.name}
             </Heading>
             <Stack orientation="vertical" spacing="space60">
               {apprenticeReview.QA.map((obj, index) => (
@@ -288,7 +353,8 @@ const EvaluationDetails = () => {
 
           <TabPanel>
             <Heading as="h3" variant="heading30">
-              Manager Reviewer: {evaluation.manager.name}
+              {ReviewFinalizeCheckHeader(managerReview.status)} Manager
+              Reviewer: {evaluation.manager.name}
             </Heading>
             <Stack orientation="vertical" spacing="space60">
               {managerReview.QA.map((obj, index) => (
@@ -305,7 +371,8 @@ const EvaluationDetails = () => {
           {reviewerReviews.map((review) => (
             <TabPanel key={review.id}>
               <Heading as="h3" variant="heading30">
-                Reviewer: {review.reviewer.name}
+                {ReviewFinalizeCheckHeader(review.status)} Reviewer:{" "}
+                {review.reviewer.name}
               </Heading>
               <Stack orientation="vertical" spacing="space60">
                 {review.QA.map((obj, index) => (

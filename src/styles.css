@@ -151,6 +151,7 @@ input[type="checkbox"] {
 #userHeading {
   display: flex;
   justify-content: center;
+}
   
 #evaluation {
   max-width: 1500px;
@@ -175,4 +176,18 @@ input[type="checkbox"] {
 #QAcard {
   max-width: 1000px;
   border-radius: 20px;
+}
+
+.attention {
+  display: flex;
+  margin: 1px;
+  font-size: 15px;
+  color: rgb(235, 86, 86);
+}
+
+
+.attention > h5 {
+  margin: 1px 3px;
+  font-weight: 900;
+  color: rgb(235, 86, 86);
 }

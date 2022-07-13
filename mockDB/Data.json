@@ -70,7 +70,7 @@
             "id": 7,
             "name": "Lilluthe d'Zymmer"
           },
-          "status": "open",
+          "status": "submitted",
           "QA": [
             {
               "question": {
@@ -120,7 +120,7 @@
             "id": 6,
             "name": "Gregg G. Greggory"
           },
-          "status": "finalized",
+          "status": "in_progress",
           "QA": [
             {
               "question": {
@@ -160,7 +160,7 @@
             "id": 1,
             "name": "Ruthie Clark"
           },
-          "status": "egg",
+          "status": "finalized",
           "QA": [
             {
               "question": {
