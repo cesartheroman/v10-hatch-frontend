@@ -120,12 +120,13 @@ const EvaluationDetails = () => {
   //////////////////////
   //This is a mock user, this info will be available with the token of the logged in user.
 
-  const user = {
-    id: 2,
-    name: "Jiminy Cricket",
-    roleID: 3,
-    email: "ruthie@elias.com",
-  };
+  const [currentUser, setCurrentUser] = useState({
+    id: 666,
+    username: "email@email.com",
+    name: "Placeholder Placeholder", 
+    roleID: 4,
+    role: "ADMIN"
+  });
 
   /////////////////
   // The below param variable gets the parameter for the axios call from the url, and then is used in the get from the /evaluations/:id
@@ -134,8 +135,13 @@ const EvaluationDetails = () => {
   let params = useParams();
 
   React.useEffect(() => {
+    let storageuser: any = localStorage.getItem("user");
+    let userinfo = JSON.parse(storageuser);
+    let token: any = localStorage.getItem("token");
+
+    setCurrentUser(userinfo);
     axios
-      .get<any>(baseURL + params.id)
+      .get<any>(baseURL + params.id, { headers: {token}})
       .then((response) => {
         setEvaluation(response.data);
         setApprenticeReview(
@@ -165,7 +171,7 @@ const EvaluationDetails = () => {
   // The following two functions display if the review needs to be marked finalized by a manager .
 
   function ReviewFinalizeCheckTab(review: any) {
-    if (review.status === "submitted" && user.roleID === 3) {
+    if (review.status === "submitted" && currentUser.roleID === 3) {
       return (
         <WarningIcon
           decorative={true}
@@ -177,7 +183,7 @@ const EvaluationDetails = () => {
       );
     } else if (
       review.status === "in_progress" &&
-      (user.id === review.reviewer.id || user.roleID === 3)
+      (currentUser.id === review.reviewer.id || currentUser.roleID === 3)
     ) {
       return (
         <ProcessInProgressIcon
@@ -194,7 +200,7 @@ const EvaluationDetails = () => {
   }
 
   function ReviewFinalizeCheckHeader(review: any) {
-    if (review.status === "submitted" && user.roleID === 3) {
+    if (review.status === "submitted" && currentUser.roleID === 3) {
       return (
         <div id="alert">
           <Alert variant="warning">
@@ -207,7 +213,7 @@ const EvaluationDetails = () => {
           </Alert>
         </div>
       );
-    } else if (review.status === "in_progress" && user.id === review.reviewer.id) {
+    } else if (review.status === "in_progress" && currentUser.id === review.reviewer.id) {
       return (
         <div id="alert">
           <Alert variant="neutral">
@@ -232,8 +238,8 @@ const EvaluationDetails = () => {
 
   function ApprenticeTab() {
     if (
-      evaluation.apprentice.id === user.id ||
-      user.roleID === 3 ||
+      evaluation.apprentice.id === currentUser.id ||
+      currentUser.roleID === 3 ||
       apprenticeReview.status === "finalized"
     ) {
       return (
@@ -254,7 +260,7 @@ const EvaluationDetails = () => {
 
   function ManagerTab() {
     if (
-      evaluation.manager.id === user.id ||
+      evaluation.manager.id === currentUser.id ||
       managerReview.status === "finalized"
     ) {
       return (
@@ -282,8 +288,8 @@ const EvaluationDetails = () => {
         return <></>;
       } else if (
         review.status != "finalized" &&
-        review.reviewer.id != user.id &&
-        user.id != evaluation.manager.id
+        review.reviewer.id != currentUser.id &&
+        currentUser.id != evaluation.manager.id
       ) {
         return (
           <Tab key={review.id} disabled>
@@ -309,7 +315,7 @@ const EvaluationDetails = () => {
   function DisplayApprenticePanel() {
     if (
       apprenticeReview.status === "in_progress" &&
-      user.id != evaluation.apprentice.id
+      currentUser.id != evaluation.apprentice.id
     ) {
       return (
         <TabPanel>
@@ -352,7 +358,7 @@ const EvaluationDetails = () => {
   function DisplayManagerPanel() {
     if (
       managerReview.status === "in_progress" &&
-      user.id != evaluation.manager.id
+      currentUser.id != evaluation.manager.id
     ) {
       return (
         <TabPanel>
@@ -393,7 +399,7 @@ const EvaluationDetails = () => {
   }
 
   function DisplayReviewerPanel(review: any) {
-        if (review.status === "in_progress" && user.id != review.reviewer.id) {
+        if (review.status === "in_progress" && currentUser.id != review.reviewer.id) {
           return (
             <TabPanel key={review.id}>
               <Box id="reviewInProgress">
