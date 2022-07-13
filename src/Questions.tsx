@@ -12,6 +12,14 @@ import axios from "axios";
 import QuestionsDataGrid from "./QuestionsDataGrid";
 import QuestionCreation from "./QuestionCreation";
 
+/**
+ * Questions - A page for HM's to add questions that can be added to evaluations
+ * toaster - Paste component for adding toast notifications
+ * questions - array of current questions from the DB
+ * currentUser - user data saved to local storage when user logs in being saved
+ * token - auth token saved on login inside local storage
+ * @returns
+ */
 const Questions = () => {
   const toaster = useToaster();
   const [questions, setQuestions] = useState([{ id: 1, question: "loading" }]);
@@ -24,6 +32,10 @@ const Questions = () => {
 
   const [token, setToken] = useState("");
 
+  /**
+   * UseEffect - if id from userdata is = to place holder use effect fetches current credentials on page load
+   * calls all questions on page load
+   */
   useEffect(() => {
     if (currentUser.id === 666) {
       let storageuser: any = localStorage.getItem("user");
@@ -35,10 +47,6 @@ const Questions = () => {
     }
     getQuestions();
   }, [currentUser]);
-
-  const headers = {
-    "Content-Type": "application/json",
-  };
 
   /**
    * handleEditQuestion = When a user clicks the "edit button", the input from user is used to update the current

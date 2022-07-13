@@ -128,7 +128,6 @@ const CreateEvaluation = () => {
   /**
    * getQuestions = pulls questions from data base and sets to questions
    */
-
   const getQuestions = () => {
     var config = {
       method: "GET",
@@ -152,7 +151,6 @@ const CreateEvaluation = () => {
    * getReviewers - pulls most recent list of reviewers from database excluding reviewers
    * with the role of apprentice -> roleID = 1
    */
-
   const getReviewers = () => {
     var config = {
       method: "GET",
@@ -179,7 +177,6 @@ const CreateEvaluation = () => {
    * 4 = HM roleId, function will grab all apprentices to choose from
    * 3 = EM roleId, function will grab only apprentices assigned to EM
    */
-
   const getApprentices = () => {
     try {
       // TODO: Change based on user meta data
@@ -230,7 +227,6 @@ const CreateEvaluation = () => {
    *
    * @param {React.MouseEvent<HTMLButtonElement>} e = event
    */
-
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     let reviewData = Object.keys(selectedItems).map((key: any) => {
@@ -267,7 +263,6 @@ const CreateEvaluation = () => {
             variant: "success",
           });
         }
-        console.log("eval data", requestBody, "api response", response.data);
       })
       .catch(function (error) {
         console.log(error);

@@ -35,8 +35,6 @@ const Registration = () => {
       roleID: Number(role),
     });
 
-    console.log(requestBody);
-
     var config = {
       method: "POST",
       // TODO: Update later
@@ -47,9 +45,7 @@ const Registration = () => {
       data: requestBody,
     };
     axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
@@ -75,9 +71,7 @@ const Registration = () => {
                 onChange={(e) => setName(e.target.value)}
                 required
               />
-              <HelpText id="password_help_text">
-                Enter valid email address
-              </HelpText>
+              <br />
               <Label htmlFor="email_address" required>
                 Email address
               </Label>
@@ -91,9 +85,7 @@ const Registration = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <HelpText id="password_help_text">
-                Enter valid email address
-              </HelpText>
+              <br />
               <Label htmlFor="password" required>
                 Password
               </Label>
@@ -106,8 +98,7 @@ const Registration = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <HelpText id="email_help_text"></HelpText>
-
+              <br />
               <RadioGroup
                 name="controlled-radio-group"
                 legend="Choose role"
