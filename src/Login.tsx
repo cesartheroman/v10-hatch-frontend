@@ -34,7 +34,10 @@ export default function Login() {
         if (response.status === 200) {
           setLoggedIn(true);
           console.log(response.data);
-          localStorage.setItem("token", "Bearer " + response.data.token);
+          localStorage.setItem(
+            "token",
+            "Bearer " + response.data.token
+          );
           axios
             .get(baseURL + "auth/check-token", {
               headers: { Authorization: "Bearer " + response.data.token },
