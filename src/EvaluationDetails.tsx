@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Card,
   Heading,
@@ -6,6 +7,7 @@ import {
   Separator,
   Stack,
   Tab,
+  Text,
   TabList,
   TabPanel,
   TabPanels,
@@ -117,7 +119,7 @@ const EvaluationDetails = () => {
 
   const user = {
     id: 2,
-    name: "Jiminy Cricket",
+    name: "Ruthie Clark",
     roleID: 3,
     email: "ruthie@elias.com",
   };
@@ -159,22 +161,33 @@ const EvaluationDetails = () => {
   //////////////////
   // The following two functions display if the review needs to be marked finalized by a manager .
 
-  function ReviewFinalizeCheckTab(status: string) {
-    if (status === "submitted" && user.roleID === 3) {
+  function ReviewFinalizeCheckTab(review: any) {
+    if (review.status === "submitted" && user.roleID === 3) {
       return (
-        <span className="attention">
+      
           <WarningIcon
             decorative={true}
-            color="colorTextIconBrandHighlight"
+            color="colorTextIconWarning"
             title="Finalization Needed"
             alt="Review Needs Manager Approval!"
-            size="sizeIcon70"
+            size="sizeIcon30"
           />
-          <Heading as="h5" variant="heading50">
-            {" "}
-            MANAGER APPROVAL NEEDED
-          </Heading>
-        </span>
+        
+      );
+    } else if (
+      review.status === "in_progress" &&
+      (user.id === review.reviewer.id || user.roleID === 3)
+    ) {
+      return (
+      
+          <WarningIcon
+            decorative={true}
+            color="colorTextNeutral"
+            title="Finalization Needed"
+            alt="Review Needs Manager Approval!"
+            size="sizeIcon30"
+          />
+   
       );
     } else {
       return <></>;
@@ -184,37 +197,43 @@ const EvaluationDetails = () => {
   function ReviewFinalizeCheckHeader(status: string) {
     if (status === "submitted" && user.roleID === 3) {
       return (
-        <>
-          <span className="attention">
-            <WarningIcon
-              decorative={true}
-              color="colorTextIconBrandHighlight"
-              title="Finalization Needed"
-              alt="Review Needs Manager Approval!"
-              size="sizeIcon70"
-            />
-            <Heading as="h5" variant="heading30">
-              {" "}
-              MANAGER APPROVAL NEEDED
-            </Heading>
-          </span>
-          <span className="attention">
-            <i>
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Please review the following
-              submitted review.
-            </i>
-          </span>
-        </>
+        <div id="alert">
+        <Alert variant="warning">
+          <Text as="span">
+           <strong>Review requires manager approval. </strong>
+            Please approve the following review at your 
+            earliest convenience. Thank you! <br /> 
+            {/* TODO: link here to completing this evaluation !  */}
+          </Text>
+        </Alert>
+        </div>
       );
+    } else if (status === "in_progress") {
+      return (
+        <div id="alert">
+        <Alert variant="neutral">
+          <Text as="span">
+           <strong>Review requires completion. </strong>
+            Please complete the following review for {evaluation.apprentice.name} at your 
+            earliest convenience. Thank you! <br /> 
+            {/* TODO: link here to completing this evaluation !  */}
+          </Text>
+        </Alert>
+        </div>
+      );
+      
+      
+      
+      
     } else {
       return <></>;
     }
   }
 
-/////////////////////
-// The following three functions use if/else logic to display which version of the Tab appears for the Apprentice, the Manager,
-// and then any remaining Reviews after that. They also contain the ReviewFinalizedCheckTab function, and display the appropriate
-// message depending on the status of their particular review. 
+  /////////////////////
+  // The following three functions use if/else logic to display which version of the Tab appears for the Apprentice, the Manager,
+  // and then any remaining Reviews after that. They also contain the ReviewFinalizedCheckTab function, and display the appropriate
+  // message depending on the status of their particular review.
 
   function ApprenticeTab() {
     if (
@@ -224,15 +243,15 @@ const EvaluationDetails = () => {
     ) {
       return (
         <Tab id={tabSelectedID}>
-          Apprentice: {evaluation.apprentice.name}{" "}
-          {ReviewFinalizeCheckTab(apprenticeReview.status)}
+          {ReviewFinalizeCheckTab(apprenticeReview)} Apprentice: {evaluation.apprentice.name}{" "}
+          
         </Tab>
       );
     } else {
       return (
-        <Tab disabled>
-          Apprentice: {evaluation.apprentice.name}{" "}
-          {ReviewFinalizeCheckTab(apprenticeReview.status)}
+        <Tab id={tabSelectedID} disabled>
+          {ReviewFinalizeCheckTab(apprenticeReview)} Apprentice: {evaluation.apprentice.name}{" "}
+          
         </Tab>
       );
     }
@@ -245,15 +264,15 @@ const EvaluationDetails = () => {
     ) {
       return (
         <Tab>
-          Manager: {evaluation.manager.name}{" "}
-          {ReviewFinalizeCheckTab(managerReview.status)}{" "}
+          {ReviewFinalizeCheckTab(managerReview)} Manager: {evaluation.manager.name}{" "}
+          {" "}
         </Tab>
       );
     } else {
       return (
         <Tab disabled>
-          Manager: {evaluation.manager.name}{" "}
-          {ReviewFinalizeCheckTab(managerReview.status)}{" "}
+          {ReviewFinalizeCheckTab(managerReview)} Manager: {evaluation.manager.name}{" "}
+          
         </Tab>
       );
     }
@@ -273,15 +292,15 @@ const EvaluationDetails = () => {
       ) {
         return (
           <Tab key={review.id} disabled>
-            Reviewer: {review.reviewer.name}{" "}
-            {ReviewFinalizeCheckTab(review.status)}
+            <span>{ReviewFinalizeCheckTab(review)} Reviewer: {review.reviewer.name}{" "}</span>
+            
           </Tab>
         );
       } else {
         return (
           <Tab key={review.id}>
-            Reviewer: {review.reviewer.name}{" "}
-            {ReviewFinalizeCheckTab(review.status)}{" "}
+            <span> {ReviewFinalizeCheckTab(review)} Reviewer: {review.reviewer.name}{" "}</span>
+           
           </Tab>
         );
       }
@@ -294,12 +313,11 @@ const EvaluationDetails = () => {
   // ====================================================================================================
 
   // ====================================================================================================
-  // 
+  //
   // ====================================================================================================
 
   return (
     <div id="evaluation">
-      
       {/* 
 HEADING FOR EVAL
  */}
@@ -335,8 +353,9 @@ TAB PANELS
 
         <TabPanels>
           <TabPanel>
+          {ReviewFinalizeCheckHeader(apprenticeReview.status)} 
             <Heading as="h3" variant="heading30">
-              {ReviewFinalizeCheckHeader(apprenticeReview.status)} Apprentice
+              Apprentice
               Review: {evaluation.apprentice.name}
             </Heading>
             <Stack orientation="vertical" spacing="space60">
@@ -352,8 +371,9 @@ TAB PANELS
           </TabPanel>
 
           <TabPanel>
+          {ReviewFinalizeCheckHeader(managerReview.status)} 
             <Heading as="h3" variant="heading30">
-              {ReviewFinalizeCheckHeader(managerReview.status)} Manager
+              Manager
               Reviewer: {evaluation.manager.name}
             </Heading>
             <Stack orientation="vertical" spacing="space60">
@@ -370,8 +390,9 @@ TAB PANELS
 
           {reviewerReviews.map((review) => (
             <TabPanel key={review.id}>
+              {ReviewFinalizeCheckHeader(review.status)}
               <Heading as="h3" variant="heading30">
-                {ReviewFinalizeCheckHeader(review.status)} Reviewer:{" "}
+                 Reviewer:{" "}
                 {review.reviewer.name}
               </Heading>
               <Stack orientation="vertical" spacing="space60">

@@ -100,7 +100,7 @@ input[type="checkbox"] {
 #detailsLink {
   font-weight: 500;
   color: rgb(209, 0, 0);
-  text-decoration: underline;
+  text-decoration: none;
   display: flex;
   flex-direction: row;
 }
@@ -178,16 +178,7 @@ input[type="checkbox"] {
   border-radius: 20px;
 }
 
-.attention {
-  display: flex;
-  margin: 1px;
-  font-size: 15px;
-  color: rgb(235, 86, 86);
-}
-
-
-.attention > h5 {
-  margin: 1px 3px;
-  font-weight: 900;
-  color: rgb(235, 86, 86);
+#alert {
+  max-width: 1000px;
+  margin: 0 0 20px 0;
 }

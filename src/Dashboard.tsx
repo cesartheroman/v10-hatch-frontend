@@ -20,6 +20,7 @@ import "./styles.css";
 import { Link } from "react-router-dom";
 import "array-sort";
 import { reverse } from "cypress/types/lodash";
+import { WarningIcon } from "@twilio-paste/icons/esm/WarningIcon";
 
 /**
  *
@@ -52,10 +53,9 @@ const Dashboard = () => {
   const currentUser = {
     id: 2,
     name: "Jiminy Cricket",
-    role: 4,
+    roleID: 3,
   };
 
-  const baseURL: string = "http://localhost:3000/";
   const [isDesc, setIsDesc] = useState(true);
   const [filter, setFilter] = useState("");
   const [savedEvaluations, setSavedEvaluations] = useState([
@@ -108,47 +108,55 @@ const Dashboard = () => {
    * */
 
   useEffect(() => {
-
     //TODO: if hatch manager - call @ /evaluations endpoint
     // if they are not, call @ /users/:ID/evaluations endpoint !!!!!!
 
-    
     var config = {
-      method: 'get',
-      url: 'http://localhost:3000/evaluations/',
-    //  url: 'https://cors-anywhere.herokuapp.com/' + 'ngrok token',
-    // url: "http://localhost:9876/v1/api/evaluations/",
-      headers: { 
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsInJvbGUiOiJIQVRDSF9NQU5BR0VSIiwidXNlciI6IkFETUlOX0VNQUlMQHR3aWxpby5jb20iLCJ1c2VySUQiOiIxMCIsImlhdCI6MTY1NzYzOTQ0OCwiZXhwIjoxNjU3NjQxMjQ4LCJqdGkiOiJGckphWDFyRHJTem5ZSjVSWk9MRnRRIn0.ZOM4vTwq3OCzYXXYz0N6NRjmOLXw3mphjsBkc5hRsAE'
-      }
+      method: "get",
+      url: "http://localhost:3000/evaluations/",
+      //  url: 'https://cors-anywhere.herokuapp.com/' + 'ngrok token',
+      // url: "http://localhost:9876/v1/api/evaluations/",
+      headers: {
+        Authorization:
+          "Bearer {{token here}}",
+      },
     };
 
- axios(config).then((response) => {
-      setEvaluations(
-        response.data.filter((object: any) => {
-          return (
-            object.apprentice.id === currentUser.id ||
-            object.manager.id === currentUser.id ||
-            object.reviews.some(
-              (rev: any) => rev.reviewer.id === currentUser.id
-            )
-          );
-        })
-      );
-      setSavedEvaluations(
-        response.data.filter((object: any) => {
-          return (
-            object.apprentice.id === currentUser.id ||
-            object.manager.id === currentUser.id ||
-            object.reviews.some(
-              (rev: any) => rev.reviewer.id === currentUser.id
-            )
-          );
-        })
-      );
-    }).catch((error) => {
-      console.log("Error: " + error);
-    })
+    axios(config)
+      .then((response) => {
+        setEvaluations(
+
+// TODO: This filtering should ideally be redundant upon linking w/ the backend at their /users/:id/evaluations endpoint.
+// As it doesn't work yet w/ the limitations of the mock server, it is in place; please remove upon successfully switching
+// to the true endpoint! <3 
+
+
+
+          response.data.filter((object: any) => {
+            return (
+              object.apprentice.id === currentUser.id ||
+              object.manager.id === currentUser.id ||
+              object.reviews.some(
+                (rev: any) => rev.reviewer.id === currentUser.id
+              )
+            );
+          })
+        );
+        setSavedEvaluations(
+          response.data.filter((object: any) => {
+            return (
+              object.apprentice.id === currentUser.id ||
+              object.manager.id === currentUser.id ||
+              object.reviews.some(
+                (rev: any) => rev.reviewer.id === currentUser.id
+              )
+            );
+          })
+        );
+      })
+      .catch((error) => {
+        console.log("Error: " + error);
+      });
   }, []);
 
   /**
@@ -230,7 +238,7 @@ const Dashboard = () => {
           Ahoy, <b>{currentUser.name}</b>!
           <br /> <br />
           Your id number is: <b>{currentUser.id}</b>
-          <br /> and your role is: <b>{DisplayRole(currentUser.role)}</b>.
+          <br /> and your role is: <b>{DisplayRole(currentUser.roleID)}</b>.
           <br />
         </Box>
         <Box>
@@ -322,10 +330,7 @@ const Dashboard = () => {
               </DataGridCell>
               <DataGridCell>{Status(evaluation)}</DataGridCell>
               <DataGridCell>
-                <Link
-                  to={`evaluation/${evaluation.id}`}
-                  id="detailsLink"
-                >
+                <Link to={`evaluation/${evaluation.id}`} id="detailsLink">
                   <span id="viewDetails">View Details</span>
                   <FileIcon
                     decorative={true}
