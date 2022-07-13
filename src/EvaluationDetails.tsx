@@ -18,11 +18,14 @@ import { any } from "cypress/types/bluebird";
 import { WarningIcon } from "@twilio-paste/icons/esm/WarningIcon";
 import * as React from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useUID } from "react-uid";
 import { stringify } from "ts-jest";
 import QAView from "./Components/QAView";
 import params from "./App";
+import image from "./news.png";
+import { ProcessInProgressIcon } from "@twilio-paste/icons/esm/ProcessInProgressIcon";
+
 
 const EvaluationDetails = () => {
   const baseURL: string = "http://localhost:3000/evaluations/";
@@ -119,7 +122,7 @@ const EvaluationDetails = () => {
 
   const user = {
     id: 2,
-    name: "Ruthie Clark",
+    name: "Jiminy Cricket",
     roleID: 3,
     email: "ruthie@elias.com",
   };
@@ -164,67 +167,59 @@ const EvaluationDetails = () => {
   function ReviewFinalizeCheckTab(review: any) {
     if (review.status === "submitted" && user.roleID === 3) {
       return (
-      
-          <WarningIcon
-            decorative={true}
-            color="colorTextIconWarning"
-            title="Finalization Needed"
-            alt="Review Needs Manager Approval!"
-            size="sizeIcon30"
-          />
-        
+        <WarningIcon
+          decorative={true}
+          color="colorTextIconWarning"
+          title="Finalization Needed"
+          alt="Review Needs Manager Approval!"
+          size="sizeIcon30"
+        />
       );
     } else if (
       review.status === "in_progress" &&
       (user.id === review.reviewer.id || user.roleID === 3)
     ) {
       return (
-      
-          <WarningIcon
-            decorative={true}
-            color="colorTextNeutral"
-            title="Finalization Needed"
-            alt="Review Needs Manager Approval!"
-            size="sizeIcon30"
-          />
-   
+        <ProcessInProgressIcon
+          decorative={true}
+          color="colorTextIconNeutral"
+          title="Finalization Needed"
+          alt="Review Needs Manager Approval!"
+          size="sizeIcon30"
+        />
       );
     } else {
       return <></>;
     }
   }
 
-  function ReviewFinalizeCheckHeader(status: string) {
-    if (status === "submitted" && user.roleID === 3) {
+  function ReviewFinalizeCheckHeader(review: any) {
+    if (review.status === "submitted" && user.roleID === 3) {
       return (
         <div id="alert">
-        <Alert variant="warning">
-          <Text as="span">
-           <strong>Review requires manager approval. </strong>
-            Please approve the following review at your 
-            earliest convenience. Thank you! <br /> 
-            {/* TODO: link here to completing this evaluation !  */}
-          </Text>
-        </Alert>
+          <Alert variant="warning">
+            <Text as="span">
+              <strong>Review requires manager approval.&nbsp; &nbsp;  </strong>
+              Please approve the following review for your apprentice.
+              Thanks! &nbsp; &nbsp; <Link to="#"><strong>Review and approve here.</strong></Link>
+              {/* TODO: link here to completing this evaluation !  */}
+            </Text>
+          </Alert>
         </div>
       );
-    } else if (status === "in_progress") {
+    } else if (review.status === "in_progress" && user.id === review.reviewer.id) {
       return (
         <div id="alert">
-        <Alert variant="neutral">
-          <Text as="span">
-           <strong>Review requires completion. </strong>
-            Please complete the following review for {evaluation.apprentice.name} at your 
-            earliest convenience. Thank you! <br /> 
-            {/* TODO: link here to completing this evaluation !  */}
-          </Text>
-        </Alert>
+          <Alert variant="neutral">
+            <Text as="span">
+              <strong>Review requires completion. </strong>
+              Please complete the following review at your earliest convenience. Thank
+              you! <br />
+              {/* TODO: link here to completing this evaluation !  */}
+            </Text>
+          </Alert>
         </div>
       );
-      
-      
-      
-      
     } else {
       return <></>;
     }
@@ -243,15 +238,15 @@ const EvaluationDetails = () => {
     ) {
       return (
         <Tab id={tabSelectedID}>
-          {ReviewFinalizeCheckTab(apprenticeReview)} Apprentice: {evaluation.apprentice.name}{" "}
-          
+          {ReviewFinalizeCheckTab(apprenticeReview)} Apprentice:{" "}
+          {evaluation.apprentice.name}{" "}
         </Tab>
       );
     } else {
       return (
         <Tab id={tabSelectedID} disabled>
-          {ReviewFinalizeCheckTab(apprenticeReview)} Apprentice: {evaluation.apprentice.name}{" "}
-          
+          {ReviewFinalizeCheckTab(apprenticeReview)} Apprentice:{" "}
+          {evaluation.apprentice.name}{" "}
         </Tab>
       );
     }
@@ -264,15 +259,15 @@ const EvaluationDetails = () => {
     ) {
       return (
         <Tab>
-          {ReviewFinalizeCheckTab(managerReview)} Manager: {evaluation.manager.name}{" "}
-          {" "}
+          {ReviewFinalizeCheckTab(managerReview)} Manager:{" "}
+          {evaluation.manager.name}{" "}
         </Tab>
       );
     } else {
       return (
         <Tab disabled>
-          {ReviewFinalizeCheckTab(managerReview)} Manager: {evaluation.manager.name}{" "}
-          
+          {ReviewFinalizeCheckTab(managerReview)} Manager:{" "}
+          {evaluation.manager.name}{" "}
         </Tab>
       );
     }
@@ -292,21 +287,151 @@ const EvaluationDetails = () => {
       ) {
         return (
           <Tab key={review.id} disabled>
-            <span>{ReviewFinalizeCheckTab(review)} Reviewer: {review.reviewer.name}{" "}</span>
-            
+            <span>
+              {ReviewFinalizeCheckTab(review)} Reviewer: {review.reviewer.name}{" "}
+            </span>
           </Tab>
         );
       } else {
         return (
           <Tab key={review.id}>
-            <span> {ReviewFinalizeCheckTab(review)} Reviewer: {review.reviewer.name}{" "}</span>
-           
+            <span>
+              {" "}
+              {ReviewFinalizeCheckTab(review)} Reviewer: {review.reviewer.name}{" "}
+            </span>
           </Tab>
         );
       }
     });
     return tabs;
   }
+
+  function DisplayApprenticePanel() {
+    if (
+      apprenticeReview.status === "in_progress" &&
+      user.id != evaluation.apprentice.id
+    ) {
+      return (
+        <TabPanel>
+          <Box id="reviewInProgress">
+            <img
+              src={image}
+              width="350px"
+              alt="illustration of person holding computer"
+              title="review not done"
+            />
+            <Heading as="h3" variant="heading50">
+              {" "}
+              Review is currently in progress. Please check back later.{" "}
+            </Heading>
+          </Box>
+        </TabPanel>
+      );
+    } else {
+      return (
+        <TabPanel>
+          {ReviewFinalizeCheckHeader(apprenticeReview)}
+          <Heading as="h3" variant="heading30">
+            Apprentice Review: {evaluation.apprentice.name}
+          </Heading>
+          <Stack orientation="vertical" spacing="space60">
+            {apprenticeReview.QA.map((obj, index) => (
+              <Card key={index} id="QAcard">
+                <Heading as="h4" variant="heading50">
+                  <em>{obj.question.text}</em>
+                </Heading>
+                <Paragraph>{obj.answer.text}</Paragraph>
+              </Card>
+            ))}
+          </Stack>
+        </TabPanel>
+      );
+    }
+  }
+
+  function DisplayManagerPanel() {
+    if (
+      managerReview.status === "in_progress" &&
+      user.id != evaluation.manager.id
+    ) {
+      return (
+        <TabPanel>
+          <Box id="reviewInProgress">
+            <img
+              src={image}
+              width="350px"
+              alt="illustration of person holding computer"
+              title="review not done"
+            />
+            <Heading as="h3" variant="heading50">
+              {" "}
+              Review is currently in progress. Please check back later.{" "}
+            </Heading>
+          </Box>
+        </TabPanel>
+      );
+    } else {
+      return (
+        <TabPanel>
+          {ReviewFinalizeCheckHeader(managerReview)}
+          <Heading as="h3" variant="heading30">
+            Manager Reviewer: {evaluation.manager.name}
+          </Heading>
+          <Stack orientation="vertical" spacing="space60">
+            {managerReview.QA.map((obj, index) => (
+              <Card key={index} id="QAcard">
+                <Heading as="h4" variant="heading50">
+                  <em>{obj.question.text}</em>
+                </Heading>
+                <Paragraph>{obj.answer.text}</Paragraph>
+              </Card>
+            ))}
+          </Stack>
+        </TabPanel>
+      );
+    }
+  }
+
+  function DisplayReviewerPanel(review: any) {
+        if (review.status === "in_progress" && user.id != review.reviewer.id) {
+          return (
+            <TabPanel key={review.id}>
+              <Box id="reviewInProgress">
+                <img
+                  src={image}
+                  width="350px"
+                  alt="illustration of person holding computer"
+                  title="review not done"
+                />
+                <Heading as="h3" variant="heading50">
+                  {" "}
+                  Review is currently in progress. Please check back later.{" "}
+                </Heading>
+              </Box>
+            </TabPanel>
+          );
+        } else {
+          return (
+            <TabPanel key={review.id}>
+              {ReviewFinalizeCheckHeader(review)}
+              <Heading as="h3" variant="heading30">
+                Reviewer: {review.reviewer.name}
+              </Heading>
+              <Stack orientation="vertical" spacing="space60">
+                {review.QA.map((obj: any, index: any) => (
+                  <Card key={index} id="QAcard">
+                    <Heading as="h4" variant="heading50">
+                      <em>{obj.question.text}</em>
+                    </Heading>
+                    <Paragraph>{obj.answer.text}</Paragraph>
+                  </Card>
+                ))}
+              </Stack>
+            </TabPanel>
+          );
+        }
+      };
+    
 
   const tabSelectedID = useUID();
 
@@ -321,7 +446,6 @@ const EvaluationDetails = () => {
       {/* 
 HEADING FOR EVAL
  */}
-
       <div id="evaluationHeader">
         <Heading as="h2" variant="heading20">
           {evaluation.title}
@@ -334,8 +458,7 @@ HEADING FOR EVAL
 
       {/* 
 TABS
- */}
-
+*/}
       <Tabs
         orientation="vertical"
         selectedId={tabSelectedID}
@@ -346,67 +469,14 @@ TABS
           {ManagerTab()}
           {ReviewerTabs()}
         </TabList>
-
         {/* 
 TAB PANELS 
  */}
-
         <TabPanels>
-          <TabPanel>
-          {ReviewFinalizeCheckHeader(apprenticeReview.status)} 
-            <Heading as="h3" variant="heading30">
-              Apprentice
-              Review: {evaluation.apprentice.name}
-            </Heading>
-            <Stack orientation="vertical" spacing="space60">
-              {apprenticeReview.QA.map((obj, index) => (
-                <Card key={index} id="QAcard">
-                  <Heading as="h4" variant="heading50">
-                    <em>{obj.question.text}</em>
-                  </Heading>
-                  <Paragraph>{obj.answer.text}</Paragraph>
-                </Card>
-              ))}
-            </Stack>
-          </TabPanel>
-
-          <TabPanel>
-          {ReviewFinalizeCheckHeader(managerReview.status)} 
-            <Heading as="h3" variant="heading30">
-              Manager
-              Reviewer: {evaluation.manager.name}
-            </Heading>
-            <Stack orientation="vertical" spacing="space60">
-              {managerReview.QA.map((obj, index) => (
-                <Card key={index} id="QAcard">
-                  <Heading as="h4" variant="heading50">
-                    <em>{obj.question.text}</em>
-                  </Heading>
-                  <Paragraph>{obj.answer.text}</Paragraph>
-                </Card>
-              ))}
-            </Stack>
-          </TabPanel>
-
+          {DisplayApprenticePanel()}
+          {DisplayManagerPanel()}
           {reviewerReviews.map((review) => (
-            <TabPanel key={review.id}>
-              {ReviewFinalizeCheckHeader(review.status)}
-              <Heading as="h3" variant="heading30">
-                 Reviewer:{" "}
-                {review.reviewer.name}
-              </Heading>
-              <Stack orientation="vertical" spacing="space60">
-                {review.QA.map((obj, index) => (
-                  <Card key={index} id="QAcard">
-                    <Heading as="h4" variant="heading50">
-                      <em>{obj.question.text}</em>
-                    </Heading>
-                    <Paragraph>{obj.answer.text}</Paragraph>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-          ))}
+          DisplayReviewerPanel(review)))}
         </TabPanels>
       </Tabs>
     </div>
