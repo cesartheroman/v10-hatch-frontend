@@ -1,8 +1,7 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import axios, { AxiosRequestConfig } from "axios";
-import "../styles.css";
-import { useEffect, useState } from "react";
-import { Button } from "@twilio-paste/core/button";
+import UserMaintenance from "./UserMaintenance";
 import { Heading } from "@twilio-paste/core";
 import { Box } from "@twilio-paste/core";
 import {
@@ -13,8 +12,16 @@ import {
   DataGridBody,
   DataGridCell,
 } from "@twilio-paste/core/data-grid";
+import "../styles.css";
 
-const UserMaintainance = () => {
+export interface User {
+  id: number;
+  email: string;
+  name: string;
+  roleID: number;
+}
+
+const UserMaintainanceView = () => {
   const BASE_URL: string = "http://localhost:3000";
   const HEADER_DATA: string[] = [
     "Name",
@@ -30,13 +37,6 @@ const UserMaintainance = () => {
   ];
   const [users, setUsers] = useState<User[]>([]);
 
-  interface User {
-    id: number;
-    email: string;
-    name: string;
-    roleID: number;
-  }
-
   const getUsers = async () => {
     const config: AxiosRequestConfig<any> = {
       method: "GET",
@@ -51,14 +51,6 @@ const UserMaintainance = () => {
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const assignApprenticeToEngMgr = async () => {
-    //TODO: make logic to assign an Apprentice to and EngMgr
-  };
-
-  const convertToEngMgr = async () => {
-    //TODO: write logic to convert role to EngMgr
   };
 
   const handleClick = (user: User) => {
@@ -94,9 +86,7 @@ const UserMaintainance = () => {
                 <DataGridCell>{USER_ROLES[user.roleID - 1]}</DataGridCell>
                 <DataGridCell>{user.email}</DataGridCell>
                 <DataGridCell>
-                  <Button variant="secondary" onClick={() => handleClick(user)}>
-                    Edit
-                  </Button>
+                  <UserMaintenance userToEdit={user} userRoles={USER_ROLES} />
                 </DataGridCell>
               </DataGridRow>
             );
@@ -107,4 +97,4 @@ const UserMaintainance = () => {
   );
 };
 
-export default UserMaintainance;
+export default UserMaintainanceView;
