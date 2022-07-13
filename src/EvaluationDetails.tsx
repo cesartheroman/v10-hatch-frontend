@@ -142,11 +142,15 @@ const EvaluationDetails = () => {
     setCurrentUser(userinfo);
 
     let config = {
-      
-    }
+      method: "get",
+      url: baseURL + params.id,
+      headers: { Authorization: token },
+    };
+
     axios
-      .get<any>(baseURL + params.id, { auth : token})
+      (config)
       .then((response) => {
+        console.log(response.data)
         setEvaluation(response.data);
         setApprenticeReview(
           response.data.reviews.find(

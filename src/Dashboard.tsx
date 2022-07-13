@@ -110,63 +110,37 @@ const Dashboard = () => {
 
   function Endpoint(usery: any): string {
     if (usery.roleID === 4) {
-      return ("http://localhost:9876/v1/api/evaluations/");
+      return "http://localhost:9876/v1/api/evaluations/";
     } else {
-      return ("http://localhost:9876/v1/api/users/" + usery.id +"/evaluations")
+      return "http://localhost:9876/v1/api/users/" + usery.id + "/evaluations";
     }
   }
 
   useEffect(() => {
     if (currentUser.id === 66666) {
       let storageuser: any = localStorage.getItem("user");
-    let user = JSON.parse(storageuser);
-    
-    setCurrentUser(user);
-  
-    
+      let user = JSON.parse(storageuser);
+
+      setCurrentUser(user);
     }
     let token: any = localStorage.getItem("token");
     let urlString = Endpoint(currentUser);
-    
+
     let config = {
       method: "get",
       url: urlString,
       headers: { Authorization: token },
     };
-    
-     axios(config)
-      .then((response) => {
-        setEvaluations(
-          // TODO: This filtering should ideally be redundant upon linking w/ the backend at their /users/:id/evaluations endpoint.
-          // As it doesn't work yet w/ the limitations of the mock server, it is in place; please remove upon successfully switching
-          // to the true endpoint! <3
 
-          response.data.filter((object: any) => {
-             return (
-              object.apprentice.id === currentUser.id ||
-              object.manager.id === currentUser.id ||
-              object.reviews.some(
-                (rev: any) => rev.reviewer.id === currentUser.id
-              )
-            );
-          })
-        );
-        setSavedEvaluations(
-          response.data.filter((object: any) => {
-            return (
-              object.apprentice.id === currentUser.id ||
-              object.manager.id === currentUser.id ||
-              object.reviews.some(
-                (rev: any) => rev.reviewer.id === currentUser.id
-              )
-            );
-          })
-        );
-       
+    axios(config)
+      .then((response) => {
+        setEvaluations(response.data);
+
+        setSavedEvaluations(response.data);
       })
       .catch((error) => {
         console.log("Error: " + error);
-      })
+      });
   }, [currentUser]);
 
   /**
@@ -310,7 +284,7 @@ const Dashboard = () => {
               <DataGridHeaderSort
                 direction="none"
                 //TODO: write function that changes direction of arrow depending on status above
-                onClick={() => FilterEvaluations("status")}
+                onClick={() => FilterEvaluations("is_completed")}
               />
             </DataGridHeader>
             <DataGridHeader width="180px">Details</DataGridHeader>
