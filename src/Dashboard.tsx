@@ -46,14 +46,15 @@ const Dashboard = () => {
    * headerData= array of header titles for the dashboard DataGrid.
    * arraySort = allows for us to sort data. Yay.
    *
-   * (The currentUser constant is a temporary measure and will be deleted once we have full user Authorization parameters
-   * to play with. )
+   *
    */
 
   const [currentUser, setCurrentUser] = useState({
-    id: 666,
+    id: 66666,
     name: "Placeholder Placeholder",
-    roleID: 4,
+    username: "placeholder@fake.com",
+    role: "APPRENTICE",
+    roleID: 2,
   });
 
   const [isDesc, setIsDesc] = useState(true);
@@ -108,11 +109,17 @@ const Dashboard = () => {
    * */
 
   useEffect(() => {
-    let storageuser: any = localStorage.getItem("user");
-    let userinfo = JSON.parse(storageuser);
+    if (currentUser.id === 66666) {
+      let storageuser: any = localStorage.getItem("user");
+    let user = JSON.parse(storageuser);
+    console.log(user);
+    setCurrentUser(user);
+    console.log(currentUser)
+    
+    }
     let token: any = localStorage.getItem("token");
-
-    setCurrentUser(userinfo);
+    
+    
 
 
     //TODO: if hatch manager - call @ /evaluations endpoint
@@ -121,12 +128,10 @@ const Dashboard = () => {
     var config = {
       method: "get",
       url: "http://localhost:3000/evaluations/",
-      //  url: 'https://cors-anywhere.herokuapp.com/' + 'ngrok token',
-      // url: "http://localhost:9876/v1/api/evaluations/",
       headers: { token },
     };
-
-    axios(config)
+    
+     axios(config)
       .then((response) => {
         setEvaluations(
           // TODO: This filtering should ideally be redundant upon linking w/ the backend at their /users/:id/evaluations endpoint.
@@ -134,7 +139,8 @@ const Dashboard = () => {
           // to the true endpoint! <3
 
           response.data.filter((object: any) => {
-            return (
+            console.log(object)
+             return (
               object.apprentice.id === currentUser.id ||
               object.manager.id === currentUser.id ||
               object.reviews.some(
@@ -154,11 +160,12 @@ const Dashboard = () => {
             );
           })
         );
+        console.log(evaluations)
       })
       .catch((error) => {
         console.log("Error: " + error);
-      });
-  }, []);
+      })
+  }, [currentUser]);
 
   /**
    * FILTERING FUNCTIONS
