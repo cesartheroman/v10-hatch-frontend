@@ -2,16 +2,29 @@ import * as React from "react";
 import axios from 'axios'
 import { useState } from "react";
 import { Label, Input, Button, Card, Box } from "@twilio-paste/core";
+import {Buffer} from "buffer";
+
 
 
 export default function Login() {
 
-    const baseURL: string = 'http://localhost:3000/users'
-    const [user, setUser] = useState<object>({
+    const baseURL: string = 'http://localhost:9876/login'
+    const [user, setUser] = useState({
         email: "",
         password: ""
     });
     const [loggedIn, setLoggedIn] = React.useState<boolean>(false)
+
+    
+    // var config = {
+    //     method: 'GET',
+    //     url: 'http://localhost:9876/login',
+    //     headers: { 
+    //       'Authorization': + basicAuth
+    //     }
+    //   };
+  
+      
 
     React.useEffect(() => {
         console.log("Login state: " + loggedIn);}
@@ -19,18 +32,20 @@ export default function Login() {
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        axios.post(baseURL, user).then((response) => {
-
-            //TODO: There will be some logic here to disect the returned JSON object that the back end will return. 
-
-            console.log("Response:", response)
-            if (response.status === 201) {
-                setLoggedIn(true)
-                //TODO: Redirect to user dashboard. 
+        axios.get(baseURL, {auth: {
+            username: user.email,
+            password: user.password
+        }}).then((response) => {
+            if (response.status === 200) {
+                setLoggedIn(true);
+                console.log(response.data)
+                localStorage.setItem("token", "Authentication: Basic " + response.data.token);
+                
             } else {
                 alert('Login did not work. Please check your work and try again.')
             }
-        });
+        })
+        .catch((error) => alert('Error: ' + error.status))
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

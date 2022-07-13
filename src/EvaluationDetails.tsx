@@ -18,7 +18,7 @@ import { any } from "cypress/types/bluebird";
 import { WarningIcon } from "@twilio-paste/icons/esm/WarningIcon";
 import * as React from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useUID } from "react-uid";
 import { stringify } from "ts-jest";
 import QAView from "./Components/QAView";
@@ -199,9 +199,9 @@ const EvaluationDetails = () => {
         <div id="alert">
           <Alert variant="warning">
             <Text as="span">
-              <strong>Review requires manager approval. </strong>
-              Please approve the following review at your earliest convenience.
-              Thank you! <br />
+              <strong>Review requires manager approval.&nbsp; &nbsp;  </strong>
+              Please approve the following review for your apprentice.
+              Thanks! &nbsp; &nbsp; <Link to="#"><strong>Review and approve here.</strong></Link>
               {/* TODO: link here to completing this evaluation !  */}
             </Text>
           </Alert>
