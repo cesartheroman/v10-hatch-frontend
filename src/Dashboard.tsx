@@ -50,11 +50,11 @@ const Dashboard = () => {
    * to play with. )
    */
 
-  const currentUser = {
-    id: 2,
-    name: "Jiminy Cricket",
-    roleID: 3,
-  };
+  const [currentUser, setCurrentUser] = useState({
+    id: 666,
+    name: "Placeholder Placeholder",
+    roleID: 4,
+  });
 
   const [isDesc, setIsDesc] = useState(true);
   const [filter, setFilter] = useState("");
@@ -108,6 +108,13 @@ const Dashboard = () => {
    * */
 
   useEffect(() => {
+    let storageuser: any = localStorage.getItem("user");
+    let userinfo = JSON.parse(storageuser);
+    let token: any = localStorage.getItem("token");
+
+    setCurrentUser(userinfo);
+
+
     //TODO: if hatch manager - call @ /evaluations endpoint
     // if they are not, call @ /users/:ID/evaluations endpoint !!!!!!
 
@@ -116,21 +123,15 @@ const Dashboard = () => {
       url: "http://localhost:3000/evaluations/",
       //  url: 'https://cors-anywhere.herokuapp.com/' + 'ngrok token',
       // url: "http://localhost:9876/v1/api/evaluations/",
-      headers: {
-        Authorization:
-          "Bearer {{token here}}",
-      },
+      headers: { token },
     };
 
     axios(config)
       .then((response) => {
         setEvaluations(
-
-// TODO: This filtering should ideally be redundant upon linking w/ the backend at their /users/:id/evaluations endpoint.
-// As it doesn't work yet w/ the limitations of the mock server, it is in place; please remove upon successfully switching
-// to the true endpoint! <3 
-
-
+          // TODO: This filtering should ideally be redundant upon linking w/ the backend at their /users/:id/evaluations endpoint.
+          // As it doesn't work yet w/ the limitations of the mock server, it is in place; please remove upon successfully switching
+          // to the true endpoint! <3
 
           response.data.filter((object: any) => {
             return (
