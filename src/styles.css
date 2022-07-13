@@ -100,7 +100,7 @@ input[type="checkbox"] {
 #detailsLink {
   font-weight: 500;
   color: rgb(209, 0, 0);
-  text-decoration: underline;
+  text-decoration: none;
   display: flex;
   flex-direction: row;
 }
@@ -176,4 +176,9 @@ input[type="checkbox"] {
 #QAcard {
   max-width: 1000px;
   border-radius: 20px;
+}
+
+#alert {
+  max-width: 1000px;
+  margin: 0 0 20px 0;
 }
