@@ -28,12 +28,31 @@ const Registration = () => {
   };
 
   const postUser = () => {
-    axios
-      .post(baseURL, { name, password, email, roleID: Number(role) })
-      .then((response) => {
-        console.log("Response Data: ", response.data);
+    var requestBody = JSON.stringify({
+      name,
+      password,
+      email,
+      roleID: Number(role),
+    });
+
+    console.log(requestBody);
+
+    var config = {
+      method: "POST",
+      // TODO: Update later
+      url: "http://localhost:9876/v1/api/users",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: requestBody,
+    };
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
       })
-      .catch((err) => console.log(err));
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (

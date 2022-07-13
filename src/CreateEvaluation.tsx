@@ -19,6 +19,8 @@ import {
   Select,
   Grid,
   Column,
+  useToaster,
+  Toaster,
 } from "@twilio-paste/core";
 import { useUIDSeed } from "react-uid";
 
@@ -39,7 +41,7 @@ type Question = {
 const CreateEvaluation = () => {
   /**
    * CONSTANTS
-   *
+   * toaster = Paste notification component on successfull post of eval
    * questions = avaialable questions for use in Evaluation
    * title = title input entered by user
    * selectedQuestions = array of question id from user input
@@ -52,7 +54,7 @@ const CreateEvaluation = () => {
    * userID - role = will be prop of user meta data
    *
    */
-
+  const toaster = useToaster();
   const [questions, setQuestions] = useState<Question[]>([
     { id: 999, question: "what?" },
   ]);
@@ -61,20 +63,18 @@ const CreateEvaluation = () => {
   const items = [{ name: "ryder" }];
   const [apprentices, setApprentices] = useState([
     {
-      id: 1,
-      Name: "Ryder Wendt",
-      EvaluationsID: "1",
+      id: 18,
+      name: "apprentice",
+      email: "apprentice@twilio.com",
       roleID: 1,
-      Email: "Ryder@test.com",
-      Password: "Shhhhh",
+      evaluationIDs: [1],
     },
     {
-      id: 2,
-      Name: "Invader Zim",
-      EvaluationsID: "2",
+      id: 19,
+      name: "apprentice2",
+      email: "apprentice2@twilio.com",
       roleID: 1,
-      Email: "IZ@test.com",
-      Password: "Shhhhh",
+      evaluationIDs: [2, 3],
     },
   ]);
   const [selectedApprentice, setSelectedApprentice] = useState<number>(1);
@@ -83,17 +83,13 @@ const CreateEvaluation = () => {
   const seed = useUIDSeed();
   const formPillState = useFormPillState();
   const inputId = seed("input-element");
-  const baseURL: string = "http://localhost:9876/v1/api/";
-  // TODO: Get Meta data as props
+  const [token, setToken] = useState("");
 
-  /**
-   * Mock meta data from login
-   */
-  const currentUser = {
-    id: 2,
-    name: "Jiminy Cricket",
-    role: 4,
-  };
+  const [currentUser, setCurrentUser] = useState({
+    id: 666,
+    name: "Placeholder Placeholder",
+    roleID: 4,
+  });
 
   /**
    * handleChecked - Handles checkbox state in question selection
@@ -116,23 +112,40 @@ const CreateEvaluation = () => {
    */
 
   useEffect(() => {
+    if (currentUser.id === 666) {
+      let storageuser: any = localStorage.getItem("user");
+      let userinfo = JSON.parse(storageuser);
+      let token: any = localStorage.getItem("token");
+
+      setToken(token);
+      setCurrentUser(userinfo);
+    }
     getReviewers();
     getQuestions();
     getApprentices();
-  }, []);
+  }, [currentUser]);
 
   /**
    * getQuestions = pulls questions from data base and sets to questions
    */
 
   const getQuestions = () => {
-    // TODO: Connect to backend /api/v1/questions
-    axios
-      .get(baseURL + "questions")
-      .then((res) => {
-        setQuestions(res.data);
+    var config = {
+      method: "GET",
+      // TODO: will need to update
+      url: "http://localhost:9876/v1/api/questions/",
+      headers: {
+        Authorization: token,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        setQuestions(response.data);
       })
-      .catch((err) => console.log(err));
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   /**
@@ -141,16 +154,24 @@ const CreateEvaluation = () => {
    */
 
   const getReviewers = () => {
-    // TODO: /api/v1/users/
-    axios
-      .get(baseURL + "users")
-      .then((res) => {
-        let currentReviewers = res.data.filter(
-          (user: any) => user.roleID !== "1"
+    var config = {
+      method: "GET",
+      url: "http://localhost:9876/v1/api/users",
+      headers: {
+        Authorization: token,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        let currentReviewers = response.data.filter(
+          (user: any) => user.roleID !== 1
         );
         setFilteredItems(currentReviewers);
       })
-      .catch((err) => console.log(err));
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   /**
@@ -161,20 +182,42 @@ const CreateEvaluation = () => {
 
   const getApprentices = () => {
     try {
-      if (currentUser.role === 4) {
-        // TODO: /api/v1/users/apprentices/
+      // TODO: Change based on user meta data
+      if (currentUser.roleID === 4) {
+        let config = {
+          method: "GET",
+          url: `http://localhost:9876/v1/api/users/apprentices`,
+          headers: {
+            Authorization: token,
+          },
+        };
 
-        axios.get(baseURL + "apprentices").then((res) => {
-          setApprentices(res.data);
-          setSelectedApprentice(res.data[0].id);
-        });
+        axios(config)
+          .then(function (response) {
+            setApprentices(response.data);
+            setSelectedApprentice(response.data[0].id);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       } else {
-        // TODO: GET apprentice assigned api/v1/users/managers/id/apprentices
-        //       grab id from meta data
-        axios.get(baseURL + "apprenticeByManagerID").then((res) => {
-          setApprentices(res.data);
-          setSelectedApprentice(res.data[0].id);
-        });
+        let config = {
+          method: "GET",
+          // TODO: Change for user meta data
+          url: `http://localhost:9876/v1/api/users/managers/${currentUser.id}`,
+          headers: {
+            Authorization: token,
+          },
+        };
+
+        axios(config)
+          .then(function (response) {
+            setApprentices(response.data.apprentices);
+            setSelectedApprentice(response.data.apprentices[0].id);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
     } catch (err) {
       console.error(err);
@@ -189,25 +232,46 @@ const CreateEvaluation = () => {
    */
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // TODO: POST eval api/v1/evalutations
-    //       on post have confirm modal or redirect
-    // selected reviews array are stored in selectedItems
     e.preventDefault();
     let reviewData = Object.keys(selectedItems).map((key: any) => {
       return selectedItems[key].id;
     });
 
-    let data = {
+    const questionIDs = selectedQuestions.map((str) => {
+      return Number(str);
+    });
+
+    var requestBody = {
       title,
       apprenticeID: selectedApprentice,
-      managerID: "manager id",
+      managerID: currentUser.id,
       reviewerIDs: reviewData,
-      questionIDs: selectedQuestions,
+      questionIDs,
     };
-    console.log(data);
-    axios.post(baseURL + "questions" + 1, data).then((res) => {
-      console.log("POST Response:", res);
-    });
+
+    var config = {
+      method: "POST",
+      // TODO: Change for meta
+      url: "http://localhost:9876/v1/api/evaluations",
+      headers: {
+        Authorization: token,
+      },
+      data: requestBody,
+    };
+
+    axios(config)
+      .then(function (response) {
+        if (response.status === 200) {
+          toaster.push({
+            message: "Evaluation creation successful!",
+            variant: "success",
+          });
+        }
+        console.log("eval data", requestBody, "api response", response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   /**
@@ -269,6 +333,7 @@ const CreateEvaluation = () => {
 
   return (
     <Box marginBottom="space10" marginTop="space10" padding="space100">
+      <Toaster {...toaster} />
       <Grid gutter="space30">
         <Column span={8} offset={2}>
           <Card>
@@ -299,7 +364,7 @@ const CreateEvaluation = () => {
                 {apprentices.map((apprentice: any, i: any) => {
                   return (
                     <Option key={apprentice.id} value={apprentice.id} id={i}>
-                      {apprentice.Name}
+                      {apprentice.name}
                     </Option>
                   );
                 })}

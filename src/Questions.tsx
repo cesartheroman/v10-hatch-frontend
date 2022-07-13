@@ -15,11 +15,26 @@ import QuestionCreation from "./QuestionCreation";
 const Questions = () => {
   const toaster = useToaster();
   const [questions, setQuestions] = useState([{ id: 1, question: "loading" }]);
-  const baseURL: string = "http://localhost:3000/questions";
+
+  const [currentUser, setCurrentUser] = useState({
+    id: 666,
+    name: "Placeholder Placeholder",
+    roleID: 4,
+  });
+
+  const [token, setToken] = useState("");
 
   useEffect(() => {
+    if (currentUser.id === 666) {
+      let storageuser: any = localStorage.getItem("user");
+      let userinfo = JSON.parse(storageuser);
+      let token: any = localStorage.getItem("token");
+
+      setToken(token);
+      setCurrentUser(userinfo);
+    }
     getQuestions();
-  }, []);
+  }, [currentUser]);
 
   const headers = {
     "Content-Type": "application/json",
@@ -33,23 +48,33 @@ const Questions = () => {
    * @param id
    */
   const handleEditQuestion = (question: any, id: number) => {
-    // TODO: connect to BE /api/v1/questions/:id
-    axios
-      .patch(
-        baseURL + `/${id}`,
-        { id: id, question: question },
-        { headers: headers }
-      )
-      .then((res) => {
-        if (res.status === 200) {
+    var requestBody = { question };
+
+    var config = {
+      method: "PATCH",
+      url: `http://localhost:9876/v1/api/questions/${id}`,
+      headers: {
+        Authorization: token,
+      },
+      data: requestBody,
+    };
+
+    axios(config)
+      .then(function (response) {
+        if (response.status === 200) {
           toaster.push({
             message: "Question edit succesfull",
             variant: "success",
           });
         }
       })
-
-      .catch((err) => console.log(err))
+      .catch(function (error) {
+        toaster.push({
+          message: "There was an error",
+          variant: "error",
+        });
+        console.log(error);
+      })
       .finally(() => {
         getQuestions();
       });
@@ -62,23 +87,29 @@ const Questions = () => {
    * @param question : users input from QuestionCreation component
    */
   const handlePostQuestion = (question: any) => {
-    // TODO: connect to backend /api/v1/questions
-    // TODO: edit data object to comply with BE schema
-    axios
-      .post(
-        baseURL,
-        { id: questions.length + 1, question: question },
-        { headers: headers }
-      )
-      .then((res) => {
-        if (res.status === 201) {
+    var requestBody = { question };
+    var config = {
+      method: "POST",
+      // TODO: will need to update with user token
+      url: "http://localhost:9876/v1/api/questions",
+      headers: {
+        Authorization: token,
+      },
+      data: requestBody,
+    };
+
+    axios(config)
+      .then(function (response) {
+        if (response.status === 200) {
           toaster.push({
             message: "Question created successfully",
             variant: "success",
           });
         }
       })
-      .catch((err) => console.log(err))
+      .catch(function (error) {
+        console.log(error);
+      })
       .finally(() => {
         getQuestions();
       });
@@ -92,18 +123,26 @@ const Questions = () => {
    */
   // TODO: DELETE Function
   const handleDeleteQuestion = (id: number) => {
-    // TODO: Connect to backend /api/v1/questions/:id
-    axios
-      .delete(baseURL + `/${id}`)
-      .then((res) => {
-        if (res.status === 200) {
+    var config = {
+      method: "DELETE",
+      url: `http://localhost:9876/v1/api/questions/${id}`,
+      headers: {
+        Authorization: token,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        if (response.status === 200) {
           toaster.push({
             message: "Question succesfully deleted",
             variant: "success",
           });
         }
       })
-      .catch((err) => console.log(err))
+      .catch(function (error) {
+        console.log(error);
+      })
       .finally(() => {
         getQuestions();
       });
@@ -113,14 +152,21 @@ const Questions = () => {
    * getQuestions = grabs all questions from questions endpoint
    */
   const getQuestions = () => {
-    // TODO: Connect to backend /api/v1/questions
-    axios
-      .get(baseURL)
-      .then((res) => {
-        setQuestions(res.data);
+    var config = {
+      method: "GET",
+      // TODO: will need to update
+      url: "http://localhost:9876/v1/api/questions/",
+      headers: {
+        Authorization: token,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        setQuestions(response.data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(function (error) {
+        console.log(error);
       });
   };
 

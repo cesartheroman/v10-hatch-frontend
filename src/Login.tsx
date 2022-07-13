@@ -13,7 +13,6 @@ export default function Login() {
   });
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
 
-
   React.useEffect(() => {
     console.log("Login state: " + loggedIn);
   }, [loggedIn]);
@@ -35,24 +34,18 @@ export default function Login() {
         if (response.status === 200) {
           setLoggedIn(true);
           console.log(response.data);
-          localStorage.setItem(
-            "token",
-            "Authorization: Bearer " + response.data.token
-          );
+          localStorage.setItem("token", "Bearer " + response.data.token);
           axios
             .get(baseURL + "auth/check-token", {
               headers: { Authorization: "Bearer " + response.data.token },
             })
             .then((response) => {
-                 localStorage.setItem("user", JSON.stringify(response.data));
-                 let userinfo :any = localStorage.getItem('user');
-                 let userInfo :string = JSON.parse(userinfo);
-                console.log(userInfo);
+              localStorage.setItem("user", JSON.stringify(response.data));
+              let userinfo: any = localStorage.getItem("user");
+              let userInfo: string = JSON.parse(userinfo);
+              console.log(userInfo);
             });
-            navigate("../", {replace: true});
-            
-
-           
+          navigate("../", { replace: true });
         } else {
           alert("Login did not work. Please check your work and try again.");
         }
