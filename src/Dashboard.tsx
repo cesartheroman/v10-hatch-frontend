@@ -108,6 +108,14 @@ const Dashboard = () => {
    *
    * */
 
+  function Endpoint(usery: any) {
+    if (usery.roleID === 4) {
+      return ("http://localhost:9876/evaluations/");
+    } else {
+      return ("http://localhost:9876/users/" + usery.id +"/evaluations")
+    }
+  }
+
   useEffect(() => {
     if (currentUser.id === 66666) {
       let storageuser: any = localStorage.getItem("user");
@@ -118,16 +126,16 @@ const Dashboard = () => {
     
     }
     let token: any = localStorage.getItem("token");
-    
+    let urlString = JSON.stringify(Endpoint(currentUser));
     
 
 
     //TODO: if hatch manager - call @ /evaluations endpoint
     // if they are not, call @ /users/:ID/evaluations endpoint !!!!!!
 
-    var config = {
+    let config = {
       method: "get",
-      url: "http://localhost:3000/evaluations/",
+      url: urlString,
       headers: { token },
     };
     
