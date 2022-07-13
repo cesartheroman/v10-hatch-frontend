@@ -11,12 +11,15 @@ import { useNavigate } from "react-router-dom";
  * @component
  *
  */
+type QuestionObj = { id: number; question: string }
+type AnswerObj = { id: number; answer: string }
 
+type QA = { question: QuestionObj; answer: AnswerObj }[];
 type UpdateReviewAnswer = {
   reviewId: number;
   status: string;
   reviewer: { id: number; name: string };
-  QA: { question: string; answer: string }[];
+  QAs: QA;
 };
 type EvaluationSchema = {
   id: number;
@@ -34,23 +37,42 @@ const NewReview = () => {
   const baseURL: string = `http://localhost:3000/reviews/3`;
   const navigate = useNavigate();
   const toaster = useToaster();
+  const [answers, setAnswers] = useState<AnswerObj>({id: 13, answer: ""})
   const [reviewAnswers, setReviewAnswers] = useState<UpdateReviewAnswer>({
     reviewId: 1,
     status: "TEST",
     reviewer: { id: 3, name: "Ruthie" },
-    QA: [
+    QAs: [
       {
-        question: "What are the strenghts of the apprentice?",
-        answer: "",
+        question: {
+          id: 1,
+          question: "What went well?"
+        },
+        answer: {
+          id: 13,
+          answer: ""
+        }
       },
       {
-        question: "What are the areas of growth for the apprentice?",
-        answer: "",
+        question: {
+          id: 2,
+          question: "What didn't go well?"
+        },
+        answer: {
+          id: 14,
+          answer: ""
+        }
       },
       {
-        question: "What are the core values of the apprentice?",
-        answer: "",
-      },
+        question: {
+          id: 3,
+          question: "What will you focus on next quarter?"
+        },
+        answer: {
+          id: 15,
+          answer: ""
+        }
+      }
     ],
   });
   const [singleEvaluation, setSingleEvaluation] = useState<EvaluationSchema>({
@@ -78,12 +100,18 @@ const NewReview = () => {
           id: 1,
           name: "Apprentice Name",
         },
-        status: "closed",
-        QA: [
+        status: "IN_PROGRESS",
+        QAs: [
           {
-            question: "What are the strenghts of the apprentice?",
-            answer: "answer 1",
-          },
+            question: {
+              id: 1,
+              question: "What went well?"
+            },
+            answer: {
+              id: 13,
+              answer: ""
+            }
+          }
         ],
       },
     ],
@@ -97,15 +125,7 @@ const NewReview = () => {
 
 
   React.useEffect(() => {
-    /**
-     * get single evaluation
-     */
-    axios.get(baseURL).then((response) => {
-      // setSingleEvaluation(response.data);
-      // let responseReviews = response.data.reviews[1];
-      setReviewAnswers(response.data);
-      console.log(response.data)
-    });
+    getEvaluation();
   }, []);
 
   React.useEffect(() => {
@@ -117,6 +137,44 @@ const NewReview = () => {
     }
   }, []);
 
+
+  /**
+   * Mocked logged in user
+  */
+  const user = {
+    id: 12,
+    name: "David A",
+    roleID: 1,
+    email: "ruthie@elias.com"
+  }
+
+
+  const getEvaluation = () => {
+    /**
+     * Function to call a single evaluation. This evaluation will be the one 
+     * that is selected by the logged in user and will set the
+     * review assigned to that user.
+     */
+    var config = {
+      method: 'get',
+      url: 'http://localhost:9876/v1/api/evaluations/1',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGUiOiJBUFBSRU5USUNFIiwidXNlciI6ImRhdmlkQHR3aWxpby5jb20iLCJ1c2VySUQiOiIxMiIsImlhdCI6MTY1Nzc0NDQ5OSwiZXhwIjoxNjU3NzQ2Mjk5LCJqdGkiOiJXekp4MFJvSjVkeE9FUUlXT2VEeXVBIn0.qWoXHKCNKQRy0fsMaV1S1ZeIyqsHcOgw-l55_3AM5A8'
+      }
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log("response.data", response.data);
+        setSingleEvaluation(response.data)
+        let reviewToComplete = response.data.reviews.filter((rev: UpdateReviewAnswer) => rev.reviewer.id === user.id)
+        setReviewAnswers(reviewToComplete[0])
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (
     e: React.FormEvent<HTMLFormElement>
   ) => {
@@ -124,16 +182,43 @@ const NewReview = () => {
      * Submit answers to review in the evaluation
      */
     e.preventDefault();
+    console.log("Whats being subimtted:", reviewAnswers)
     let data = {
-      id: reviewAnswers.reviewId,
-      status: "submitted",
-      reviewer: reviewAnswers.reviewer,
-      QA: reviewAnswers.QA,
+      status: "SUBMITTED",
+      QAs: [
+        {
+          answer: {
+            id: reviewAnswers.QAs[0].answer.id,
+            answer: reviewAnswers.QAs[0].answer.answer
+          }
+        },
+        {
+          answer: {
+            id: reviewAnswers.QAs[1].answer.id,
+            answer: reviewAnswers.QAs[1].answer.answer
+          }
+        },
+        {
+          answer: {
+            id: reviewAnswers.QAs[2].answer.id,
+            answer: reviewAnswers.QAs[2].answer.answer
+          }
+        }
+      ]
     };
-    axios
-      .patch(baseURL, data)
+    var config = {
+      method: 'patch',
+      url: 'http://localhost:9876/v1/api/evaluations/3/reviews/5/',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGUiOiJBUFBSRU5USUNFIiwidXNlciI6ImRhdmlkQHR3aWxpby5jb20iLCJ1c2VySUQiOiIxMiIsImlhdCI6MTY1Nzc0NDQ5OSwiZXhwIjoxNjU3NzQ2Mjk5LCJqdGkiOiJXekp4MFJvSjVkeE9FUUlXT2VEeXVBIn0.qWoXHKCNKQRy0fsMaV1S1ZeIyqsHcOgw-l55_3AM5A8',
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
       .then((response) => {
-        // console.log("response from submit:", response);
+        console.log("PATCH response,data", response.data);
         if (response.status === 200) {
           toaster.push({
             message: "Review submitted succesfully",
@@ -142,7 +227,7 @@ const NewReview = () => {
         }
       })
       .catch(err => console.log(err))
-    .finally(() => setDisable(true))
+      .finally(() => setDisable(true))
   };
   const closeReview = (e: React.MouseEvent<HTMLButtonElement>) => {
     /**
@@ -150,10 +235,7 @@ const NewReview = () => {
      */
     e.preventDefault();
     let data = {
-      id: reviewAnswers.reviewId,
-      status: "closed",
-      reviewer: reviewAnswers.reviewer,
-      QA: reviewAnswers.QA,
+      status: "FINALIZED"
     };
     axios
       .patch(baseURL, data)
@@ -171,90 +253,81 @@ const NewReview = () => {
   };
 
   const updateAnswById = (answer: string, id: number) => {
-    /**
-     * Update the answers inside the QA object in the Review
-     */
-    setReviewAnswers((state) => {
-      return {
-        ...state,
-        QA: state.QA.map((el, index) => {
-          if (index === id) {
-            return {
-              ...el,
-              answer,
-            };
-          } else {
-            return el;
-          }
-        }),
-      };
-    });
+    const ansToUpdate = reviewAnswers.QAs.find(ans => ans.answer.id === id)
+    const ansToUpdateIndex = reviewAnswers.QAs.indexOf(ansToUpdate!)
+    reviewAnswers.QAs.splice(ansToUpdateIndex,1, {
+      question: {id: reviewAnswers.QAs[ansToUpdateIndex].question.id, question: reviewAnswers.QAs[ansToUpdateIndex].question.question},
+      answer: {id, answer}
+    })
   };
 
-  //console.log(reviewAnswers)
-  //console.log(prop.evaluation)
   return (
     <>
       <div style={{ maxWidth: 600, padding: 10, margin: 10 }}>
-        <Toaster {...toaster} />
-        <Card style={{ margin: "10px" }}>
-          <div>
-            <form onSubmit={handleSubmit} data-testid="newreview-form">
-              <h1>Review:</h1>
-              <p>Please answer the following questions:</p>
+        {reviewAnswers.status !== "FINALIZED" ?
+          <>
+            <Toaster {...toaster} />
+            <Card style={{ margin: "10px" }}>
+              <div>
+                <form onSubmit={handleSubmit} data-testid="newreview-form">
+                  <h1>Review:</h1>
+                  <p>Please answer the following questions:</p>
 
-              <Box marginBottom="space80" style={{ width: "500px" }}>
-                <Label htmlFor="q1" required>
-                  {reviewAnswers.QA[0].question}
-                </Label>
-                <Input
-                  id="a1"
-                  name="answer1"
-                  type="text"
-                  value={reviewAnswers.QA[0].answer}
-                  onChange={(e) => updateAnswById(e.target.value, 0)}
-                  required
-                />
-              </Box>
-              <Box marginBottom="space80" style={{ width: "500px" }}>
-                <Label htmlFor="q2" required>
-                  {reviewAnswers.QA[1].question}
-                </Label>
-                <Input
-                  id="a2"
-                  name="answer2"
-                  type="text"
-                  value={reviewAnswers.QA[1].answer}
-                  onChange={(e) => updateAnswById(e.target.value, 1)}
-                  required
-                />
-              </Box>
-              <Box marginBottom="space80" style={{ width: "500px" }}>
-                <Label htmlFor="q3" required>
-                  {reviewAnswers.QA[2].question}
-                </Label>
-                <Input
-                  id="a3"
-                  name="answer3"
-                  type="text"
-                  value={reviewAnswers.QA[2].answer}
-                  onChange={(e) => updateAnswById(e.target.value, 2)}
-                  required
-                />
-              </Box>
-         
-                <Button type="submit" variant="primary" disabled={disable}>
-                  Submit
-                </Button>
-            
-              {managerAction && (
-                <Button type="submit" variant="primary" onClick={closeReview}>
-                  Close Review
-                </Button>
-              )}
-            </form>
-          </div>
-        </Card>
+                  <Box marginBottom="space80" style={{ width: "500px" }}>
+                    <Label htmlFor="q1" required>
+                      {reviewAnswers.QAs[0].question.question}
+                    </Label>
+                    <Input
+                      name="answer1"
+                      type="text"
+                      //value={reviewAnswers.QAs[0].answer.answer}
+                      onChange={(e) => updateAnswById(e.target.value, reviewAnswers.QAs[0].answer.id)}
+                      required
+                    />
+                  </Box>
+                  <Box marginBottom="space80" style={{ width: "500px" }}>
+                    <Label htmlFor="q2" required>
+                      {reviewAnswers.QAs[1].question.question}
+                    </Label>
+                    <Input
+                      name="answer2"
+                      type="text"
+                      //value={reviewAnswers.QAs[1].answer.answer}
+                      onChange={(e) => updateAnswById(e.target.value, reviewAnswers.QAs[1].answer.id)}
+                      required
+                    />
+                  </Box>
+                  <Box marginBottom="space80" style={{ width: "500px" }}>
+                    <Label htmlFor="q3" required>
+                      {reviewAnswers.QAs[2].question.question}
+                    </Label>
+                    <Input
+                      name="answer3"
+                      type="text"
+                      //value={reviewAnswers.QAs[2].answer.answer}
+                      onChange={(e) => updateAnswById(e.target.value, reviewAnswers.QAs[2].answer.id)}
+                      required
+                    />
+                  </Box>
+
+                  <Button type="submit" variant="primary" disabled={disable}>
+                    Submit
+                  </Button>
+
+                  {managerAction && (
+                    <Button type="submit" variant="primary" onClick={closeReview}>
+                      Close Review
+                    </Button>
+                  )}
+                </form>
+              </div>
+            </Card>
+          </>
+          :
+          <p>You have completed your task</p>
+        }
+
+
       </div>
     </>
   );
