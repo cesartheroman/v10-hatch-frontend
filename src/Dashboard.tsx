@@ -108,11 +108,11 @@ const Dashboard = () => {
    *
    * */
 
-  function Endpoint(usery: any) {
+  function Endpoint(usery: any): string {
     if (usery.roleID === 4) {
-      return ("http://localhost:9876/evaluations/");
+      return ("http://localhost:9876/v1/api/evaluations/");
     } else {
-      return ("http://localhost:9876/users/" + usery.id +"/evaluations")
+      return ("http://localhost:9876/v1/api/users/" + usery.id +"/evaluations")
     }
   }
 
@@ -120,23 +120,18 @@ const Dashboard = () => {
     if (currentUser.id === 66666) {
       let storageuser: any = localStorage.getItem("user");
     let user = JSON.parse(storageuser);
-    console.log(user);
+    
     setCurrentUser(user);
-    console.log(currentUser)
+  
     
     }
     let token: any = localStorage.getItem("token");
-    let urlString = JSON.stringify(Endpoint(currentUser));
+    let urlString = Endpoint(currentUser);
     
-
-
-    //TODO: if hatch manager - call @ /evaluations endpoint
-    // if they are not, call @ /users/:ID/evaluations endpoint !!!!!!
-
     let config = {
       method: "get",
       url: urlString,
-      headers: { token },
+      headers: { Authorization: token },
     };
     
      axios(config)
@@ -147,7 +142,6 @@ const Dashboard = () => {
           // to the true endpoint! <3
 
           response.data.filter((object: any) => {
-            console.log(object)
              return (
               object.apprentice.id === currentUser.id ||
               object.manager.id === currentUser.id ||
@@ -168,7 +162,7 @@ const Dashboard = () => {
             );
           })
         );
-        console.log(evaluations)
+       
       })
       .catch((error) => {
         console.log("Error: " + error);

@@ -140,8 +140,12 @@ const EvaluationDetails = () => {
     let token: any = localStorage.getItem("token");
 
     setCurrentUser(userinfo);
+
+    let config = {
+      
+    }
     axios
-      .get<any>(baseURL + params.id, { headers: {token}})
+      .get<any>(baseURL + params.id, { auth : token})
       .then((response) => {
         setEvaluation(response.data);
         setApprenticeReview(
