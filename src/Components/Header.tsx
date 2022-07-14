@@ -109,7 +109,6 @@ const Header = () => {
       <Box id="navItems">
 
       {DisplayLinks()}
-
        
       </Box>
     </nav>

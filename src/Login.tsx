@@ -26,12 +26,49 @@ export default function Login() {
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
+<<<<<<< HEAD
    try {
      const userResponseToLogin = await loginUser(user)
      navigate("../", { replace: true });
    } catch (err) {
      console.log(err)
    }
+=======
+    axios
+      .get(baseURL + "login", {
+        auth: {
+          username: user.email,
+          password: user.password,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setLoggedIn(true);
+          console.log(response.data);
+          localStorage.setItem(
+            "token",
+            "Bearer " + response.data.token
+          );
+          axios
+            .get(baseURL + "auth/check-token", {
+              headers: { Authorization: "Bearer " + response.data.token },
+            })
+            .then((response) => {
+              localStorage.setItem("user", JSON.stringify(response.data));
+              let userinfo: any = localStorage.getItem("user");
+              let userInfo: string = JSON.parse(userinfo);
+
+              navigate("/", { replace: true });
+              location.reload();
+
+            });
+          
+        } else {
+          alert("Login did not work. Please check your information and try again.");
+        }
+      })
+      .catch((error) => alert("Error: " + error.status));
+>>>>>>> 60ab98eb4e973d965325049934960268ca5f840b
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
