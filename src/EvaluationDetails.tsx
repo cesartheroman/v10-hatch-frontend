@@ -40,14 +40,14 @@ const EvaluationDetails = () => {
     finalized: "06/28/2022",
     is_completed: false,
     questions: [""],
-    apprentice: { id: 4, name: "PLACEHOLDER APPRENTICE" },
-    manager: { id: 2, name: "PLACEHOLDER MANAGER" },
+    apprentice: { id: 99999, name: "PLACEHOLDER APPRENTICE" },
+    manager: { id: 99999, name: "PLACEHOLDER MANAGER" },
     reviews: [
       {
-        id: 1,
+        id: 99999,
         status: "closed",
-        reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
-        QA: [
+        reviewer: { id: 99999, name: "PLACEHOLDER REVIEWER" },
+        QAs: [
           {
             question: {
               id: 555,
@@ -63,53 +63,53 @@ const EvaluationDetails = () => {
     ],
   });
   const [apprenticeReview, setApprenticeReview] = useState({
-    id: 1,
+    id: 99999,
     status: "closed",
-    reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
-    QA: [
+    reviewer: { id: 999, name: "PLACEHOLDER REVIEWER" },
+    QAs: [
       {
         question: {
           id: 555,
-          text: "PLACEHOLDER QUESTION 1?",
+          question: "PLACEHOLDER QUESTION 1?",
         },
         answer: {
           id: 666,
-          text: "PLACEHOLDER ANSWER 1",
+          answer: "PLACEHOLDER ANSWER 1",
         },
       },
     ],
   });
   const [managerReview, setManagerReview] = useState({
-    id: 1,
+    id: 99999,
     status: "closed",
-    reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
-    QA: [
+    reviewer: { id: 999, name: "PLACEHOLDER REVIEWER" },
+    QAs: [
       {
         question: {
           id: 555,
-          text: "PLACEHOLDER QUESTION 1?",
+          question: "PLACEHOLDER QUESTION 1?",
         },
         answer: {
           id: 666,
-          text: "PLACEHOLDER ANSWER 1",
+          answer: "PLACEHOLDER ANSWER 1",
         },
       },
     ],
   });
   const [reviewerReviews, setReviewerReviews] = useState([
     {
-      id: 1,
+      id: 99999,
       status: "closed",
-      reviewer: { id: 3, name: "PLACEHOLDER REVIEWER" },
-      QA: [
+      reviewer: { id: 999, name: "PLACEHOLDER REVIEWER" },
+      QAs: [
         {
           question: {
             id: 555,
-            text: "PLACEHOLDER QUESTION 1?",
+            question: "PLACEHOLDER QUESTION 1?",
           },
           answer: {
             id: 666,
-            text: "PLACEHOLDER ANSWER 1",
+            answer: "PLACEHOLDER ANSWER 1",
           },
         },
       ],
@@ -149,31 +149,41 @@ const EvaluationDetails = () => {
     
     axios(config)
       .then((response) => {
-        console.log(response.data);
         setEvaluation(response.data);
+        if (apprenticeReview.reviewer.id !== evaluation.apprentice.id) {
         setApprenticeReview(
           response.data.reviews.find(
             (review: any) => review.reviewer.id === response.data.apprentice.id
           )
-        );
+        )
+      console.log("apprentice set!")};
+        if (managerReview.reviewer.id !== evaluation.manager.id) {
         setManagerReview(
           response.data.reviews.find(
             (review: any) => review.reviewer.id === response.data.manager.id
           )
-        );
+        )
+      console.log("manager set!")};
+      if (reviewerReviews.length <= 1){
         setReviewerReviews(
           response.data.reviews.filter(
             (review: any) =>
-              review.reviewer.id != response.data.manager.id &&
-              review.reviewer.id != response.data.apprentice.id
+              review.reviewer.id !== response.data.manager.id &&
+              review.reviewer.id !== response.data.apprentice.id
           )
-        );
-      })
+        )
+      console.log("reviewers set!");
+     
+      
+      }})
+        
+     
       .catch((error) => {
-        alert("Aw beans. It's busted.")
+        if (error.response.status >= 500) { alert("Aw beans. It's real busted.")}
+       
         console.log("Error: " + error);
       });
-  }, [apprenticeReview]);
+  }, [reviewerReviews.length]);
 
   //////////////////
   // The following two functions display if the review needs to be marked finalized by a manager .
@@ -222,7 +232,7 @@ const EvaluationDetails = () => {
         </div>
       );
     } else if (
-      review.status === "in_progress" &&
+      review.status.toLowerCase() === "in_progress" &&
       currentUser.id === review.reviewer.id
     ) {
       return (
@@ -250,8 +260,8 @@ const EvaluationDetails = () => {
   function ApprenticeTab() {
     if (
       evaluation.apprentice.id === currentUser.id ||
-      currentUser.roleID === 3 ||
-      apprenticeReview.status === "finalized"
+      currentUser.roleID === 3 || currentUser.roleID === 4 ||
+      apprenticeReview.status.toLowerCase() === "finalized"
     ) {
       return (
         <Tab id={tabSelectedID}>
@@ -271,8 +281,8 @@ const EvaluationDetails = () => {
 
   function ManagerTab() {
     if (
-      evaluation.manager.id === currentUser.id ||
-      managerReview.status === "finalized"
+      evaluation.manager.id === currentUser.id || currentUser.roleID === 3 || currentUser.roleID === 4 ||
+      managerReview.status.toLowerCase() === "finalized"
     ) {
       return (
         <Tab>
@@ -298,9 +308,9 @@ const EvaluationDetails = () => {
       ) {
         return <></>;
       } else if (
-        review.status != "finalized" &&
+        review.status.toLowerCase() != "finalized" &&
         review.reviewer.id != currentUser.id &&
-        currentUser.id != evaluation.manager.id
+        currentUser.id != evaluation.manager.id && currentUser.roleID !== 4
       ) {
         return (
           <Tab key={review.id} disabled>
@@ -325,7 +335,7 @@ const EvaluationDetails = () => {
 
   function DisplayApprenticePanel() {
     if (
-      apprenticeReview.status === "in_progress" &&
+      apprenticeReview.status.toLowerCase() === "in_progress" &&
       currentUser.id != evaluation.apprentice.id
     ) {
       return (
@@ -344,7 +354,15 @@ const EvaluationDetails = () => {
           </Box>
         </TabPanel>
       );
+    }  else if (!apprenticeReview.QAs) {
+      console.log(apprenticeReview);
+      return (
+        <TabPanel key={apprenticeReview.id}>
+          Error! Question array for this evaluation does not exist. 
+        </TabPanel>
+      )
     } else {
+      
       return (
         <TabPanel>
           {ReviewFinalizeCheckHeader(apprenticeReview)}
@@ -352,12 +370,12 @@ const EvaluationDetails = () => {
             Apprentice Review: {evaluation.apprentice.name}
           </Heading>
           <Stack orientation="vertical" spacing="space60">
-            {apprenticeReview.QA.map((obj, index) => (
+            {apprenticeReview.QAs.map((obj, index) => (
               <Card key={index} id="QAcard">
                 <Heading as="h4" variant="heading50">
-                  <em>{obj.question.text}</em>
+                  <em>{obj.question.question}</em>
                 </Heading>
-                <Paragraph>{obj.answer.text}</Paragraph>
+                <Paragraph>{obj.answer.answer}</Paragraph>
               </Card>
             ))}
           </Stack>
@@ -368,7 +386,7 @@ const EvaluationDetails = () => {
 
   function DisplayManagerPanel() {
     if (
-      managerReview.status === "in_progress" &&
+      managerReview.status.toLowerCase() === "in_progress" &&
       currentUser.id != evaluation.manager.id
     ) {
       return (
@@ -387,6 +405,12 @@ const EvaluationDetails = () => {
           </Box>
         </TabPanel>
       );
+    }  else if (!managerReview.QAs) {
+      return (
+        <TabPanel key={managerReview.id}>
+          Error! Question array for this evaluation does not exist. 
+        </TabPanel>
+      )
     } else {
       return (
         <TabPanel>
@@ -395,12 +419,12 @@ const EvaluationDetails = () => {
             Manager Reviewer: {evaluation.manager.name}
           </Heading>
           <Stack orientation="vertical" spacing="space60">
-            {managerReview.QA.map((obj, index) => (
+            {managerReview.QAs.map((obj, index) => (
               <Card key={index} id="QAcard">
                 <Heading as="h4" variant="heading50">
-                  <em>{obj.question.text}</em>
+                  <em>{obj.question.question}</em>
                 </Heading>
-                <Paragraph>{obj.answer.text}</Paragraph>
+                <Paragraph>{obj.answer.answer}</Paragraph>
               </Card>
             ))}
           </Stack>
@@ -411,7 +435,7 @@ const EvaluationDetails = () => {
 
   function DisplayReviewerPanel(review: any) {
     if (
-      review.status === "in_progress" &&
+      review.status.toLowerCase() === "in_progress" &&
       currentUser.id != review.reviewer.id
     ) {
       return (
@@ -430,7 +454,14 @@ const EvaluationDetails = () => {
           </Box>
         </TabPanel>
       );
-    } else {
+    } else if (!review.QAs) {
+      return (
+        <TabPanel key={review.id}>
+          Error! Question array for this evaluation does not exist. 
+        </TabPanel>
+      )
+    } 
+    else {
       return (
         <TabPanel key={review.id}>
           {ReviewFinalizeCheckHeader(review)}
@@ -438,12 +469,12 @@ const EvaluationDetails = () => {
             Reviewer: {review.reviewer.name}
           </Heading>
           <Stack orientation="vertical" spacing="space60">
-            {review.QA.map((obj: any, index: any) => (
+            {review.QAs.map((obj: any, index: any) => (
               <Card key={index} id="QAcard">
                 <Heading as="h4" variant="heading50">
-                  <em>{obj.question.text}</em>
+                  <em>{obj.question.question}</em>
                 </Heading>
-                <Paragraph>{obj.answer.text}</Paragraph>
+                <Paragraph>{obj.answer.answer}</Paragraph>
               </Card>
             ))}
           </Stack>
