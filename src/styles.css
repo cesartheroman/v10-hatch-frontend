@@ -1,7 +1,7 @@
 /* Styling for header component */
 
 .nav {
-  margin: 0 0 40px 0;
+  margin: 0 0 0 0;
   background-color: rgb(235, 86, 86);
   display: flex;
   flex-direction: row;
@@ -68,7 +68,7 @@ input[type="checkbox"] {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-
+  margin-top: 40px;
   padding: 0 20px;
 }
 #blankspace {
@@ -100,7 +100,7 @@ input[type="checkbox"] {
 #detailsLink {
   font-weight: 500;
   color: rgb(209, 0, 0);
-  text-decoration: underline;
+  text-decoration: none;
   display: flex;
   flex-direction: row;
 }
@@ -173,6 +173,34 @@ input[type="checkbox"] {
   border-radius: 20px;
 }
 
+#alert {
+  max-width: 1000px;
+  margin: 0 0 20px 0;
+}
+
+#reviewInProgress {
+  margin: 0 200px;
+}
+
+#loginForm{
+  
+  margin: 20px;
+}
+
+#loginHelloSubmit {
+  text-align: center;
+  justify-content: center;
+}
+
+#loginComponent {
+  
+  margin-left: auto;
+  margin-right: auto;
+padding-top: 70px;
+  max-width: 600px;
+  align-items: center;
+}
+
 /* Styling for UserManintenance  component  */
 #userHeading {
   display: flex;
@@ -182,4 +210,3 @@ input[type="checkbox"] {
 .usersTable {
   margin: 1em;
 }
-

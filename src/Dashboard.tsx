@@ -17,9 +17,10 @@ import {
 } from "@twilio-paste/core/data-grid";
 import type { SortDirection } from "@twilio-paste/core/data-grid";
 import "./styles.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "array-sort";
 import { reverse } from "cypress/types/lodash";
+import { WarningIcon } from "@twilio-paste/icons/esm/WarningIcon";
 
 /**
  *
@@ -45,17 +46,17 @@ const Dashboard = () => {
    * headerData= array of header titles for the dashboard DataGrid.
    * arraySort = allows for us to sort data. Yay.
    *
-   * (The currentUser constant is a temporary measure and will be deleted once we have full user Authorization parameters
-   * to play with. )
+   *
    */
+  let navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState({
+    id: 66666,
+    name: "Placeholder Placeholder",
+    username: "placeholder@fake.com",
+    role: "APPRENTICE",
+    roleID: 2,
+  });
 
-  const currentUser = {
-    id: 2,
-    name: "Jiminy Cricket",
-    role: 4,
-  };
-
-  const baseURL: string = "http://localhost:9876/api/v1/";
   const [isDesc, setIsDesc] = useState(true);
   const [filter, setFilter] = useState("");
   const [savedEvaluations, setSavedEvaluations] = useState([
@@ -107,48 +108,44 @@ const Dashboard = () => {
    *
    * */
 
+  function Endpoint(usery: any): string {
+    if (usery.roleID === 4) {
+      return "http://localhost:9876/v1/api/evaluations/";
+    } else {
+      return "http://localhost:9876/v1/api/users/" + usery.id + "/evaluations";
+    }
+  }
+
   useEffect(() => {
+    if (currentUser.id === 66666 && localStorage.length !== 0) {
+      let storageuser: any = localStorage.getItem("user");
+      let user = JSON.parse(storageuser);
 
-    //TODO: if hatch manager - call @ /evaluations endpoint
-    // if they are not, call @ /users/:ID/evaluations endpoint !!!!!!
+      setCurrentUser(user);
+    }
+    let token: any = localStorage.getItem("token");
+    let urlString = Endpoint(currentUser);
 
-    
-    var config = {
-      method: 'get',
-      url: 'http://localhost:3000/evaluations/',
-    //  url: 'https://cors-anywhere.herokuapp.com/' + 'ngrok token',
-      headers: { 
-        'Authorization': 'Bearer {TOKEN HERE}'
-      }
+    let config = {
+      method: "get",
+      url: urlString,
+      headers: { Authorization: token },
     };
+    if (currentUser.id !== 66666) {
+    axios(config)
+      .then((response) => {
+        setEvaluations(response.data);
 
- axios(config).then((response) => {
-      setEvaluations(
-        response.data.filter((object: any) => {
-          return (
-            object.apprentice.id === currentUser.id ||
-            object.manager.id === currentUser.id ||
-            object.reviews.some(
-              (rev: any) => rev.reviewer.id === currentUser.id
-            )
-          );
-        })
-      );
-      setSavedEvaluations(
-        response.data.filter((object: any) => {
-          return (
-            object.apprentice.id === currentUser.id ||
-            object.manager.id === currentUser.id ||
-            object.reviews.some(
-              (rev: any) => rev.reviewer.id === currentUser.id
-            )
-          );
-        })
-      );
-    }).catch((error) => {
-      console.log("Error: " + error);
-    })
-  }, []);
+        setSavedEvaluations(response.data);
+      })
+      .catch((error) => {
+        if (error.response.status >= 400 && error.response.status < 500) {
+          alert("Error: your session has timed out. Please login again.");
+          navigate("/login", {replace: true});
+        }
+        console.log("Error: " + error);
+      });}
+  }, [currentUser]);
 
   /**
    * FILTERING FUNCTIONS
@@ -222,6 +219,8 @@ const Dashboard = () => {
     }
   }
 
+ 
+  
   return (
     <div id="dashboard">
       <div id="filterContainer">
@@ -229,7 +228,7 @@ const Dashboard = () => {
           Ahoy, <b>{currentUser.name}</b>!
           <br /> <br />
           Your id number is: <b>{currentUser.id}</b>
-          <br /> and your role is: <b>{DisplayRole(currentUser.role)}</b>.
+          <br /> and your role is: <b>{DisplayRole(currentUser.roleID)}</b>.
           <br />
         </Box>
         <Box>
@@ -291,7 +290,7 @@ const Dashboard = () => {
               <DataGridHeaderSort
                 direction="none"
                 //TODO: write function that changes direction of arrow depending on status above
-                onClick={() => FilterEvaluations("status")}
+                onClick={() => FilterEvaluations("is_completed")}
               />
             </DataGridHeader>
             <DataGridHeader width="180px">Details</DataGridHeader>
@@ -321,10 +320,7 @@ const Dashboard = () => {
               </DataGridCell>
               <DataGridCell>{Status(evaluation)}</DataGridCell>
               <DataGridCell>
-                <Link
-                  to={`evaluation/${evaluation.id}`}
-                  id="detailsLink"
-                >
+                <Link to={`evaluation/${evaluation.id}`} id="detailsLink">
                   <span id="viewDetails">View Details</span>
                   <FileIcon
                     decorative={true}

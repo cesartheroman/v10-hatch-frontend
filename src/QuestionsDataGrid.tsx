@@ -32,9 +32,7 @@ const QuestionsDataGrid = (props: QuestionProps) => {
         {props.questions.map((question: any) => (
           <DataGridRow key={question.id}>
             <DataGridCell>
-              <Heading as="h2" aria-label="Id" variant="heading50">
-                {question.id}
-              </Heading>
+              <Heading as="h2" aria-label="Id" variant="heading50"></Heading>
             </DataGridCell>
             <DataGridCell>
               <Heading as="h2" aria-label="Questions" variant="heading50">

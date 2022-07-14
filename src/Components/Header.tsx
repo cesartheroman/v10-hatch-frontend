@@ -3,6 +3,8 @@ import { Heading } from "@twilio-paste/core";
 import { Box } from "@twilio-paste/core/box";
 import { LogoTwilioIcon } from "@twilio-paste/icons/esm/LogoTwilioIcon";
 import { Anchor } from "@twilio-paste/core";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 /* **
 This component handles the header of the application. It is persistent on every page view and has the 
@@ -12,7 +14,83 @@ depending on the user and their role.
 The user can handle registration, login/logout through the navbar in the header.
 ** */
 
-// TODO: Add login/logout toggle logic once user auth is implemented
+function logUserOut() {
+  localStorage.clear();
+  
+}
+
+let loggedInToken = localStorage.getItem("token");
+
+let userjson: any = localStorage.getItem("user");
+let currentUser = JSON.parse(userjson);
+
+
+function DisplayLinks() {
+  if (loggedInToken && (currentUser.roleID === 1 || currentUser.roleID === 2)) {
+    return (
+      <>
+      <Anchor href="/" variant="inverse" id="headerLink">
+          Home
+        </Anchor>
+        <Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
+
+    Log Out
+  </Anchor>
+      </>
+    )
+  } else if (loggedInToken && currentUser.roleID === 4) {
+    return (
+      <>
+      <Anchor href="/" variant="inverse" id="headerLink">
+          Home
+        </Anchor>
+        <Anchor href="/userMaintenance" variant="inverse" id="headerLink">
+          User Maintenance
+        </Anchor>
+        <Anchor href="/CreateEvaluation" variant="inverse" id="headerLink">
+          Create Evaluation
+        </Anchor>
+        <Anchor href="/Questions" variant="inverse" id="headerLink">
+          Question Maintenance
+        </Anchor>
+        <Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
+    Log Out
+  </Anchor>
+      </>
+
+    )
+  } else if (loggedInToken && currentUser.roleID === 3) {
+return (
+  <>
+  <Anchor href="/" variant="inverse" id="headerLink">
+      Home
+    </Anchor>
+   
+    <Anchor href="/CreateEvaluation" variant="inverse" id="headerLink">
+      Create Evaluation
+    </Anchor>
+   
+    <Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
+Log Out
+</Anchor>
+  </>
+)
+  } else {
+    return (
+
+    <>
+    <Anchor href="/login" variant="inverse" id="headerLink">
+    Login
+  </Anchor>
+  <Anchor href="/registration" variant="inverse" id="headerLink">
+    Registration
+  </Anchor>
+    </>)
+
+  }
+}
+
+
 
 const Header = () => {
   return (
@@ -29,27 +107,9 @@ const Header = () => {
         </Heading>
       </Box>
       <Box id="navItems">
-        <Anchor href="/" variant="inverse" id="headerLink">
-          Home
-        </Anchor>
-        <Anchor href="/userMaintenance" variant="inverse" id="headerLink">
-          User Maintenance
-        </Anchor>
-        <Anchor href="/newreview" variant="inverse" id="headerLink">
-          Complete Review
-        </Anchor>
-        <Anchor href="/CreateEvaluation" variant="inverse" id="headerLink">
-          Create Evaluation
-        </Anchor>
-        <Anchor href="/Questions" variant="inverse" id="headerLink">
-          Questions
-        </Anchor>
-        <Anchor href="/login" variant="inverse" id="headerLink">
-          Login
-        </Anchor>
-        <Anchor href="/registration" variant="inverse" id="headerLink">
-          Registration
-        </Anchor>
+
+      {DisplayLinks()}
+       
       </Box>
     </nav>
   );
