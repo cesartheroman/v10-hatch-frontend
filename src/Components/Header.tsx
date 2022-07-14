@@ -3,6 +3,7 @@ import { Heading } from "@twilio-paste/core";
 import { Box } from "@twilio-paste/core/box";
 import { LogoTwilioIcon } from "@twilio-paste/icons/esm/LogoTwilioIcon";
 import { Anchor } from "@twilio-paste/core";
+import { Link } from "react-router-dom";
 
 /* **
 This component handles the header of the application. It is persistent on every page view and has the 
@@ -35,9 +36,9 @@ const Header = () => {
         <Anchor href="/userMaintenance" variant="inverse" id="headerLink">
           User Maintenance
         </Anchor>
-        <Anchor href="/newreview" variant="inverse" id="headerLink">
+        <Link to="/newreview" id="headerLink">
           Complete Review
-        </Anchor>
+        </Link>
         <Anchor href="/CreateEvaluation" variant="inverse" id="headerLink">
           Create Evaluation
         </Anchor>

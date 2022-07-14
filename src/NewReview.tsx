@@ -10,6 +10,17 @@ import { useNavigate } from "react-router-dom";
  *
  * @component
  *
+ * Constants:
+ * navigate - react router for navigation
+ * toaster -toaster alert
+ * 
+ * Hooks:
+ * currentUser - logged in user
+ * token - jwt grabbed from local storage
+ * reviewAnswers - object that has the review QA to be completed
+ * singleEvaluation - evaluation attached to the current logged in user
+ * managerAction - boolean that sets the 'Finalize Review' button available when the reviewer is a manager
+ * disable - boolean that disables button after form is submitted
  */
 type QuestionObj = { id: number; question: string }
 type AnswerObj = { id: number; answer: string }
@@ -34,10 +45,19 @@ type EvaluationSchema = {
 };
 
 const NewReview = () => {
-  const baseURL: string = `http://localhost:3000/reviews/3`;
+
   const navigate = useNavigate();
   const toaster = useToaster();
-  const [answers, setAnswers] = useState<AnswerObj>({id: 13, answer: ""})
+  const [currentUser, setCurrentUser] = useState({
+    id: 666,
+    username: "email@email.com",
+    name: "Placeholder Placeholder", 
+    roleID: 4,
+    role: "ADMIN"
+  });
+
+  const [token, setToken] = useState("");
+
   const [reviewAnswers, setReviewAnswers] = useState<UpdateReviewAnswer>({
     reviewId: 1,
     status: "TEST",
@@ -76,9 +96,6 @@ const NewReview = () => {
     ],
   });
   const [singleEvaluation, setSingleEvaluation] = useState<EvaluationSchema>({
-    /**
-     * Evaluation format - typescript needs a mock object to reference the hook
-     */
     id: 8,
     title: "Paola Test Evaluation ",
     creation: "09/03/2022",
@@ -116,16 +133,24 @@ const NewReview = () => {
       },
     ],
   });
-
-  /**
-   * If managerAction is true the button to close the review is displayed
-   */
   const [managerAction, setManagerAction] = useState(false);
   const [disable, setDisable] = useState(false);
 
 
   React.useEffect(() => {
-    getEvaluation();
+    /**
+     * Get current logged user token
+     * Get the evaluation related to the user
+    */
+    if (currentUser.id === 666) {
+      let storageuser: any = localStorage.getItem("user");
+      let userinfo = JSON.parse(storageuser);
+      let token: any = localStorage.getItem("token");
+
+      setToken(token);
+      setCurrentUser(userinfo);
+    }
+    getEvaluationById();
   }, []);
 
   React.useEffect(() => {
@@ -138,36 +163,22 @@ const NewReview = () => {
   }, []);
 
 
-  /**
-   * Mocked logged in user
-  */
-  const user = {
-    id: 12,
-    name: "David A",
-    roleID: 1,
-    email: "ruthie@elias.com"
-  }
-
-
-  const getEvaluation = () => {
+  const getEvaluationById = () => {
     /**
      * Function to call a single evaluation. This evaluation will be the one 
      * that is selected by the logged in user and will set the
      * review assigned to that user.
      */
     var config = {
-      method: 'get',
-      url: 'http://localhost:9876/v1/api/evaluations/1',
-      headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGUiOiJBUFBSRU5USUNFIiwidXNlciI6ImRhdmlkQHR3aWxpby5jb20iLCJ1c2VySUQiOiIxMiIsImlhdCI6MTY1Nzc0NDQ5OSwiZXhwIjoxNjU3NzQ2Mjk5LCJqdGkiOiJXekp4MFJvSjVkeE9FUUlXT2VEeXVBIn0.qWoXHKCNKQRy0fsMaV1S1ZeIyqsHcOgw-l55_3AM5A8'
-      }
+      method: 'GET',
+      url: `http://localhost:9876/v1/api/users/${currentUser.id}/evaluations`,
+      headers: {Authorization: token}
     };
 
     axios(config)
       .then(function (response) {
-        console.log("response.data", response.data);
         setSingleEvaluation(response.data)
-        let reviewToComplete = response.data.reviews.filter((rev: UpdateReviewAnswer) => rev.reviewer.id === user.id)
+        let reviewToComplete = response.data.reviews.filter((rev: UpdateReviewAnswer) => rev.reviewer.id === currentUser.id)
         setReviewAnswers(reviewToComplete[0])
       })
       .catch(function (error) {
@@ -182,7 +193,6 @@ const NewReview = () => {
      * Submit answers to review in the evaluation
      */
     e.preventDefault();
-    console.log("Whats being subimtted:", reviewAnswers)
     let data = {
       status: "SUBMITTED",
       QAs: [
@@ -207,10 +217,10 @@ const NewReview = () => {
       ]
     };
     var config = {
-      method: 'patch',
-      url: 'http://localhost:9876/v1/api/evaluations/3/reviews/5/',
+      method: 'PATCH',
+      url: `http://localhost:9876/v1/api/evaluations/${singleEvaluation.id}/reviews/${reviewAnswers.reviewId}/`,
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGUiOiJBUFBSRU5USUNFIiwidXNlciI6ImRhdmlkQHR3aWxpby5jb20iLCJ1c2VySUQiOiIxMiIsImlhdCI6MTY1Nzc0NDQ5OSwiZXhwIjoxNjU3NzQ2Mjk5LCJqdGkiOiJXekp4MFJvSjVkeE9FUUlXT2VEeXVBIn0.qWoXHKCNKQRy0fsMaV1S1ZeIyqsHcOgw-l55_3AM5A8',
+        Authorization: token,
         'Content-Type': 'application/json'
       },
       data: data
@@ -218,7 +228,7 @@ const NewReview = () => {
 
     axios(config)
       .then((response) => {
-        console.log("PATCH response,data", response.data);
+        // console.log("PATCH response,data", response.data);
         if (response.status === 200) {
           toaster.push({
             message: "Review submitted succesfully",
@@ -237,10 +247,19 @@ const NewReview = () => {
     let data = {
       status: "FINALIZED"
     };
-    axios
-      .patch(baseURL, data)
+    var config = {
+      method: 'PATCH',
+      url: `http://localhost:9876/v1/api/evaluations/${singleEvaluation.id}/reviews/${reviewAnswers.reviewId}/`,
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
       .then((response) => {
-        console.log("response from submit:", response);
+        console.log("PATCH response,data", response.data);
         if (response.status === 200) {
           toaster.push({
             message: "Review finalized succesfully",
@@ -249,10 +268,13 @@ const NewReview = () => {
         }
       })
       .catch(err => console.log(err))
-      .finally(() => navigate('/'));
+      .finally(() => navigate('/'))
   };
 
   const updateAnswById = (answer: string, id: number) => {
+    /**
+     * Update the answers in the QA array of the reviewAnswers
+    */
     const ansToUpdate = reviewAnswers.QAs.find(ans => ans.answer.id === id)
     const ansToUpdateIndex = reviewAnswers.QAs.indexOf(ansToUpdate!)
     reviewAnswers.QAs.splice(ansToUpdateIndex,1, {
@@ -280,7 +302,6 @@ const NewReview = () => {
                     <Input
                       name="answer1"
                       type="text"
-                      //value={reviewAnswers.QAs[0].answer.answer}
                       onChange={(e) => updateAnswById(e.target.value, reviewAnswers.QAs[0].answer.id)}
                       required
                     />
@@ -292,7 +313,6 @@ const NewReview = () => {
                     <Input
                       name="answer2"
                       type="text"
-                      //value={reviewAnswers.QAs[1].answer.answer}
                       onChange={(e) => updateAnswById(e.target.value, reviewAnswers.QAs[1].answer.id)}
                       required
                     />
@@ -304,7 +324,6 @@ const NewReview = () => {
                     <Input
                       name="answer3"
                       type="text"
-                      //value={reviewAnswers.QAs[2].answer.answer}
                       onChange={(e) => updateAnswById(e.target.value, reviewAnswers.QAs[2].answer.id)}
                       required
                     />
