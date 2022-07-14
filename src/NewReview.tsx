@@ -372,4 +372,4 @@ const NewReview = () => {
       );
 };
 
-      export default NewReview;
+export default NewReview;
