@@ -120,6 +120,7 @@ const CreateEvaluation = () => {
       setToken(token);
       setCurrentUser(userinfo);
     }
+    
     getReviewers();
     getQuestions();
     getApprentices();
