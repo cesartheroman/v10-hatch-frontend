@@ -13,8 +13,39 @@ depending on the user and their role.
 
 The user can handle registration, login/logout through the navbar in the header.
 ** */
+const defaultUser = "egg";
+function logUserOut() {
+  localStorage.clear();
+  
+}
+let loggedInToken = localStorage.getItem("token");
+function LoginLogout() {
+ 
+  if (loggedInToken) {
+    return  (<Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
+    Log Out
+  </Anchor>
+    )
+  }
+  else {
+    return (<Anchor href="/login" variant="inverse" id="headerLink">
+    Login
+  </Anchor>)
+  }
+}
 
-// TODO: Add login/logout toggle logic once user auth is implemented
+function Registration() {
+  if (loggedInToken) {
+    return (<></>);
+  } else {
+    return (<Anchor href="/registration" variant="inverse" id="headerLink">
+    Registration
+  </Anchor>)
+  }
+}
+
+
+
 
 const Header = () => {
   return (
@@ -43,12 +74,9 @@ const Header = () => {
         <Anchor href="/Questions" variant="inverse" id="headerLink">
           Questions
         </Anchor>
-        <Anchor href="/login" variant="inverse" id="headerLink">
-          Login
-        </Anchor>
-        <Anchor href="/registration" variant="inverse" id="headerLink">
-          Registration
-        </Anchor>
+       
+        {LoginLogout()}
+       {Registration()}
       </Box>
     </nav>
   );

@@ -1,9 +1,11 @@
 import * as React from "react";
 import axios from "axios";
 import { useState } from "react";
-import { Label, Input, Button, Card, Box } from "@twilio-paste/core";
+import { Label, Input, Button, Card, Box, Anchor } from "@twilio-paste/core";
 import { Buffer } from "buffer";
 import { useNavigate } from "react-router";
+import  background  from "./twilio-background.png";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const baseURL: string = "http://localhost:9876/";
@@ -47,8 +49,9 @@ export default function Login() {
               let userinfo: any = localStorage.getItem("user");
               let userInfo: string = JSON.parse(userinfo);
               console.log(userInfo);
+              navigate("../", { replace: true });
             });
-          navigate("../", { replace: true });
+          
         } else {
           alert("Login did not work. Please check your work and try again.");
         }
@@ -71,9 +74,10 @@ export default function Login() {
   // }
 
   return (
-    <div style={{ maxWidth: 600, padding: 10, margin: 10 }}>
+    <div id="loginBG" style={{ backgroundImage: `url(${background})`, backgroundSize: 'auto', height: '90vh', overflow: "hidden"}}>
+    <div id="loginComponent">
       <Card style={{ margin: "10px" }}>
-        <div>
+        {/* <div>
           <Button
             variant="primary"
             onClick={() => {
@@ -82,11 +86,13 @@ export default function Login() {
           >
             Logout
           </Button>
-        </div>
-        <div>
+        </div> */}
+        <div id="loginForm">
           <form onSubmit={handleSubmit}>
-            <h1> Welcome to Hatch Evaluations!</h1>
-            <p>Please login to the system to access your available evals. </p>
+            <div id="loginHelloSubmit">
+            <h1> Welcome to Twilio Hatch Evaluations!</h1>
+            <p>Please login to the system to access your available evaluationss. </p>
+            </div>
             <Box marginBottom="space80" style={{ width: "500px" }}>
               <Label htmlFor="email" required>
                 User Email:
@@ -112,12 +118,17 @@ export default function Login() {
                 required
               />
             </Box>
+            <div id="loginHelloSubmit">
             <Button type="submit" variant="primary">
-              Submit
+              Login
             </Button>
+<br />< br/>
+            <Link to="/registration" style={{color: "rgb(235, 86, 86)", textDecoration: "none"}}>Not registered yet? <strong> Click here!</strong></Link> 
+            </div>
           </form>
         </div>
       </Card>
+    </div>
     </div>
   );
 }

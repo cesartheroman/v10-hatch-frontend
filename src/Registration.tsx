@@ -13,6 +13,8 @@ import {
   Card,
 } from "@twilio-paste/core";
 import axios from "axios";
+import  background  from "./twilio-background.png";
+import { Link } from "react-router-dom";
 
 const Registration = () => {
   const [email, setEmail] = useState<string>("");
@@ -52,14 +54,15 @@ const Registration = () => {
   };
 
   return (
-    <>
-      <Grid gutter="space30">
-        <Column span={8} offset={2}>
+     <div id="loginBG" style={{ backgroundImage: `url(${background})`, backgroundSize: 'auto', height: '90vh', overflow: "hidden"}}>
+      <div id="loginComponent">
+      <Grid >
+        <Column span={20} >
           <Card padding="space100">
-            <h2>Register New Account</h2>
+            <h2 style={{textAlign:"center"}}>Register New Account</h2>
             <form onSubmit={handleSubmit}>
               <Label htmlFor="name" required>
-                Name
+                Full Name
               </Label>
               <Input
                 aria-describedby="name_help_text"
@@ -71,9 +74,12 @@ const Registration = () => {
                 onChange={(e) => setName(e.target.value)}
                 required
               />
+              <HelpText id="name_help_text">
+                Enter your full preferred name.
+              </HelpText>
               <br />
               <Label htmlFor="email_address" required>
-                Email address
+                Email Address
               </Label>
               <Input
                 aria-describedby="email_help_text"
@@ -81,10 +87,14 @@ const Registration = () => {
                 name="email_address"
                 type="email"
                 value={email}
-                placeholder="example@gmail.com"
+                placeholder="example@twilio.com"
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+
+              <HelpText id="email_help_text">
+                Enter your Twilio email.
+              </HelpText>
               <br />
               <Label htmlFor="password" required>
                 Password
@@ -99,36 +109,40 @@ const Registration = () => {
                 required
               />
               <br />
+
               <RadioGroup
+              
                 name="controlled-radio-group"
-                legend="Choose role"
-                helpText="User role determines what access rights your account will be provided"
+                legend="Choose Hatch Role"
+                helpText="User role determines what access rights your account will be provided."
                 value={role}
                 onChange={(newValue: any) => {
                   setRole(newValue);
                 }}
               >
                 <Radio id={"reviewer"} value="2" name="controlled-radio-group">
-                  reviewer
+                  Reviewer
                 </Radio>
                 <Radio
                   id={"apprentice"}
                   value="1"
                   name="controlled-radio-group"
                 >
-                  apprentice
+                  Apprentice
                 </Radio>
               </RadioGroup>
               <br />
-
+              <div style={{textAlign:"center"}}>
               <Button size="default" type="submit" variant="primary">
-                Submit
-              </Button>
+                Submit Registration
+              </Button><br/><br/>
+              <Link to="/login" style={{color: "rgb(235, 86, 86)", textDecoration: "none"}}>Already registered? <strong> Click here to Login!</strong></Link>
+              </div>
             </form>
           </Card>
         </Column>
       </Grid>
-    </>
+    </div></div>
   );
 };
 

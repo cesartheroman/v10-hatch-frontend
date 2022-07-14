@@ -26,9 +26,8 @@ import params from "./App";
 import image from "./news.png";
 import { ProcessInProgressIcon } from "@twilio-paste/icons/esm/ProcessInProgressIcon";
 
-
 const EvaluationDetails = () => {
-  const baseURL: string = "http://localhost:3000/evaluations/";
+  const baseURL: string = "http://localhost:9876/v1/api/evaluations/";
 
   /////////////////////////////
   // The below useState instances contain placeholder data. Ideally this would be switched out for some sort of Loading mechanic
@@ -123,9 +122,9 @@ const EvaluationDetails = () => {
   const [currentUser, setCurrentUser] = useState({
     id: 666,
     username: "email@email.com",
-    name: "Placeholder Placeholder", 
+    name: "Placeholder Placeholder",
     roleID: 4,
-    role: "ADMIN"
+    role: "ADMIN",
   });
 
   /////////////////
@@ -135,22 +134,22 @@ const EvaluationDetails = () => {
   let params = useParams();
 
   React.useEffect(() => {
-    let storageuser: any = localStorage.getItem("user");
-    let userinfo = JSON.parse(storageuser);
+    if (currentUser.id === 666) {
+      let storageuser: any = localStorage.getItem("user");
+      let userinfo = JSON.parse(storageuser);
+      setCurrentUser(userinfo);
+    }
+
     let token: any = localStorage.getItem("token");
-
-    setCurrentUser(userinfo);
-
     let config = {
       method: "get",
       url: baseURL + params.id,
       headers: { Authorization: token },
     };
 
-    axios
-      (config)
+    axios(config)
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         setEvaluation(response.data);
         setApprenticeReview(
           response.data.reviews.find(
@@ -173,7 +172,7 @@ const EvaluationDetails = () => {
       .catch((error) => {
         console.log("Error: " + error);
       });
-  }, []);
+  }, [apprenticeReview]);
 
   //////////////////
   // The following two functions display if the review needs to be marked finalized by a manager .
@@ -221,7 +220,10 @@ const EvaluationDetails = () => {
           </Alert>
         </div>
       );
-    } else if (review.status === "in_progress" && currentUser.id === review.reviewer.id) {
+    } else if (
+      review.status === "in_progress" &&
+      currentUser.id === review.reviewer.id
+    ) {
       return (
         <div id="alert">
           <Alert variant="neutral">
@@ -229,7 +231,7 @@ const EvaluationDetails = () => {
               <strong>Review requires completion. </strong>
               Please complete the following review at your earliest convenience. Thank
               you! <br /> <Link to={`newreview/${evaluation.id}`}><strong>Complete review here.</strong></Link>
-              {/* TODO: link here to completing this evaluation !  */}
+
             </Text>
           </Alert>
         </div>
@@ -407,45 +409,47 @@ const EvaluationDetails = () => {
   }
 
   function DisplayReviewerPanel(review: any) {
-        if (review.status === "in_progress" && currentUser.id != review.reviewer.id) {
-          return (
-            <TabPanel key={review.id}>
-              <Box id="reviewInProgress">
-                <img
-                  src={image}
-                  width="350px"
-                  alt="illustration of person holding computer"
-                  title="review not done"
-                />
-                <Heading as="h3" variant="heading50">
-                  {" "}
-                  Review is currently in progress. Please check back later.{" "}
+    if (
+      review.status === "in_progress" &&
+      currentUser.id != review.reviewer.id
+    ) {
+      return (
+        <TabPanel key={review.id}>
+          <Box id="reviewInProgress">
+            <img
+              src={image}
+              width="350px"
+              alt="illustration of person holding computer"
+              title="review not done"
+            />
+            <Heading as="h3" variant="heading50">
+              {" "}
+              Review is currently in progress. Please check back later.{" "}
+            </Heading>
+          </Box>
+        </TabPanel>
+      );
+    } else {
+      return (
+        <TabPanel key={review.id}>
+          {ReviewFinalizeCheckHeader(review)}
+          <Heading as="h3" variant="heading30">
+            Reviewer: {review.reviewer.name}
+          </Heading>
+          <Stack orientation="vertical" spacing="space60">
+            {review.QA.map((obj: any, index: any) => (
+              <Card key={index} id="QAcard">
+                <Heading as="h4" variant="heading50">
+                  <em>{obj.question.text}</em>
                 </Heading>
-              </Box>
-            </TabPanel>
-          );
-        } else {
-          return (
-            <TabPanel key={review.id}>
-              {ReviewFinalizeCheckHeader(review)}
-              <Heading as="h3" variant="heading30">
-                Reviewer: {review.reviewer.name}
-              </Heading>
-              <Stack orientation="vertical" spacing="space60">
-                {review.QA.map((obj: any, index: any) => (
-                  <Card key={index} id="QAcard">
-                    <Heading as="h4" variant="heading50">
-                      <em>{obj.question.text}</em>
-                    </Heading>
-                    <Paragraph>{obj.answer.text}</Paragraph>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-          );
-        }
-      };
-    
+                <Paragraph>{obj.answer.text}</Paragraph>
+              </Card>
+            ))}
+          </Stack>
+        </TabPanel>
+      );
+    }
+  }
 
   const tabSelectedID = useUID();
 
@@ -489,8 +493,7 @@ TAB PANELS
         <TabPanels>
           {DisplayApprenticePanel()}
           {DisplayManagerPanel()}
-          {reviewerReviews.map((review) => (
-          DisplayReviewerPanel(review)))}
+          {reviewerReviews.map((review) => DisplayReviewerPanel(review))}
         </TabPanels>
       </Tabs>
     </div>
