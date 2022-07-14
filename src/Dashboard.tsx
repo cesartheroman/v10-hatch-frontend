@@ -117,7 +117,7 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    if (currentUser.id === 66666) {
+    if (currentUser.id === 66666 || localStorage.length === 0) {
       let storageuser: any = localStorage.getItem("user");
       let user = JSON.parse(storageuser);
 

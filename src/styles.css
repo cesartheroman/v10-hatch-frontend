@@ -1,7 +1,7 @@
 /* Styling for header component */
 
 .nav {
-  margin: 0 0 40px 0;
+  margin: 0 0 0 0;
   background-color: rgb(235, 86, 86);
   display: flex;
   flex-direction: row;
@@ -68,7 +68,7 @@ input[type="checkbox"] {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-
+  margin-top: 40px;
   padding: 0 20px;
 }
 #blankspace {
@@ -185,4 +185,23 @@ input[type="checkbox"] {
 
 #reviewInProgress {
   margin: 0 200px;
+}
+
+#loginForm{
+  
+  margin: 20px;
+}
+
+#loginHelloSubmit {
+  text-align: center;
+  justify-content: center;
+}
+
+#loginComponent {
+  
+  margin-left: auto;
+  margin-right: auto;
+padding-top: 70px;
+  max-width: 600px;
+  align-items: center;
 }
