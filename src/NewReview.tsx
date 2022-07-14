@@ -314,9 +314,8 @@ const NewReview = () => {
   return (
     <>
 
-      <div style={{margin: 10}}>
+      <Box margin="space100">
 
-        <>
           {reviewAnswers.status !== 'FINALIZED' ?
             <>
               <Toaster {...toaster} />
@@ -351,6 +350,8 @@ const NewReview = () => {
               </Card>
             </>
             :
+            <>
+            <p>thisreview is finalized</p>
             <Box id="reviewInProgress">
             <img
               src={image}
@@ -363,9 +364,10 @@ const NewReview = () => {
               This review is finalized, it cannot be editted at this time.{" "}
             </Heading>
           </Box>
-          }
           </>
-        </div>
+          }
+         
+        </Box>
       </>
       );
 };
