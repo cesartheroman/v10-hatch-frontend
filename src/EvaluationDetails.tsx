@@ -134,7 +134,7 @@ const EvaluationDetails = () => {
   let params = useParams();
 
   React.useEffect(() => {
-    if (currentUser.id === 666) {
+    if (currentUser.id === 666 && localStorage.length !== 0) {
       let storageuser: any = localStorage.getItem("user");
       let userinfo = JSON.parse(storageuser);
       setCurrentUser(userinfo);
@@ -146,7 +146,7 @@ const EvaluationDetails = () => {
       url: baseURL + params.id,
       headers: { Authorization: token },
     };
-
+    
     axios(config)
       .then((response) => {
         console.log(response.data);
@@ -170,6 +170,7 @@ const EvaluationDetails = () => {
         );
       })
       .catch((error) => {
+        alert("Aw beans. It's busted.")
         console.log("Error: " + error);
       });
   }, [apprenticeReview]);

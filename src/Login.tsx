@@ -48,12 +48,11 @@ export default function Login() {
               localStorage.setItem("user", JSON.stringify(response.data));
               let userinfo: any = localStorage.getItem("user");
               let userInfo: string = JSON.parse(userinfo);
-              console.log(userInfo);
               navigate("../", { replace: true });
             });
           
         } else {
-          alert("Login did not work. Please check your work and try again.");
+          alert("Login did not work. Please check your information and try again.");
         }
       })
       .catch((error) => alert("Error: " + error.status));
@@ -91,7 +90,7 @@ export default function Login() {
           <form onSubmit={handleSubmit}>
             <div id="loginHelloSubmit">
             <h1> Welcome to Twilio Hatch Evaluations!</h1>
-            <p>Please login to the system to access your available evaluationss. </p>
+            <p>Please login to the system to access your available evaluations. </p>
             </div>
             <Box marginBottom="space80" style={{ width: "500px" }}>
               <Label htmlFor="email" required>
