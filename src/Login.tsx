@@ -3,9 +3,10 @@ import axios from "axios";
 import { useState } from "react";
 import { Label, Input, Button, Card, Box, Anchor } from "@twilio-paste/core";
 import { Buffer } from "buffer";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import  background  from "./twilio-background.png";
 import { Link } from "react-router-dom";
+import { loginUser } from "./auth_service/authService.service";
 
 export default function Login() {
   const baseURL: string = "http://localhost:9876/";
@@ -15,50 +16,22 @@ export default function Login() {
   });
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    console.log("Login state: " + loggedIn);
-  }, [loggedIn]);
+  // React.useEffect(() => {
+  //   console.log("Login state: " + loggedIn);
+  // }, [loggedIn]);
 
   let navigate = useNavigate();
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    axios
-      .get(baseURL + "login", {
-        auth: {
-          username: user.email,
-          password: user.password,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setLoggedIn(true);
-          console.log(response.data);
-          localStorage.setItem(
-            "token",
-            "Bearer " + response.data.token
-          );
-          axios
-            .get(baseURL + "auth/check-token", {
-              headers: { Authorization: "Bearer " + response.data.token },
-            })
-            .then((response) => {
-              localStorage.setItem("user", JSON.stringify(response.data));
-              let userinfo: any = localStorage.getItem("user");
-              let userInfo: string = JSON.parse(userinfo);
-
-              navigate("/", { replace: true });
-              location.reload();
-
-            });
-          
-        } else {
-          alert("Login did not work. Please check your information and try again.");
-        }
-      })
-      .catch((error) => alert("Error: " + error.status));
+   try {
+     const userResponseToLogin = await loginUser(user)
+     navigate("../", { replace: true });
+   } catch (err) {
+     console.log(err)
+   }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
