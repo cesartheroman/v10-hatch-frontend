@@ -74,7 +74,7 @@ const Registration = () => {
                 onChange={(e) => setName(e.target.value)}
                 required
               />
-              <HelpText id="password_help_text">
+              <HelpText id="name_help_text">
                 Enter your full preferred name.
               </HelpText>
               <br />
@@ -92,7 +92,7 @@ const Registration = () => {
                 required
               />
 
-              <HelpText id="password_help_text">
+              <HelpText id="email_help_text">
                 Enter your Twilio email.
               </HelpText>
               <br />
