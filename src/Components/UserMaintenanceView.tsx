@@ -16,20 +16,25 @@ import "../styles.css";
 
 export interface User {
   id: number;
-  email: string;
   name: string;
+  email: string;
+  manager: string;
   roleID: number;
 }
 
 const UserMaintainanceView = () => {
-  const BASE_URL: string = "http://localhost:3000";
+  const BASE_URL: string = "http://localhost:9876/v1/api";
+  const authToken: string =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwidXNlcklEIjoiOSIsIm5hbWUiOiJBRE1JTiIsInVzZXJuYW1lIjoiQURNSU5fRU1BSUxAdHdpbGlvLmNvbSIsInJvbGUiOiJIQVRDSF9NQU5BR0VSIiwicm9sZUlEIjoiNCIsImlhdCI6MTY1NzgxMzk3NSwiZXhwIjoxNjU3ODE1Nzc1LCJqdGkiOiJUMm1WZG9LUDhhUk5tcXRPRGc4Mzd3In0.1IRPV5FU_P51DJUJ6o4l2pwfMq4sBjURtqbn_J0HxSY";
   const HEADER_DATA: string[] = [
     "Name",
     "Role",
     "Email",
+    "Manager",
     "Manage role/relations",
   ];
   const USER_ROLES: string[] = [
+    "_",
     "Apprentice",
     "Reviewer",
     "Manager",
@@ -41,7 +46,9 @@ const UserMaintainanceView = () => {
     const config: AxiosRequestConfig<any> = {
       method: "GET",
       url: BASE_URL + "/users",
-      headers: {},
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
     };
 
     try {
@@ -51,14 +58,6 @@ const UserMaintainanceView = () => {
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const handleClick = (user: User) => {
-    const userRole = USER_ROLES[user.roleID - 1];
-    if (userRole === "Manager" || userRole === "Hatch Manager") {
-      console.log("manager!");
-    }
-    // console.log(user);
   };
 
   useEffect(() => {
@@ -83,10 +82,16 @@ const UserMaintainanceView = () => {
             return (
               <DataGridRow key={user.id}>
                 <DataGridCell>{user.name}</DataGridCell>
-                <DataGridCell>{USER_ROLES[user.roleID - 1]}</DataGridCell>
+                <DataGridCell>{USER_ROLES[user.roleID]}</DataGridCell>
                 <DataGridCell>{user.email}</DataGridCell>
+                <DataGridCell>{user.manager}</DataGridCell>
                 <DataGridCell>
-                  <UserMaintenance userToEdit={user} userRoles={USER_ROLES} />
+                  <UserMaintenance
+                    userToEdit={user}
+                    userRoles={USER_ROLES}
+                    authToken={authToken}
+                    getUsers={getUsers}
+                  />
                 </DataGridCell>
               </DataGridRow>
             );
