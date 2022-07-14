@@ -48,8 +48,10 @@ export default function Login() {
               localStorage.setItem("user", JSON.stringify(response.data));
               let userinfo: any = localStorage.getItem("user");
               let userInfo: string = JSON.parse(userinfo);
+
               navigate("/", { replace: true });
               location.reload();
+
             });
           
         } else {

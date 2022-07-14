@@ -179,8 +179,9 @@ const EvaluationDetails = () => {
         
      
       .catch((error) => {
+
         if (error.response.status >= 500) { alert("Aw beans. It's real busted.")}
-       
+ 
         console.log("Error: " + error);
       });
   }, [reviewerReviews.length]);
