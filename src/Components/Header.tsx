@@ -19,7 +19,7 @@ function logUserOut() {
 let loggedInToken = localStorage.getItem("token");
 function LoginLogout() {
  
-  if (loggedInToken !== null ) {
+  if (loggedInToken) {
     return  (<Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
     Log Out
   </Anchor>
