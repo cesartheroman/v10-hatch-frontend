@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Card, Button, Box, Label, Input, Toaster, useToaster } from "@twilio-paste/core";
+import { Card, Button, Box, Label, Input, Toaster, useToaster, Heading, TextArea } from "@twilio-paste/core";
 import { useNavigate, useParams } from "react-router-dom";
+import image from "./news.png";
+
 /**
  * Component for fulfilling a review.
  * We receive the review throug the endpoint: /api/v1/evaluations/:id/reviews/:id
@@ -30,7 +32,7 @@ type AnswerObj = { id: number; answerText: string }
 
 type QA = { question: QuestionObj; answer: AnswerObj }[];
 type UpdateReviewAnswer = {
-  reviewId: number;
+  id: number;
   status: string;
   reviewer: { id: number; name: string };
   QAs: QA;
@@ -66,7 +68,6 @@ const NewReview = () => {
       answerText: ""
     }
   });
-  const [ansToUpdateIndex, setAnsToUpdateIndex] = useState(0)
   const [currentUser, setCurrentUser] = useState({
     id: 666,
     username: "email@email.com",
@@ -75,7 +76,7 @@ const NewReview = () => {
     role: "ADMIN"
   });
   const [reviewAnswers, setReviewAnswers] = useState<UpdateReviewAnswer>({
-    reviewId: 1,
+    id: 1,
     status: "TEST",
     reviewer: { id: 3, name: "Ruthie" },
     QAs: [
@@ -128,7 +129,7 @@ const NewReview = () => {
     },
     reviews: [
       {
-        reviewId: 598112,
+        id: 598112,
         reviewer: {
           id: 1,
           name: "Apprentice Name",
@@ -155,16 +156,8 @@ const NewReview = () => {
   React.useEffect(() => {
 
     getEvaluationById();
-  }, []);
+  }, [currentUser.id]);
 
-  React.useEffect(() => {
-    /**
-     * Compare evaluation manager Id with reviewer Id
-     */
-    if (singleEvaluation.manager.id === reviewAnswers.reviewer.id) {
-      setManagerAction(true);
-    }
-  }, []);
 
 
   const getEvaluationById = () => {
@@ -172,14 +165,14 @@ const NewReview = () => {
     * Get current logged user token
     * Get the evaluation related to the user
    */
-    if (currentUser.id === 666) {
-      let storageuser: any = localStorage.getItem("user");
-      let userinfo = JSON.parse(storageuser);
-      let token: any = localStorage.getItem("token");
 
-      setToken(token);
-      setCurrentUser(userinfo);
-    }
+    let storageuser: any = localStorage.getItem("user");
+    let userinfo = JSON.parse(storageuser);
+    let token: any = localStorage.getItem("token");
+
+    setToken(token);
+    setCurrentUser(userinfo);
+
     /**
      * Function to call a single evaluation. This evaluation will be the one 
      * that is selected by the logged in user and will set the
@@ -190,16 +183,17 @@ const NewReview = () => {
       url: `${BASE_URL}/${params.evalId}`,
       headers: { Authorization: token }
     };
+    if (currentUser.id !== 666) {
+      axios(config)
+        .then(function (response) {
+          setSingleEvaluation(response.data)
+          setReviewAnswers(response.data.reviews.find((rev: any) => rev.reviewer.id === currentUser.id))
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
 
-    axios(config)
-      .then(function (response) {
-        setSingleEvaluation(response.data)
-        let reviewToComplete = response.data.reviews.filter((rev: UpdateReviewAnswer) => rev.reviewer.id === currentUser.id)
-        setReviewAnswers(reviewToComplete[0])
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (
@@ -208,6 +202,7 @@ const NewReview = () => {
     /**
      * Submit answers to review in the evaluation
      */
+    console.log("on submit reviewAnswr", reviewAnswers)
     e.preventDefault();
     let data = {
       status: "SUBMITTED",
@@ -215,7 +210,7 @@ const NewReview = () => {
     };
     var config = {
       method: 'PATCH',
-      url: `${BASE_URL}/${singleEvaluation.id}/reviews/${reviewAnswers.reviewId}/`,
+      url: `${BASE_URL}/${singleEvaluation.id}/reviews/${reviewAnswers.id}/`,
       headers: {
         Authorization: token,
         'Content-Type': 'application/json'
@@ -225,7 +220,7 @@ const NewReview = () => {
 
     axios(config)
       .then((response) => {
-        // console.log("PATCH response,data", response.data);
+        console.log("PATCH response,data", response.data);
         if (response.status === 200) {
           toaster.push({
             message: "Review submitted succesfully",
@@ -246,7 +241,7 @@ const NewReview = () => {
     };
     var config = {
       method: 'PATCH',
-      url: `${BASE_URL}/${singleEvaluation.id}/reviews/${reviewAnswers.reviewId}/`,
+      url: `${BASE_URL}/${singleEvaluation.id}/reviews/${reviewAnswers.id}/`,
       headers: {
         Authorization: token,
         'Content-Type': 'application/json'
@@ -272,21 +267,29 @@ const NewReview = () => {
     /**
      * Update the answers in the QA array of the reviewAnswers
     */
-    // Copy the original array from the `reviewAnswers` state so we aren't mutating it in-place
+    /**
+     * Copy the original array from the `reviewAnswers` state so we aren't mutating it in-place
+     * */
     let questionsAndAnswers = [...reviewAnswers.QAs];
 
-    // Find the object containing the answer with the provided id, if it exists
+    /**
+     * Find the object containing the answer with the provided id, if it exists
+     * */ 
     const questionAndAnswer = questionsAndAnswers.find(
       (questionAndAnswer) => questionAndAnswer.answer.id === id
     );
 
-    // If no such question + answer object with the provided answerId exists, there's nothing to update
+    /**
+     * If no such question + answer object with the provided answerId exists, there's nothing to update
+     * */ 
     if (questionAndAnswer == null) { return; }
 
     const index = questionsAndAnswers.indexOf(questionAndAnswer);
-    if (index < 0) {return;}
+    if (index < 0) { return; }
 
-    //Updated version of QA
+    /**
+     * Updated version of QA
+     * */
     const updatedQuestionAndAnswer = {
       ...questionAndAnswer,
       answer: {
@@ -294,85 +297,77 @@ const NewReview = () => {
         answer: answerText
       }
     };
-    //Replace object at the index with updated version
+    /**
+     * Replace object at the index with updated version
+     * */
     questionsAndAnswers.splice(index, 1, updatedQuestionAndAnswer);
 
-    //Set Review Answers with new answers submitted by user
+    /**
+     * Set Review Answers with new answers submitted by user
+     * */
     setReviewAnswers((prevReviewAnswers) => {
-      return {...prevReviewAnswers, QAs: questionsAndAnswers};
+      return { ...prevReviewAnswers, QAs: questionsAndAnswers };
     })
-   
+
   };
 
   return (
     <>
-      <div style={{ maxWidth: 600, padding: 10, margin: 10 }}>
-        {reviewAnswers.status !== "FINALIZED" ?
-          <>
-            <Toaster {...toaster} />
-            <Card style={{ margin: "10px" }}>
-              <div>
-                <form onSubmit={handleSubmit} data-testid="newreview-form">
-                  <h1>Review:</h1>
-                  <p>Please answer the following questions:</p>
-                  {reviewAnswers.QAs.map((qa) => {
-                    <Box marginBottom="space80" style={{ width: "500px" }}>
-                      <Label htmlFor="q1" required>
-                        {qa.question.question}
-                      </Label>
-                      <Input
-                        name="answer"
-                        type="text"
-                        onChange={(e) => updateAnswById(e.target.value, qa.answer.id)}
-                        required
-                      />
-                    </Box>
-                  })}
 
-                  {/* <Box marginBottom="space80" style={{ width: "500px" }}>
-                    <Label htmlFor="q2" required>
-                      {reviewAnswers.QAs[1].question.question}
-                    </Label>
-                    <Input
-                      name="answer2"
-                      type="text"
-                      onChange={(e) => updateAnswById(e.target.value, reviewAnswers.QAs[1].answer.id)}
-                      required
-                    />
-                  </Box>
-                  <Box marginBottom="space80" style={{ width: "500px" }}>
-                    <Label htmlFor="q3" required>
-                      {reviewAnswers.QAs[2].question.question}
-                    </Label>
-                    <Input
-                      name="answer3"
-                      type="text"
-                      onChange={(e) => updateAnswById(e.target.value, reviewAnswers.QAs[2].answer.id)}
-                      required
-                    />
-                  </Box> */}
+      <div style={{margin: 10}}>
 
-                  <Button type="submit" variant="primary" disabled={disable}>
-                    Submit
-                  </Button>
-
-                  {managerAction && (
-                    <Button type="submit" variant="primary" onClick={closeReview}>
-                      Close Review
+        <>
+          {reviewAnswers.status !== 'FINALIZED' ?
+            <>
+              <Toaster {...toaster} />
+              <Card id="review-form-card">
+               
+                  <form onSubmit={handleSubmit} data-testid="newreview-form" id="review-form">
+                    <h1>Review for {singleEvaluation.apprentice.name}</h1>
+                    <p>Please answer the following questions:</p>
+                    {reviewAnswers.QAs.map((qa, index) => (
+                      <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
+                        <Label htmlFor="q1" required>
+                          {qa.question.question}
+                        </Label>
+                        <TextArea onChange={(e) => updateAnswById(e.target.value, qa.answer.id)} aria-describedby="message_help_text" id="message" name="message" required />
+                      </Box>
+                    ))}
+                    <div id="buttons-review"> 
+                      <Button type="submit" variant="primary" disabled={disable}>
+                      Submit
                     </Button>
-                  )}
-                </form>
-              </div>
-            </Card>
+
+                    {singleEvaluation.manager.id === reviewAnswers.reviewer.id && (
+                      <Button type="submit" variant="primary" onClick={closeReview}>
+                        Close Review
+                      </Button>
+                    )}
+
+                    </div>
+                   
+                  </form>
+              
+              </Card>
+            </>
+            :
+            <Box id="reviewInProgress">
+            <img
+              src={image}
+              width="350px"
+              alt="illustration of person holding computer"
+              title="review finalized"
+            />
+            <Heading as="h3" variant="heading50">
+              {" "}
+              This review is finalized, it cannot be editted at this time.{" "}
+            </Heading>
+          </Box>
+          }
           </>
-          :
-          <p>You have completed your task</p>
-        }
-
-
-      </div>
-    </>
-  );
+        </div>
+      </>
+      );
 };
 
-export default NewReview;
+      export default NewReview;

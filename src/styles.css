@@ -205,3 +205,23 @@ padding-top: 70px;
   max-width: 600px;
   align-items: center;
 }
+
+
+/* Review form component */
+#buttons-review {
+  display: flex;
+  justify-content: space-around;
+}
+#buttons-review  > button{
+  width: 125px;
+}
+#review-form-card{
+  border: 5px dotted rgb(235, 86, 86);
+}
+#review-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+ 
+}
