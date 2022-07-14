@@ -22,10 +22,26 @@ export interface User {
   roleID: number;
 }
 
+/**
+ *
+ * The UserMaintenanceView is the component responsible for rendering out each user within the applicaton. In specific it renders the user's name, email, role, manager, and 'Manage' button/modal that, depending on their role, will allow an apprentice to be assigned to a manager or a reviewer's role to be elevated to manager.
+ *
+ *
+ */
+
 const UserMaintainanceView = () => {
   const BASE_URL: string = "http://localhost:9876/v1/api";
+
+  /**
+   * TODO: Will update this with authToken constant with a localStorage call
+   */
   const authToken: string =
-    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5IiwidXNlcklEIjoiOSIsIm5hbWUiOiJBRE1JTiIsInVzZXJuYW1lIjoiQURNSU5fRU1BSUxAdHdpbGlvLmNvbSIsInJvbGUiOiJIQVRDSF9NQU5BR0VSIiwicm9sZUlEIjoiNCIsImlhdCI6MTY1NzgxMzk3NSwiZXhwIjoxNjU3ODE1Nzc1LCJqdGkiOiJUMm1WZG9LUDhhUk5tcXRPRGc4Mzd3In0.1IRPV5FU_P51DJUJ6o4l2pwfMq4sBjURtqbn_J0HxSY";
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwidXNlcklEIjoiMSIsIm5hbWUiOiJBRE1JTiIsInVzZXJuYW1lIjoiQURNSU5fRU1BSUxAdHdpbGlvLmNvbSIsInJvbGUiOiJIQVRDSF9NQU5BR0VSIiwicm9sZUlEIjoiNCIsImlhdCI6MTY1NzgyOTQ0MSwiZXhwIjoxNjU3ODMxMjQxLCJqdGkiOiJZZzBhblVhS1ZJVkQtWi1lc3pjc25nIn0.U6-h-ksZ0w5Gdux2IplHWyXn66BXpmL5SoWsioiT688";
+
+  /**
+   * @type {string[]}
+   * HEADER_DATA array is used to populate DataGrid headers
+   */
   const HEADER_DATA: string[] = [
     "Name",
     "Role",
@@ -33,6 +49,12 @@ const UserMaintainanceView = () => {
     "Manager",
     "Manage role/relations",
   ];
+
+  /**
+   * @type {string[]}
+   * USER_ROLES array is used to generate string representation of user roleID to render on DataGrid
+   * First element is '_' since roleIDs start at 1.
+   */
   const USER_ROLES: string[] = [
     "_",
     "Apprentice",
@@ -42,8 +64,11 @@ const UserMaintainanceView = () => {
   ];
   const [users, setUsers] = useState<User[]>([]);
 
+  /**
+   *  Makes axios call to GET all users from API endpoint and calls setUsers function to update state
+   */
   const getUsers = async () => {
-    const config: AxiosRequestConfig<any> = {
+    const config: AxiosRequestConfig = {
       method: "GET",
       url: BASE_URL + "/users",
       headers: {

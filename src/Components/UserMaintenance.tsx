@@ -31,8 +31,17 @@ interface Manager {
   apprentices: string[];
 }
 
+/**
+ *
+ * The UserMaintenance is the modal component that is in charge of opening up a form, and when clicked, based on the user's role it will give the option of  either assigning an apprentice to a manager or converting a reviewer's role to a manager
+ * @param {object} UserMaintenanceProps Props object that will be made up of user, userRoles array, authToken and getUsers function
+ *
+ */
 const UserMaintenance = (props: UserMaintenanceProps) => {
   const BASE_URL = "http://localhost:9876/v1/api";
+  /**
+   * destructuring props to more easily use them for rendering in the rest of the component
+   */
   const { userToEdit, userRoles, authToken, getUsers } = props;
   const [managers, setManagers] = useState<Manager[]>([]);
   const [managerIDToAssign, setManagerIDToAssign] = useState<number>();
@@ -41,6 +50,11 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
   const handleClose = () => setIsOpen(false);
   const modalHeadingID = useUID();
 
+  /**
+   * renders button with specific onClick handler based on if the role is Apprentice or Reviewer, renders nothing if some other role is selected
+   * @param {string} userRole string from USER_ROLES array based on the user's roleID
+   * @returns <Button> component
+   */
   const displayButtonBasedOnRole = (userRole: string) => {
     if (userRole === "Apprentice" || userRole === "Reviewer") {
       return (
@@ -53,8 +67,17 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     }
   };
 
+  /**
+   * renders dropdown options populated with all managers if role is apprentice, renders single dropdown option to convert role if role is reviewer
+   * @param {object} user user object  =
+   * @returns <Select> component with <Options> component
+   */
   const displayModalBasedOnRole = (user: User) => {
-    const userRole = userRoles[user.roleID];
+    /**
+     * Grabs user role string from USER_ROLES array at the index based on user's roleID proporty.
+     */
+    const userRole: string = userRoles[user.roleID];
+
     if (userRole === "Apprentice" && isOpen) {
       return (
         <>
@@ -85,10 +108,13 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
       );
     } else {
       //TODO: if time permits, allow changing of other fields
-      return null;
+      return;
     }
   };
 
+  /**
+   * Makes axios call to GET all managers from API endpoint and calls setManagers function to update state
+   */
   const getManagers = async () => {
     const config: AxiosRequestConfig = {
       method: "GET",
@@ -107,6 +133,10 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     }
   };
 
+  /**
+   * Makes axios call to POST apprentice to newly assigned manager
+   * @param {number} apprenticeID ID of apprentice to assign to new manager
+   */
   const assignApprenticeToEngMgr = async (apprenticeID: number) => {
     const requestBody = {
       apprenticeID,
@@ -124,7 +154,7 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
 
     try {
       const response: AxiosResponse = await axios(config);
-      //TODO: wait for backend to update response
+      //TODO: perhaps a toast can pop up to alert user that change was made?
       handleClose();
       getUsers();
     } catch (err) {
@@ -132,11 +162,18 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     }
   };
 
-  const convertToManager = async (userID: number) => {
-    const requestBody = { userID };
+  /**
+   * Makes axios call to PATCH reviewer's role and elevate to manager role
+   * @param {number} reviewerID ID of reviewer to be converted to manager role
+   */
+  const convertToManager = async (reviewerID: number) => {
+    const requestBody = {
+      reviewerID,
+    };
+
     const config = {
       method: "PATCH",
-      url: `${BASE_URL}/users/${userID}`,
+      url: `${BASE_URL}/users/${reviewerID}`,
       headers: {
         Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json",
@@ -146,7 +183,6 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
 
     try {
       const response: AxiosResponse = await axios(config);
-      //TODO: wait for backend to update response
       handleClose();
       getUsers();
     } catch (err) {
@@ -154,11 +190,18 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     }
   };
 
+  /**
+   * handles change when selecting which manager to assign apprentice to from dropdown
+   * @param {React.ChangeEvent<HTMLSelectElement>} e grabs manger's id in order to save to state as manager apprentice will be assigned to.
+   */
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const managerID = Number(e.target.value);
     setManagerIDToAssign(managerID);
   };
 
+  /**
+   * handles what function should be called when when 'done' button is clicked in modal. Will call either of two functions based on user role: if Apprentice, call assignApprenticeToEngMgr function, if not, call convertToManager function.
+   */
   const handleDone = () => {
     if (userRoles[userToEdit.roleID] === "Apprentice") {
       return assignApprenticeToEngMgr(userToEdit.id);
