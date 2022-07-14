@@ -18,6 +18,7 @@ function logUserOut() {
 }
 
 let loggedInToken = localStorage.getItem("token");
+
 let userjson: any = localStorage.getItem("user");
 let currentUser = JSON.parse(userjson);
 
@@ -30,6 +31,7 @@ function DisplayLinks() {
           Home
         </Anchor>
         <Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
+
     Log Out
   </Anchor>
       </>
