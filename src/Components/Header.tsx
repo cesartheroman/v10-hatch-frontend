@@ -13,37 +13,82 @@ depending on the user and their role.
 
 The user can handle registration, login/logout through the navbar in the header.
 ** */
-const defaultUser = "egg";
+
 function logUserOut() {
   localStorage.clear();
   
 }
+
 let loggedInToken = localStorage.getItem("token");
-function LoginLogout() {
- 
-  if (loggedInToken) {
-    return  (<Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
+
+let userjson: any = localStorage.getItem("user");
+let currentUser = JSON.parse(userjson);
+
+
+function DisplayLinks() {
+  if (loggedInToken && (currentUser.roleID === 1 || currentUser.roleID === 2)) {
+    return (
+      <>
+      <Anchor href="/" variant="inverse" id="headerLink">
+          Home
+        </Anchor>
+        <Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
+
     Log Out
   </Anchor>
+      </>
     )
-  }
-  else {
-    return (<Anchor href="/login" variant="inverse" id="headerLink">
-    Login
-  </Anchor>)
-  }
-}
+  } else if (loggedInToken && currentUser.roleID === 4) {
+    return (
+      <>
+      <Anchor href="/" variant="inverse" id="headerLink">
+          Home
+        </Anchor>
+        <Anchor href="/userMaintenance" variant="inverse" id="headerLink">
+          User Maintenance
+        </Anchor>
+        <Anchor href="/CreateEvaluation" variant="inverse" id="headerLink">
+          Create Evaluation
+        </Anchor>
+        <Anchor href="/Questions" variant="inverse" id="headerLink">
+          Question Maintenance
+        </Anchor>
+        <Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
+    Log Out
+  </Anchor>
+      </>
 
-function Registration() {
-  if (loggedInToken) {
-    return (<></>);
+    )
+  } else if (loggedInToken && currentUser.roleID === 3) {
+return (
+  <>
+  <Anchor href="/" variant="inverse" id="headerLink">
+      Home
+    </Anchor>
+   
+    <Anchor href="/CreateEvaluation" variant="inverse" id="headerLink">
+      Create Evaluation
+    </Anchor>
+   
+    <Anchor href="/login" variant="inverse" id="headerLink" onClick={logUserOut}>
+Log Out
+</Anchor>
+  </>
+)
   } else {
-    return (<Anchor href="/registration" variant="inverse" id="headerLink">
+    return (
+
+    <>
+    <Anchor href="/login" variant="inverse" id="headerLink">
+    Login
+  </Anchor>
+  <Anchor href="/registration" variant="inverse" id="headerLink">
     Registration
-  </Anchor>)
+  </Anchor>
+    </>)
+
   }
 }
-
 
 
 
@@ -62,21 +107,10 @@ const Header = () => {
         </Heading>
       </Box>
       <Box id="navItems">
-        <Anchor href="/" variant="inverse" id="headerLink">
-          Home
-        </Anchor>
-        <Anchor href="/userMaintenance" variant="inverse" id="headerLink">
-          User Maintenance
-        </Anchor>
-        <Anchor href="/CreateEvaluation" variant="inverse" id="headerLink">
-          Create Evaluation
-        </Anchor>
-        <Anchor href="/Questions" variant="inverse" id="headerLink">
-          Questions
-        </Anchor>
+
+      {DisplayLinks()}
+
        
-        {LoginLogout()}
-       {Registration()}
       </Box>
     </nav>
   );
