@@ -17,7 +17,7 @@ import {
 } from "@twilio-paste/core/data-grid";
 import type { SortDirection } from "@twilio-paste/core/data-grid";
 import "./styles.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "array-sort";
 import { reverse } from "cypress/types/lodash";
 import { WarningIcon } from "@twilio-paste/icons/esm/WarningIcon";
@@ -48,7 +48,7 @@ const Dashboard = () => {
    *
    *
    */
-
+  let navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({
     id: 66666,
     name: "Placeholder Placeholder",
@@ -117,7 +117,7 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    if (currentUser.id === 66666 || localStorage.length === 0) {
+    if (currentUser.id === 66666 && localStorage.length !== 0) {
       let storageuser: any = localStorage.getItem("user");
       let user = JSON.parse(storageuser);
 
@@ -131,7 +131,7 @@ const Dashboard = () => {
       url: urlString,
       headers: { Authorization: token },
     };
-
+    if (currentUser.id !== 66666) {
     axios(config)
       .then((response) => {
         setEvaluations(response.data);
@@ -139,8 +139,12 @@ const Dashboard = () => {
         setSavedEvaluations(response.data);
       })
       .catch((error) => {
+        if (error.response.status >= 400 && error.response.status < 500) {
+          alert("Error: your session has timed out. Please login again.");
+          navigate("/login", {replace: true});
+        }
         console.log("Error: " + error);
-      });
+      });}
   }, [currentUser]);
 
   /**
@@ -215,6 +219,8 @@ const Dashboard = () => {
     }
   }
 
+ 
+  
   return (
     <div id="dashboard">
       <div id="filterContainer">
