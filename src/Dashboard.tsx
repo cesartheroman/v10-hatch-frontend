@@ -21,6 +21,8 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import "array-sort";
 import { reverse } from "cypress/types/lodash";
 import { WarningIcon } from "@twilio-paste/icons/esm/WarningIcon";
+import moment from "moment";
+
 
 /**
  *
@@ -134,8 +136,20 @@ const Dashboard = () => {
     if (currentUser.id !== 66666) {
     axios(config)
       .then((response) => {
-        setEvaluations(response.data);
+        if (response) {
+        let evas: any= response.data;
+        console.log(evas)
+        evas.map((eva: any) => {
+          //TODO: fix this i guess??????????? 
+          
+          let responseDate: any = moment(eva["creation"]).format("dd-mm-yyyy");
 
+          
+        })
+     
+        // console.log(responseDate);
+      };
+        setEvaluations(response.data);
         setSavedEvaluations(response.data);
       })
       .catch((error) => {
