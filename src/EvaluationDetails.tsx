@@ -213,13 +213,10 @@ const EvaluationDetails = () => {
         <div id="alert">
           <Alert variant="warning">
             <Text as="span">
-              <strong>Review requires manager approval.&nbsp; &nbsp; </strong>
-              Please approve the following review for your apprentice. Thanks!
-              &nbsp; &nbsp;{" "}
-              <Link to="#">
-                <strong>Review and approve here.</strong>
-              </Link>
-              {/* TODO: link here to completing this evaluation !  */}
+              <strong>Review requires manager approval.&nbsp; &nbsp;  </strong>
+              Please approve the following review for your apprentice.
+              Thanks! &nbsp; &nbsp; <Link to={`newreview/${evaluation.id}`}><strong>Review and approve here.</strong></Link>
+            
             </Text>
           </Alert>
         </div>
@@ -233,9 +230,9 @@ const EvaluationDetails = () => {
           <Alert variant="neutral">
             <Text as="span">
               <strong>Review requires completion. </strong>
-              Please complete the following review at your earliest convenience.
-              Thank you! <br />
-              {/* TODO: link here to completing this evaluation !  */}
+              Please complete the following review at your earliest convenience. Thank
+              you! <br /> <Link to={`newreview/${evaluation.id}`}><strong>Complete review here.</strong></Link>
+
             </Text>
           </Alert>
         </div>
