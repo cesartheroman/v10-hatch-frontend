@@ -37,8 +37,6 @@ const Registration = () => {
       roleID: Number(role),
     });
 
-    console.log(requestBody);
-
     var config = {
       method: "POST",
       // TODO: Update later
@@ -49,9 +47,7 @@ const Registration = () => {
       data: requestBody,
     };
     axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
@@ -95,6 +91,7 @@ const Registration = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+
               <HelpText id="password_help_text">
                 Enter your Twilio email.
               </HelpText>
@@ -111,8 +108,8 @@ const Registration = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <HelpText id="email_help_text"></HelpText>
-              <br /><br />
+              <br />
+
               <RadioGroup
               
                 name="controlled-radio-group"
