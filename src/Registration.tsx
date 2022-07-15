@@ -56,12 +56,12 @@ const navigate = useNavigate();
             variant: "success"
        
           });
-          navigate("/login", {replace: true});
+          
 
       })
       .catch(function (error) {
         console.log(error);
-      });
+      }).finally(() => navigate("/login", {replace: true}));
   };
 
   return (
