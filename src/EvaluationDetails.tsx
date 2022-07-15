@@ -219,14 +219,14 @@ const EvaluationDetails = () => {
   }
 
   function ReviewFinalizeCheckHeader(review: any) {
-    if (review.status === "submitted" && currentUser.roleID === 3) {
+    if (review.status.toLowerCase() === "submitted" && currentUser.roleID === 3) {
       return (
         <div id="alert">
           <Alert variant="warning">
             <Text as="span">
               <strong>Review requires manager approval.&nbsp; &nbsp;  </strong>
               Please approve the following review for your apprentice.
-              Thanks! &nbsp; &nbsp; <Link to={`newreview/${evaluation.id}`}><strong>Review and approve here.</strong></Link>
+              Thanks! &nbsp; &nbsp; <Link to={`/evaluation/${evaluation.id}/reviews/${apprenticeReview.id}`}><strong>Review and approve here.</strong></Link>
             
             </Text>
           </Alert>
@@ -242,7 +242,7 @@ const EvaluationDetails = () => {
             <Text as="span">
               <strong>Review requires completion. </strong>
               Please complete the following review at your earliest convenience. Thank
-              you! <br /> <Link to={`newreview/${evaluation.id}`}><strong>Complete review here.</strong></Link>
+              you! <br /> <Link to={`/evaluation/${evaluation.id}/reviews/${managerReview.id}`}><strong>Complete review here.</strong></Link>
 
             </Text>
           </Alert>
@@ -485,6 +485,8 @@ const EvaluationDetails = () => {
   }
 
   const tabSelectedID = useUID();
+
+  console.log("current eval", evaluation)
 
   // ====================================================================================================
 
