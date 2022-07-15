@@ -25,6 +25,7 @@ import QAView from "./Components/QAView";
 import params from "./App";
 import image from "./news.png";
 import { ProcessInProgressIcon } from "@twilio-paste/icons/esm/ProcessInProgressIcon";
+import moment from "moment";
 
 const EvaluationDetails = () => {
   const baseURL: string = "http://localhost:9876/v1/api/evaluations/";
@@ -190,7 +191,7 @@ const EvaluationDetails = () => {
   // The following two functions display if the review needs to be marked finalized by a manager .
 
   function ReviewFinalizeCheckTab(review: any) {
-    if (review.status === "submitted" && currentUser.roleID === 3) {
+    if (review.status.toLowerCase() === "submitted" && currentUser.roleID === 3) {
       return (
         <WarningIcon
           decorative={true}
@@ -219,14 +220,14 @@ const EvaluationDetails = () => {
   }
 
   function ReviewFinalizeCheckHeader(review: any) {
-    if (review.status === "submitted" && currentUser.roleID === 3) {
+    if (review.status.toLowerCase() === "submitted" && currentUser.roleID === 3) {
       return (
         <div id="alert">
           <Alert variant="warning">
             <Text as="span">
               <strong>Review requires manager approval.&nbsp; &nbsp;  </strong>
               Please approve the following review for your apprentice.
-              Thanks! &nbsp; &nbsp; <Link to={`newreview/${evaluation.id}`}><strong>Review and approve here.</strong></Link>
+              Thanks! &nbsp; &nbsp; <Link to={`/newreview/${evaluation.id}`}><strong>Review and approve here.</strong></Link>
             
             </Text>
           </Alert>
@@ -242,7 +243,7 @@ const EvaluationDetails = () => {
             <Text as="span">
               <strong>Review requires completion. </strong>
               Please complete the following review at your earliest convenience. Thank
-              you! <br /> <Link to={`newreview/${evaluation.id}`}><strong>Complete review here.</strong></Link>
+              you! <br /> <Link to={`/newreview/${evaluation.id}`}><strong>Complete review here.</strong></Link>
 
             </Text>
           </Alert>
@@ -503,7 +504,7 @@ HEADING FOR EVAL
         </Heading>
         <Heading as="h3" variant="heading50">
           Evaluation For {evaluation.apprentice.name} - Created{" "}
-          {evaluation.creation}
+          {moment(evaluation.creation).format("MM-DD-yyyy")}
         </Heading>
       </div>
 

@@ -83,7 +83,7 @@ const CreateEvaluation = () => {
   const seed = useUIDSeed();
   const formPillState = useFormPillState();
   const inputId = seed("input-element");
-  const [token, setToken] = useState("");
+  const [token, setToken]: any = useState(null);
 
   const [currentUser, setCurrentUser] = useState({
     id: 666,
@@ -120,26 +120,25 @@ const CreateEvaluation = () => {
       setToken(token);
       setCurrentUser(userinfo);
     }
+    if (token) {
     getReviewers();
     getQuestions();
-    getApprentices();
+    getApprentices();}
   }, [currentUser]);
 
   /**
    * getQuestions = pulls questions from data base and sets to questions
    */
   const getQuestions = () => {
-    var config = {
+    let config = {
       method: "GET",
-      // TODO: will need to update
       url: "http://localhost:9876/v1/api/questions/",
-      headers: {
-        Authorization: token,
-      },
+      headers: { Authorization: token },
     };
 
     axios(config)
       .then(function (response) {
+       
         setQuestions(response.data);
       })
       .catch(function (error) {
@@ -257,6 +256,7 @@ const CreateEvaluation = () => {
 
     axios(config)
       .then(function (response) {
+        console.log(response.data)
         if (response.status === 200) {
           toaster.push({
             message: "Evaluation creation successful!",

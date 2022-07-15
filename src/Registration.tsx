@@ -11,10 +11,13 @@ import {
   Column,
   Grid,
   Card,
+  Toast,
+  useToaster,
+  Toaster,
 } from "@twilio-paste/core";
 import axios from "axios";
 import  background  from "./twilio-background.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Registration = () => {
   const [email, setEmail] = useState<string>("");
@@ -22,12 +25,13 @@ const Registration = () => {
   const [role, setRole] = useState("1");
   const [name, setName] = useState<string>("");
 
-  const baseURL: string = "http://localhost:3000/users";
+const navigate = useNavigate();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     postUser();
   };
+  const toaster = useToaster();
 
   const postUser = () => {
     var requestBody = JSON.stringify({
@@ -39,7 +43,6 @@ const Registration = () => {
 
     var config = {
       method: "POST",
-      // TODO: Update later
       url: "http://localhost:9876/v1/api/users",
       headers: {
         "Content-Type": "application/json",
@@ -47,16 +50,27 @@ const Registration = () => {
       data: requestBody,
     };
     axios(config)
-      .then(function (response) {})
+      .then(function (response) {
+          toaster.push({
+            message: "Successfully registered! Please login.",
+            variant: "success"
+       
+          });
+          
+
+      })
       .catch(function (error) {
         console.log(error);
-      });
+      }).finally(() => navigate("/login", {replace: true}));
   };
 
   return (
      <div id="loginBG" style={{ backgroundImage: `url(${background})`, backgroundSize: 'auto', height: '90vh', overflow: "hidden"}}>
+        
       <div id="loginComponent">
+    
       <Grid >
+      <Toaster {...toaster} />
         <Column span={20} >
           <Card padding="space100">
             <h2 style={{textAlign:"center"}}>Register New Account</h2>
