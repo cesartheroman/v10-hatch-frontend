@@ -220,7 +220,7 @@ const Dashboard = () => {
   }
 
  
-  
+  console.log("current user dahsboard",currentUser)
   return (
     <div id="dashboard">
       <div id="filterContainer">

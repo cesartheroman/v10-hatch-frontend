@@ -210,3 +210,25 @@ padding-top: 70px;
 .usersTable {
   margin: 1em;
 }
+
+/* Review form component */
+#buttons-review {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%
+}
+#buttons-review  > button{
+  width: 125px;
+}
+#review-form-card{
+  border: 5px dotted rgb(235, 86, 86);
+  width: 50em;
+  margin: 0 auto
+}
+#review-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+ 
+}
