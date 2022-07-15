@@ -29,6 +29,7 @@ const navigate = useNavigate();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    console.log("hi mom");
     postUser();
   };
   const toaster = useToaster();
