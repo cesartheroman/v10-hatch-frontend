@@ -149,17 +149,39 @@ input[type="checkbox"] {
 }
 
 #evaluation {
-  max-width: 1500px;
-  margin: 0px 20px 60px 20px;
+  max-width: 1250px;
+  margin: 30px auto 60px auto;
   border: 4px dotted rgb(235, 86, 86);
   border-radius: 20px;
   padding: 30px;
 }
+#noEvals {
+  border: 7px solid rgb(235, 86, 86);
 
-#evaluationHeader{
+  margin: 50px;
+  padding: 0 25px;
+  max-width: 1000px;
+
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+#noEvals > h3 {
+  color: rgb(235, 86, 86);
+}
+
+#evaluationGrid {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+#evaluationHeader {
   margin-bottom: 30px;
   margin-left: 20px;
-  
+
   /* padding: 50px; */
 }
 #evaluationHeader > h3 {
@@ -182,8 +204,7 @@ input[type="checkbox"] {
   margin: 0 200px;
 }
 
-#loginForm{
-  
+#loginForm {
   margin: 20px;
 }
 
@@ -193,10 +214,9 @@ input[type="checkbox"] {
 }
 
 #loginComponent {
-  
   margin-left: auto;
   margin-right: auto;
-padding-top: 70px;
+  padding-top: 70px;
   max-width: 600px;
   align-items: center;
 }
@@ -215,20 +235,19 @@ padding-top: 70px;
 #buttons-review {
   display: flex;
   justify-content: space-evenly;
-  width: 100%
+  width: 100%;
 }
-#buttons-review  > button{
+#buttons-review > button {
   width: 125px;
 }
-#review-form-card{
+#review-form-card {
   border: 5px dotted rgb(235, 86, 86);
   width: 50em;
-  margin: 0 auto
+  margin: 0 auto;
 }
-#review-form{
+#review-form {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
- 
 }
