@@ -161,6 +161,7 @@ const CreateEvaluation = () => {
 
     axios(config)
       .then(function (response) {
+        console.log(response.data)
         let currentReviewers = response.data.filter(
           (user: any) => user.roleID !== 1
         );

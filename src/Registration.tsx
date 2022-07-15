@@ -39,6 +39,7 @@ const navigate = useNavigate();
       password,
       email,
       roleID: Number(role),
+      manager: ""
     });
 
     var config = {
