@@ -138,16 +138,16 @@ const Dashboard = () => {
       .then((response) => {
         if (response) {
         let evas: any= response.data;
-        console.log(evas)
-        evas.map((eva: any) => {
-          //TODO: fix this i guess??????????? 
+      
+        let dateEvaluations = evas.map((eva: any) => {
           
-          let responseDate: any = moment(eva["creation"]).format("dd-mm-yyyy");
+          
+         eva.creation = (moment(eva["creation"]).format("MM-DD-yyyy"));
 
           
         })
      
-        // console.log(responseDate);
+      console.log (evas)
       };
         setEvaluations(response.data);
         setSavedEvaluations(response.data);

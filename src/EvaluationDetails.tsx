@@ -25,6 +25,7 @@ import QAView from "./Components/QAView";
 import params from "./App";
 import image from "./news.png";
 import { ProcessInProgressIcon } from "@twilio-paste/icons/esm/ProcessInProgressIcon";
+import moment from "moment";
 
 const EvaluationDetails = () => {
   const baseURL: string = "http://localhost:9876/v1/api/evaluations/";
@@ -503,7 +504,7 @@ HEADING FOR EVAL
         </Heading>
         <Heading as="h3" variant="heading50">
           Evaluation For {evaluation.apprentice.name} - Created{" "}
-          {evaluation.creation}
+          {moment(evaluation.creation).format("MM-DD-yyyy")}
         </Heading>
       </div>
 
