@@ -237,8 +237,8 @@ input[type="checkbox"] {
   justify-content: space-evenly;
   width: 100%;
 }
-#buttons-review > button {
-  width: 125px;
+#buttons-review  > button{
+  width: 225px;
 }
 #review-form-card {
   border: 5px dotted rgb(235, 86, 86);
