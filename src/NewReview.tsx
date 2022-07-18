@@ -533,14 +533,14 @@ const NewReview = () => {
                 <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
                   
                   <li>{qa.question.question}</li>
-                  <p>{qa.answer.answer}</p>
+                  <p style={{backgroundColor: "lightgrey", padding:10, borderRadius:5}}>{qa.answer.answer}</p>
                 </Box>
               ))}
               </ol>
               
               <div id="buttons-review">
                 <Button type="submit" variant="primary" onClick={closeReview}>
-                  Close Review
+                  Approve and Close Review
                 </Button>
               </div>
       
@@ -571,7 +571,8 @@ const NewReview = () => {
    
   }
 
-
+console.log("current eval", singleEvaluation);
+console.log("current review to close", reviewToClose)
   return (
     <>
 

@@ -486,7 +486,6 @@ const EvaluationDetails = () => {
 
   const tabSelectedID = useUID();
 
-  console.log("current eval", evaluation)
 
   // ====================================================================================================
 
