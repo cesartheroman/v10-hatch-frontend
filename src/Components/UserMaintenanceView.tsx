@@ -28,15 +28,10 @@ export interface User {
  *
  *
  */
-
 const UserMaintainanceView = () => {
   const BASE_URL: string = "http://localhost:9876/v1/api";
-
-  /**
-   * TODO: Will update this with authToken constant with a localStorage call
-   */
-  const authToken: string =
-    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwidXNlcklEIjoiMSIsIm5hbWUiOiJBRE1JTiIsInVzZXJuYW1lIjoiQURNSU5fRU1BSUxAdHdpbGlvLmNvbSIsInJvbGUiOiJIQVRDSF9NQU5BR0VSIiwicm9sZUlEIjoiNCIsImlhdCI6MTY1NzgyOTQ0MSwiZXhwIjoxNjU3ODMxMjQxLCJqdGkiOiJZZzBhblVhS1ZJVkQtWi1lc3pjc25nIn0.U6-h-ksZ0w5Gdux2IplHWyXn66BXpmL5SoWsioiT688";
+  const authToken: any = localStorage.getItem("token");
+  const [users, setUsers] = useState<User[]>([]);
 
   /**
    * @type {string[]}
@@ -62,7 +57,6 @@ const UserMaintainanceView = () => {
     "Manager",
     "Hatch Manager",
   ];
-  const [users, setUsers] = useState<User[]>([]);
 
   /**
    *  Makes axios call to GET all users from API endpoint and calls setUsers function to update state
@@ -72,7 +66,7 @@ const UserMaintainanceView = () => {
       method: "GET",
       url: BASE_URL + "/users",
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `${authToken}`,
       },
     };
 

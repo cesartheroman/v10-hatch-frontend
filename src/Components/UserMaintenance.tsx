@@ -81,7 +81,7 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     if (userRole === "Apprentice" && isOpen) {
       return (
         <>
-          <Label htmlFor="assignApprenticeToEngMgr">Assign to Manager: </Label>
+          <Label htmlFor="assignApprenticeToEngMgr">Assign to Manager:</Label>
           <Select
             id="assignApprenticeToEngMgr"
             name="assignApprenticeToEngMgr"
@@ -100,7 +100,7 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     } else if (userRole === "Reviewer" && isOpen) {
       return (
         <>
-          <Label htmlFor="assignApprenticeToEngMgr">Update Role</Label>
+          <Label htmlFor="assignApprenticeToEngMgr">Update Role:</Label>
           <Select id="assignApprenticeToEngMgr" name="assignApprenticeToEngMgr">
             <Option value="EngMgr">Engineering Manager</Option>
           </Select>
@@ -120,7 +120,7 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
       method: "GET",
       url: `${BASE_URL}/users/managers`,
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `${authToken}`,
       },
     };
 
@@ -146,7 +146,7 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
       method: "POST",
       url: `${BASE_URL}/users/managers/${managerIDToAssign}`,
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `${authToken}`,
         "Content-Type": "application/json",
       },
       data: requestBody,
@@ -168,14 +168,14 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
    */
   const convertToManager = async (reviewerID: number) => {
     const requestBody = {
-      reviewerID,
+      roleID: 3,
     };
 
     const config = {
       method: "PATCH",
       url: `${BASE_URL}/users/${reviewerID}`,
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `${authToken}`,
         "Content-Type": "application/json",
       },
       data: requestBody,
@@ -183,6 +183,7 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
 
     try {
       const response: AxiosResponse = await axios(config);
+      console.log("response after converted: ", response.data);
       handleClose();
       getUsers();
     } catch (err) {
@@ -203,10 +204,12 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
    * handles what function should be called when when 'done' button is clicked in modal. Will call either of two functions based on user role: if Apprentice, call assignApprenticeToEngMgr function, if not, call convertToManager function.
    */
   const handleDone = () => {
+    const userID = userToEdit.id;
+
     if (userRoles[userToEdit.roleID] === "Apprentice") {
-      return assignApprenticeToEngMgr(userToEdit.id);
+      return assignApprenticeToEngMgr(userID);
     } else {
-      return convertToManager(userToEdit.roleID);
+      return convertToManager(userID);
     }
   };
 

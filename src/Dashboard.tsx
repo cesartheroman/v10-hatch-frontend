@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Heading, Anchor, Input, Label } from "@twilio-paste/core";
+import { Heading, Anchor, Input, Label, Paragraph } from "@twilio-paste/core";
 import { Box } from "@twilio-paste/core/box";
 import { FileIcon } from "@twilio-paste/icons/esm/FileIcon";
 import {
@@ -21,6 +21,9 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import "array-sort";
 import { reverse } from "cypress/types/lodash";
 import { WarningIcon } from "@twilio-paste/icons/esm/WarningIcon";
+import circles from "./twilio-circles.jpg";
+import moment from "moment";
+
 
 /**
  *
@@ -116,7 +119,12 @@ const Dashboard = () => {
     }
   }
 
+  
+
   useEffect(() => {
+    if (localStorage.length < 1) {
+      navigate("/login", {replace: true});
+    };
     if (currentUser.id === 66666 && localStorage.length !== 0) {
       let storageuser: any = localStorage.getItem("user");
       let user = JSON.parse(storageuser);
@@ -134,8 +142,20 @@ const Dashboard = () => {
     if (currentUser.id !== 66666) {
     axios(config)
       .then((response) => {
-        setEvaluations(response.data);
+        if (response) {
+        let evas: any= response.data;
+      
+        let dateEvaluations = evas.map((eva: any) => {
+          
+          
+         eva.creation = (moment(eva["creation"]).format("MM-DD-yyyy"));
 
+          
+        })
+     
+      console.log (evas)
+      };
+        setEvaluations(response.data);
         setSavedEvaluations(response.data);
       })
       .catch((error) => {
@@ -219,6 +239,29 @@ const Dashboard = () => {
     }
   }
 
+<<<<<<< HEAD
+=======
+  function DisplayIfNoEvals() {
+    if (evaluations.length < 1) {
+    return (
+      <div id="noEvals">
+        <img src={circles} alt="Working at Twilio image" width="300px"/>
+        <br />
+        <Heading as="h3" variant="heading30"> <em>Hmmm... </em><br /> Looks like you haven't been assigned any evaluations yet! </Heading>
+        <Paragraph> Pretty sure you should be seeing something here, tho?  <br /> Reach out to your assigning manager 
+          to make sure they have created the evaluation and assigned you to it first!  <br /> <br />
+          ( Still not seeing anything? Ping <strong>@Jeff Lawson</strong> on Slack, or ask us directly in: <br /> 
+           <strong> #hatch-dont-talk-to-us-ever-bye</strong> !!) </Paragraph>
+      </div>
+      
+    )} else {
+      return ( <></>)
+    }
+  }
+
+ 
+  console.log("current user dahsboard",currentUser)
+>>>>>>> 979fc79f82f04cf10682476ad1098c6047307f6f
   return (
     <div id="dashboard">
       <div id="filterContainer">
@@ -247,6 +290,7 @@ const Dashboard = () => {
           />
         </Box>
       </div>
+      <div id="evaluationGrid">
       <DataGrid aria-label="Evaluations list" data-testid="data-grid" striped>
         <DataGridHead>
           <DataGridRow>
@@ -330,6 +374,9 @@ const Dashboard = () => {
           ))}
         </DataGridBody>
       </DataGrid>
+      {DisplayIfNoEvals()}
+      </div>
+      
     </div>
   );
 };
