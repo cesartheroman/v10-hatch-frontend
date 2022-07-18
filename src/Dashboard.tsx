@@ -239,8 +239,6 @@ const Dashboard = () => {
     }
   }
 
-<<<<<<< HEAD
-=======
   function DisplayIfNoEvals() {
     if (evaluations.length < 1) {
     return (
@@ -261,7 +259,6 @@ const Dashboard = () => {
 
  
   console.log("current user dahsboard",currentUser)
->>>>>>> 979fc79f82f04cf10682476ad1098c6047307f6f
   return (
     <div id="dashboard">
       <div id="filterContainer">

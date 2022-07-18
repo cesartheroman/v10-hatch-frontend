@@ -227,11 +227,7 @@ const EvaluationDetails = () => {
             <Text as="span">
               <strong>Review requires manager approval.&nbsp; &nbsp;  </strong>
               Please approve the following review for your apprentice.
-<<<<<<< HEAD
               Thanks! &nbsp; &nbsp; <Link to={`/evaluation/${evaluation.id}/reviews/${apprenticeReview.id}`}><strong>Review and approve here.</strong></Link>
-=======
-              Thanks! &nbsp; &nbsp; <Link to={`/newreview/${evaluation.id}`}><strong>Review and approve here.</strong></Link>
->>>>>>> 979fc79f82f04cf10682476ad1098c6047307f6f
             
             </Text>
           </Alert>
@@ -247,11 +243,7 @@ const EvaluationDetails = () => {
             <Text as="span">
               <strong>Review requires completion. </strong>
               Please complete the following review at your earliest convenience. Thank
-<<<<<<< HEAD
               you! <br /> <Link to={`/evaluation/${evaluation.id}/reviews/${managerReview.id}`}><strong>Complete review here.</strong></Link>
-=======
-              you! <br /> <Link to={`/newreview/${evaluation.id}`}><strong>Complete review here.</strong></Link>
->>>>>>> 979fc79f82f04cf10682476ad1098c6047307f6f
 
             </Text>
           </Alert>
