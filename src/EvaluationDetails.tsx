@@ -225,9 +225,9 @@ const EvaluationDetails = () => {
         <div id="alert">
           <Alert variant="warning">
             <Text as="span">
-              <strong>Review requires manager approval.&nbsp; &nbsp;  </strong>
-              Please approve the following review for your apprentice.
-              Thanks! &nbsp; &nbsp; <Link to={`/evaluation/${evaluation.id}/reviews/${apprenticeReview.id}`}><strong>Review and approve here.</strong></Link>
+              <strong>This review requires manager approval.&nbsp; &nbsp;  </strong>
+              Please finalize the following review at your earliest convenience.
+              Thanks! &nbsp; &nbsp; <Link to={`/evaluation/${evaluation.id}/reviews/${review.id}`}><strong>Review and approve here.</strong></Link>
             
             </Text>
           </Alert>
