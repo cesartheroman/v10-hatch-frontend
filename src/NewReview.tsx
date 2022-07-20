@@ -54,9 +54,10 @@ const NewReview = () => {
   const navigate = useNavigate();
   const toaster = useToaster();
   let params = useParams();
+  let reviewId = 0;
 
   const [token, setToken] = useState("");
-  const [disable, setDisable] = useState(false);
+  // const [disable, setDisable] = useState(false);
   const [reviewToClose, setReviewToClose] = useState(
     {
       id: 1,
@@ -96,84 +97,6 @@ const NewReview = () => {
       ],
     }
   );
-  const [reviewsInProgress, setReviewsInProgress] = useState([
-    {
-      id: 1,
-      status: "TEST",
-      reviewer: { id: 3, name: "Ruthie" },
-      QAs: [
-        {
-          question: {
-            id: 1,
-            question: "What went well?"
-          },
-          answer: {
-            id: 13,
-            answerText: ""
-          }
-        },
-        {
-          question: {
-            id: 2,
-            question: "What didn't go well?"
-          },
-          answer: {
-            id: 14,
-            answerText: ""
-          }
-        },
-        {
-          question: {
-            id: 3,
-            question: "What will you focus on next quarter?"
-          },
-          answer: {
-            id: 15,
-            answerText: ""
-          }
-        }
-      ],
-    }
-  ]);
-  const [reviewsFinalized, setReviewsFinalized] = useState([
-    {
-      id: 1,
-      status: "TEST",
-      reviewer: { id: 3, name: "Ruthie" },
-      QAs: [
-        {
-          question: {
-            id: 1,
-            question: "What went well?"
-          },
-          answer: {
-            id: 13,
-            answerText: ""
-          }
-        },
-        {
-          question: {
-            id: 2,
-            question: "What didn't go well?"
-          },
-          answer: {
-            id: 14,
-            answerText: ""
-          }
-        },
-        {
-          question: {
-            id: 3,
-            question: "What will you focus on next quarter?"
-          },
-          answer: {
-            id: 15,
-            answerText: ""
-          }
-        }
-      ],
-    }
-  ]);
   const [qasAnswered, setQasAnswered] = useState([{
     question: {
       id: 1,
@@ -212,6 +135,43 @@ const NewReview = () => {
     role: "ADMIN"
   });
   const [reviewToBeSubmittedByLoggedInUser, setReviewToBeSubmittedByLoggedInUser] = useState<UpdateReviewAnswer>({
+    id: 1,
+    status: "TEST",
+    reviewer: { id: 3, name: "Ruthie" },
+    QAs: [
+      {
+        question: {
+          id: 1,
+          question: "What went well?"
+        },
+        answer: {
+          id: 13,
+          answerText: ""
+        }
+      },
+      {
+        question: {
+          id: 2,
+          question: "What didn't go well?"
+        },
+        answer: {
+          id: 14,
+          answerText: ""
+        }
+      },
+      {
+        question: {
+          id: 3,
+          question: "What will you focus on next quarter?"
+        },
+        answer: {
+          id: 15,
+          answerText: ""
+        }
+      }
+    ],
+  });
+  const [openedReview, setOpenedReview] = useState<UpdateReviewAnswer>({
     id: 1,
     status: "TEST",
     reviewer: { id: 3, name: "Ruthie" },
@@ -316,15 +276,18 @@ const NewReview = () => {
      */
     let getEvaluation = `${BASE_URL}/${params.evalId}`
     // let getReviewToFulfill = `${BASE_URL}/${params.evalId}/reviews/${params.reviewId}`
-    let revId = params.reviewId
+    if (Number(params.reviewId) < 0) { return }
+    reviewId = Number(params.reviewId)
 
     if (currentUser.id !== 666) {
       axios.get(getEvaluation, { headers: { Authorization: token } })
         .then(function (response) {
+          console.log("reviews", response.data.reviews)
           setSingleEvaluation(response.data)
           setReviewToBeSubmittedByLoggedInUser(response.data.reviews.find((rev: any) => rev.reviewer.id === currentUser.id))
-          setReviewToClose(response.data.reviews.find((rev: any) => rev.status === "SUBMITTED" && rev.id === Number(revId)))
-          setQasAnswered((response.data.reviews.find((rev: any) => rev.status === "SUBMITTED" && rev.id === Number(revId))).QAs)
+          setReviewToClose(response.data.reviews.find((rev: any) => rev.status === "SUBMITTED" && rev.id === Number(reviewId)))
+          setOpenedReview(response.data.reviews.find((rev: any) => rev.id === Number(reviewId)))
+          setQasAnswered((response.data.reviews.find((rev: any) => rev.status === "SUBMITTED" && rev.id === Number(reviewId))).QAs)
         })
         .catch(function (error) {
           console.log(error);
@@ -363,10 +326,11 @@ const NewReview = () => {
             message: "Review submitted succesfully",
             variant: "success",
           });
+          navigate(`/evaluation/${singleEvaluation.id}`)
         }
       })
       .catch(err => console.log(err))
-      .finally(() => setDisable(true))
+    // .finally(() => setDisable(true))
   };
   const closeReview = (e: React.MouseEvent<HTMLButtonElement>) => {
     /**
@@ -397,7 +361,7 @@ const NewReview = () => {
         }
       })
       .catch(err => console.log(err))
-      .finally(() => navigate('/'))
+      .finally(() => navigate(`/evaluation/${singleEvaluation.id}`))
   };
 
   const updateAnswById = (answerText: string, id: number) => {
@@ -450,139 +414,131 @@ const NewReview = () => {
 
   function reviewFormForApprenticeOrReviewerToSubmit() {
 
-      return (
-        <>
-          <Toaster {...toaster} />
-          <Card id="review-form-card">
+    return (
+      <>
+        <Toaster {...toaster} />
+        <Card id="review-form-card">
 
-            <form onSubmit={handleSubmit} data-testid="newreview-form" id="review-form">
-              <h1>Review for {singleEvaluation.apprentice.name}</h1>
-              <p>Please answer the following questions:</p>
-              {reviewToBeSubmittedByLoggedInUser.QAs.map((qa, index) => (
-                <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
-                  <Label htmlFor="q1" required>
-                    {qa.question.question}
-                  </Label>
-                  <TextArea onChange={(e) => updateAnswById(e.target.value, qa.answer.id)} aria-describedby="message_help_text" id="message" name="message" required />
-                </Box>
-              ))}
-              <div id="buttons-review">
-                <Button type="submit" variant="primary" disabled={disable}>
-                  Submit
-                </Button>
-              </div>
+          <form onSubmit={handleSubmit} data-testid="newreview-form" id="review-form">
+            <h1>Review for {singleEvaluation.apprentice.name}</h1>
+            <p>Please answer the following questions:</p>
+            {reviewToBeSubmittedByLoggedInUser.QAs.map((qa, index) => (
+              <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
+                <Label htmlFor="q1" required>
+                  {qa.question.question}
+                </Label>
+                <TextArea onChange={(e) => updateAnswById(e.target.value, qa.answer.id)} aria-describedby="message_help_text" id="message" name="message" required />
+              </Box>
+            ))}
+            <div id="buttons-review">
+              <Button type="submit" variant="primary" >
+                Submit
+              </Button>
+            </div>
 
-            </form>
+          </form>
 
-          </Card>
-        </>
-      )
-    
+        </Card>
+      </>
+    )
+
   }
 
   function reviewFormForManagerToSubmit() {
-   
-      return (
-        <>
-          <Toaster {...toaster} />
-          <Card id="review-form-card">
 
-            <form onSubmit={handleSubmit} data-testid="newreview-form" id="review-form">
-              <h1>Review for {singleEvaluation.apprentice.name}</h1>
-              <p>Please answer the following questions:</p>
-              {reviewToBeSubmittedByLoggedInUser.QAs.map((qa, index) => (
-                <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
-                  <Label htmlFor="q1" required>
-                    {qa.question.question}
-                  </Label>
-                  <TextArea onChange={(e) => updateAnswById(e.target.value, qa.answer.id)} aria-describedby="message_help_text" id="message" name="message" required />
-                </Box>
-              ))}
-              <div id="buttons-review">
-                <Button type="submit" variant="primary" disabled={disable}>
-                  Submit
-                </Button>
-          
-               <Button type="submit" variant="primary" onClick={closeReview}>
-                 Close Review
-               </Button>
-   
+    return (
+      <>
+        <Toaster {...toaster} />
+        <Card id="review-form-card">
 
-              </div>
+          <form onSubmit={handleSubmit} data-testid="newreview-form" id="review-form">
+            <h1>Review for {singleEvaluation.apprentice.name}</h1>
+            <p>Please answer the following questions:</p>
+            {reviewToBeSubmittedByLoggedInUser.QAs.map((qa, index) => (
+              <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
+                <Label htmlFor="q1" required>
+                  {qa.question.question}
+                </Label>
+                <TextArea onChange={(e) => updateAnswById(e.target.value, qa.answer.id)} aria-describedby="message_help_text" id="message" name="message" required />
+              </Box>
+            ))}
+            <div id="buttons-review">
+              <Button type="submit" variant="primary">
+                Submit
+              </Button>
+            </div>
 
-            </form>
+          </form>
 
-          </Card>
-        </>
-      )
-  
+        </Card>
+      </>
+    )
+
   }
 
   function reviewFormForManagerToApprove() {
-      return (
-        <>
-          <Toaster {...toaster} />
-          <Card id="review-form-card">
+    return (
+      <>
+        <Toaster {...toaster} />
+        <Card id="review-form-card">
 
-           
-              <h1>Review for {singleEvaluation.apprentice.name} </h1>
-              <h3>Completed by: {reviewToClose.reviewer.name}</h3>
-              <p>Please approve the following review:</p>
-              <ol>
-              {qasAnswered.map((qa, index) => (
-                <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
-                  
-                  <li>{qa.question.question}</li>
-                  <p style={{backgroundColor: "lightgrey", padding:10, borderRadius:5}}>{qa.answer.answer}</p>
-                </Box>
-              ))}
-              </ol>
-              
-              <div id="buttons-review">
-                <Button type="submit" variant="primary" onClick={closeReview}>
-                  Approve and Close Review
-                </Button>
-              </div>
-      
 
-          </Card>
-        </>
-      )
-   
+          <h1>Review for {singleEvaluation.apprentice.name} </h1>
+          <h3>Completed by: {reviewToClose.reviewer.name}</h3>
+          <p>Please approve the following review:</p>
+          <ol>
+            {qasAnswered.map((qa, index) => (
+              <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
+
+                <li>{qa.question.question}</li>
+                <p style={{ backgroundColor: "lightgrey", padding: 10, borderRadius: 5 }}>{qa.answer.answer}</p>
+              </Box>
+            ))}
+          </ol>
+
+          <div id="buttons-review">
+            <Button type="submit" variant="primary" onClick={closeReview}>
+              Approve and Close Review
+            </Button>
+          </div>
+
+
+        </Card>
+      </>
+    )
+
   }
 
   function finalizedReviewView() {
 
-      return (
-        <>
-          <Box id="reviewInProgress">
-            <img
-              src={image}
-              width="350px"
-              alt="illustration of person holding computer"
-              title="review finalized"
-            />
-            <Heading as="h3" variant="heading50">
-              {" "}This review is finalized, it cannot be editted at this time.{" "}
-            </Heading>
-          </Box>
-        </>
-      )
-   
+    return (
+      <>
+        <Box id="reviewInProgress">
+          <img
+            src={image}
+            width="350px"
+            alt="illustration of person holding computer"
+            title="review finalized"
+          />
+          <Heading as="h3" variant="heading50">
+            {" "}This review is finalized, it cannot be editted at this time.{" "}
+          </Heading>
+        </Box>
+      </>
+    )
+
   }
 
-console.log("current eval", singleEvaluation);
-console.log("current review to close", reviewToClose)
   return (
     <>
 
       <Box margin="space100">
         {
-        (reviewToBeSubmittedByLoggedInUser.status === "In_Progress" && (currentUser.roleID === 1 || currentUser.roleID === 2)) 
-        && reviewFormForApprenticeOrReviewerToSubmit()
+          (openedReview.status === "In_Progress" && (currentUser.roleID === 1 || currentUser.roleID === 2))
+          && reviewFormForApprenticeOrReviewerToSubmit()
         }
         {
-          ((currentUser.roleID === 3 || currentUser.roleID === 4) && reviewToBeSubmittedByLoggedInUser.status === "In_Progress")
+          ((currentUser.roleID === 3 || currentUser.roleID === 4) && openedReview.status === "In_Progress")
           && reviewFormForManagerToSubmit()
         }
         {
@@ -590,63 +546,10 @@ console.log("current review to close", reviewToClose)
           && reviewFormForManagerToApprove()
         }
         {
-          (reviewToBeSubmittedByLoggedInUser.status === "FINALIZED")
+          (openedReview.status === "FINALIZED")
           && finalizedReviewView()
         }
-   
-
-        {/* {reviewToBeSubmittedByLoggedInUser.status !== 'FINALIZED' ?
-          <>
-            <Toaster {...toaster} />
-            <Card id="review-form-card">
-
-              <form onSubmit={handleSubmit} data-testid="newreview-form" id="review-form">
-                <h1>Review for {singleEvaluation.apprentice.name}</h1>
-                <p>Please answer the following questions:</p>
-                {reviewToBeSubmittedByLoggedInUser.QAs.map((qa, index) => (
-                  <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
-                    <Label htmlFor="q1" required>
-                      {qa.question.question}
-                    </Label>
-                    <TextArea onChange={(e) => updateAnswById(e.target.value, qa.answer.id)} aria-describedby="message_help_text" id="message" name="message" required />
-                  </Box>
-                ))}
-                <div id="buttons-review">
-                  <Button type="submit" variant="primary" disabled={disable}>
-                    Submit
-                  </Button>
-
-                  {singleEvaluation.manager.id === reviewToBeSubmittedByLoggedInUser.reviewer.id && (
-                    <Button type="submit" variant="primary" onClick={closeReview}>
-                      Close Review
-                    </Button>
-                  )}
-
-                </div>
-
-              </form>
-
-            </Card>
-          </>
-          :
-          <>
-
-            <Box id="reviewInProgress">
-              <img
-                src={image}
-                width="350px"
-                alt="illustration of person holding computer"
-                title="review finalized"
-              />
-              <Heading as="h3" variant="heading50">
-                {" "}
-                This review is finalized, it cannot be editted at this time.{" "}
-              </Heading>
-            </Box>
-          </>
-        }*/}
-
-      </Box> 
+      </Box>
     </>
   );
 };
