@@ -20,12 +20,10 @@ import image from "./news.png";
  * Hooks:
  * currentUser - logged in user
  * token - jwt grabbed from local storage
- * reviewToBeSubmittedByLoggedInUser - object that has the review QA to be completed
- * singleEvaluation - evaluation attached to the current logged in user
- * managerAction - boolean that sets the 'Finalize Review' button available when the reviewer is a manager
+ * reviewToBeSubmittedByLoggedInUser - object that has the review QA to be completed - ONLY used to make PATCH requests
+ * singleEvaluation - evaluation from the current logged in user
  * disable - boolean that disables button after form is submitted
- * ansToUpdate - the QA object to be updated in the from
- * ansToUpdateIndex - the index of the QA object inside the QA array. Used to mark what QA obj is being updated
+ * QAsAnswerred - a single object inside the QA array that contains a question and its pairred answer
  */
 type QuestionObj = { id: number; question: string }
 type AnswerObj = { id: number; answerText: string }
@@ -412,8 +410,11 @@ const NewReview = () => {
 
   };
 
-  function reviewFormForApprenticeOrReviewerToSubmit() {
-
+  function reviewFormToSubmit() {
+    /**
+     * This returns the form compnent with open text areas to be filled by logged in user
+     * that is fulfilling the review assigned to them
+    */
     return (
       <>
         <Toaster {...toaster} />
@@ -444,39 +445,12 @@ const NewReview = () => {
 
   }
 
-  function reviewFormForManagerToSubmit() {
-
-    return (
-      <>
-        <Toaster {...toaster} />
-        <Card id="review-form-card">
-
-          <form onSubmit={handleSubmit} data-testid="newreview-form" id="review-form">
-            <h1>Review for {singleEvaluation.apprentice.name}</h1>
-            <p>Please answer the following questions:</p>
-            {reviewToBeSubmittedByLoggedInUser.QAs.map((qa, index) => (
-              <Box marginBottom="space80" style={{ width: "500px" }} key={index}>
-                <Label htmlFor="q1" required>
-                  {qa.question.question}
-                </Label>
-                <TextArea onChange={(e) => updateAnswById(e.target.value, qa.answer.id)} aria-describedby="message_help_text" id="message" name="message" required />
-              </Box>
-            ))}
-            <div id="buttons-review">
-              <Button type="submit" variant="primary">
-                Submit
-              </Button>
-            </div>
-
-          </form>
-
-        </Card>
-      </>
-    )
-
-  }
-
+  
   function reviewFormForManagerToApprove() {
+    /**
+     * This returns the form component when the opened review is Submitted 
+     * and requires manager approval
+    */
     return (
       <>
         <Toaster {...toaster} />
@@ -510,7 +484,9 @@ const NewReview = () => {
   }
 
   function finalizedReviewView() {
-
+    /**
+     * This returns the form component when the review is finalized
+    */
     return (
       <>
         <Box id="reviewInProgress">
@@ -534,12 +510,8 @@ const NewReview = () => {
 
       <Box margin="space100">
         {
-          (openedReview.status === "In_Progress" && (currentUser.roleID === 1 || currentUser.roleID === 2))
-          && reviewFormForApprenticeOrReviewerToSubmit()
-        }
-        {
-          ((currentUser.roleID === 3 || currentUser.roleID === 4) && openedReview.status === "In_Progress")
-          && reviewFormForManagerToSubmit()
+          (openedReview.status === "In_Progress" && currentUser.id === openedReview.reviewer.id)
+          && reviewFormToSubmit()
         }
         {
           (reviewToClose && (currentUser.roleID === 3 || currentUser.roleID === 4))
