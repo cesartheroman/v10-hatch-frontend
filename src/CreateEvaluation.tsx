@@ -21,6 +21,7 @@ import {
   Column,
   useToaster,
   Toaster,
+  HelpText,
 } from "@twilio-paste/core";
 import { useUIDSeed } from "react-uid";
 
@@ -56,7 +57,7 @@ const CreateEvaluation = () => {
    */
   const toaster = useToaster();
   const [questions, setQuestions] = useState<Question[]>([
-    { id: 999, question: "what?" },
+    // { id: 999, question: "what?" },
   ]);
   const [title, setTitle] = useState<string>("");
   const [selectedQuestions, setSelectedQuestions] = useState<Array<string>>([]);
@@ -163,7 +164,7 @@ const CreateEvaluation = () => {
       .then(function (response) {
         console.log(response.data)
         let currentReviewers = response.data.filter(
-          (user: any) => user.roleID !== 1
+          (user: any) => (user.roleID !== 1 && user.id != currentUser.id)
         );
         setFilteredItems(currentReviewers);
       })
@@ -245,6 +246,8 @@ const CreateEvaluation = () => {
       questionIDs,
     };
 
+    
+
     var config = {
       method: "POST",
       // TODO: Change for meta
@@ -255,6 +258,10 @@ const CreateEvaluation = () => {
       data: requestBody,
     };
 
+    if (requestBody.title === "" || requestBody.questionIDs.length < 1) {
+      alert("Please complete the required fields before submitting. Thank you! ");
+  } else {
+    console.log(requestBody);
     axios(config)
       .then(function (response) {
         console.log(response.data)
@@ -268,7 +275,7 @@ const CreateEvaluation = () => {
       .catch(function (error) {
         console.log(error);
       });
-  };
+  };}
 
   /**
    * This section belongs to select reviewer logic, ends on component return.
@@ -327,6 +334,30 @@ const CreateEvaluation = () => {
     },
   });
 
+  //* functions below for toggling error display 
+
+
+  function TitleError() {
+    if (title === "" || title === null) {
+      return ( 
+        <HelpText id="title_error" variant="error">Titles are required for all evaluations. Please input a title above. </HelpText>
+      );
+    } else {
+      
+      return ( <></>)
+    }
+  }
+
+  function QuestionsError() {
+    if (selectedQuestions.length <1)  {
+      return ( 
+        <HelpText id="title_error" variant="error">At least one question is required per evaluation. Please select one above. </HelpText>
+      );
+    } else {
+      return ( <></>)
+    }
+  }
+
   return (
     <Box marginBottom="space10" marginTop="space10" padding="space100">
       <Toaster {...toaster} />
@@ -336,7 +367,7 @@ const CreateEvaluation = () => {
             <h2>New Evaluation</h2>
             <Box marginBottom="space80">
               <Label htmlFor="email_address" required>
-                Title
+                Title:
               </Label>
               <Input
                 aria-describedby="title_help_text"
@@ -347,9 +378,10 @@ const CreateEvaluation = () => {
                 onChange={(e) => setTitle(e.target.value)}
                 required
               />
+              {TitleError()}
             </Box>
 
-            <Label htmlFor="apprentice_select">Select Apprentice</Label>
+            <Label htmlFor="apprentice_select">Select Apprentice:</Label>
             <Box marginBottom="space80">
               <Select
                 id="apprentice_select"
@@ -369,7 +401,7 @@ const CreateEvaluation = () => {
 
             <Box padding={"space10"} marginBottom="space80">
               <div>
-                <h2>Select questions to appear on evaluation</h2>
+                <h2>Select questions to appear on evaluation:</h2>
                 {questions.map((question, i) => (
                   <label key={i}>
                     <input
@@ -383,11 +415,12 @@ const CreateEvaluation = () => {
                   </label>
                 ))}
               </div>
+              {QuestionsError()}
             </Box>
             <>
               <Box marginBottom="space40" position="relative">
                 <Label htmlFor={inputId} {...getLabelProps()}>
-                  Choose a Reviewer
+                  Choose any additional Reviewers:
                 </Label>
                 <Box {...getComboboxProps({ role: "combobox" })}>
                   <Input
