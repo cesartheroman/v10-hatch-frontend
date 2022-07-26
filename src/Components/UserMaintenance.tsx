@@ -56,14 +56,14 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
    * @returns <Button> component
    */
   const displayButtonBasedOnRole = (userRole: string) => {
-    if (userRole === "Apprentice" || userRole === "Reviewer") {
+    if (userRole === "Hatch Manager") {
+      return null;
+    } else {
       return (
         <Button variant="primary" onClick={handleOpen}>
           Manage
         </Button>
       );
-    } else {
-      return null;
     }
   };
 
@@ -100,14 +100,22 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     } else if (userRole === "Reviewer" && isOpen) {
       return (
         <>
-          <Label htmlFor="assignApprenticeToEngMgr">Update Role:</Label>
-          <Select id="assignApprenticeToEngMgr" name="assignApprenticeToEngMgr">
+          <Label htmlFor="updateRole">Update Role:</Label>
+          <Select id="updateRole" name="updateRole">
             <Option value="EngMgr">Engineering Manager</Option>
           </Select>
         </>
       );
+    } else if (userRole === "Manager" && isOpen) {
+      return (
+        <>
+          <Label htmlFor="updateRole">Update Role:</Label>
+          <Select id="updateRole" name="updateRole">
+            <Option value="Reviewer">Reviewer</Option>
+          </Select>
+        </>
+      );
     } else {
-      //TODO: if time permits, allow changing of other fields
       return;
     }
   };
@@ -155,25 +163,27 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     try {
       const response: AxiosResponse = await axios(config);
       //TODO: perhaps a toast can pop up to alert user that change was made?
-      handleClose();
       getUsers();
+      handleClose();
     } catch (err) {
       console.error(err);
     }
   };
 
   /**
-   * Makes axios call to PATCH reviewer's role and elevate to manager role
-   * @param {number} reviewerID ID of reviewer to be converted to manager role
+   * Makes axios call to PATCH user's role and elevate to manager or demote to reviewer
+   * @param {number} userID ID of user  to be converted to manager or reviewer role
+   * @param {number} roleID rolID represents the role to be converted, manager (3) or reviewer, (2)
    */
-  const convertToManager = async (reviewerID: number) => {
+  const convertRole = async (userID: number, roleID: number) => {
+    const newRoleID = roleID === 2 ? 3 : 2;
     const requestBody = {
-      roleID: 3,
+      roleID: newRoleID,
     };
 
     const config = {
       method: "PATCH",
-      url: `${BASE_URL}/users/${reviewerID}`,
+      url: `${BASE_URL}/users/${userID}`,
       headers: {
         Authorization: `${authToken}`,
         "Content-Type": "application/json",
@@ -183,9 +193,10 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
 
     try {
       const response: AxiosResponse = await axios(config);
-      console.log("response after converted: ", response.data);
-      handleClose();
+      console.log("converting: ", response.data);
       getUsers();
+      getManagers();
+      handleClose();
     } catch (err) {
       console.error(err);
     }
@@ -205,11 +216,17 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
    */
   const handleDone = () => {
     const userID = userToEdit.id;
+    const roleID = userToEdit.roleID;
+    const userRole = userRoles[roleID];
 
-    if (userRoles[userToEdit.roleID] === "Apprentice") {
+    if (userRole === "Apprentice") {
       return assignApprenticeToEngMgr(userID);
+    } else if (userRole === "Reviewer") {
+      return convertRole(userID, roleID);
+    } else if (userRole === "Manager") {
+      return convertRole(userID, roleID);
     } else {
-      return convertToManager(userID);
+      return;
     }
   };
 
