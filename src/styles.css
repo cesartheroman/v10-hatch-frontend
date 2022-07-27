@@ -167,6 +167,13 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: center;
 }
+#spinner {
+  margin: 50px 0 50px 450px;
+  justify-content: center;
+  align-items: center;
+  
+
+}
 
 #noEvals > h3 {
   color: rgb(235, 86, 86);
