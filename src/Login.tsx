@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 import { useState } from "react";
-import { Label, Input, Button, Card, Box, Anchor } from "@twilio-paste/core";
+import { Label, Input, Button, Card, Box } from "@twilio-paste/core";
 import { Buffer } from "buffer";
 import { useNavigate } from "react-router";
 import  background  from "./twilio-background.png";
@@ -13,11 +13,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    console.log("Login state: " + loggedIn);
-  }, [loggedIn]);
 
   let navigate = useNavigate();
 
@@ -34,8 +29,7 @@ export default function Login() {
       })
       .then((response) => {
         if (response.status === 200) {
-          setLoggedIn(true);
-          console.log(response.data);
+         
           localStorage.setItem(
             "token",
             "Bearer " + response.data.token
@@ -55,7 +49,7 @@ export default function Login() {
             });
           
         } else {
-          alert("Login did not work. Please check your information and try again.");
+          alert("Login attempt unsuccessful. Please check your information and try again.");
         }
       })
       .catch((error) => alert("Error: " + error.status));
@@ -69,15 +63,11 @@ export default function Login() {
     });
   };
 
-  // const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //     e.preventDefault();
-  //     console.log("login state:", loggedIn)
-  //     setLoggedIn(false);
-  // }
 
   return (
     <div id="loginBG" style={{ backgroundImage: `url(${background})`, backgroundSize: 'auto', height: '90vh', overflow: "hidden"}}>
     <div id="loginComponent">
+
       <Card style={{ margin: "10px" }}>
         {/* <div>
           <Button

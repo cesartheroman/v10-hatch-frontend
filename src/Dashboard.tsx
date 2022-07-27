@@ -153,17 +153,19 @@ const Dashboard = () => {
           
         })
      
-      console.log (evas)
+      
       };
         setEvaluations(response.data);
         setSavedEvaluations(response.data);
       })
       .catch((error) => {
         if (error.response.status >= 400 && error.response.status < 500) {
-          alert("Error: your session has timed out. Please login again.");
+          localStorage.clear();
+          alert("Error: your session has timed out. Please login again!");
+          
           navigate("/login", {replace: true});
         }
-        console.log("Error: " + error);
+      
       });}
   }, [currentUser]);
 
@@ -240,7 +242,7 @@ const Dashboard = () => {
   }
 
   function DisplayIfNoEvals() {
-    if (evaluations.length < 1) {
+    if (savedEvaluations.length < 1) {
     return (
       <div id="noEvals">
         <img src={circles} alt="Working at Twilio image" width="300px"/>
@@ -252,13 +254,24 @@ const Dashboard = () => {
            <strong> #hatch-dont-talk-to-us-ever-bye</strong> !!) </Paragraph>
       </div>
       
-    )} else {
+    )} 
+    else if (evaluations.length <1 && savedEvaluations.length >= 1) {
+      return (
+        <div>
+          <br />
+          <Heading as="h5" variant="heading50"> No evaluations match current filter(s). </Heading>
+        </div>
+      )
+
+    }
+    
+    else {
       return ( <></>)
     }
   }
 
  
-  console.log("current user dahsboard",currentUser)
+  
   return (
     <div id="dashboard">
       <div id="filterContainer">

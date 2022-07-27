@@ -10,10 +10,7 @@ import {
   Radio,
   Column,
   Grid,
-  Card,
-  Toast,
-  useToaster,
-  Toaster,
+  Card
 } from "@twilio-paste/core";
 import axios from "axios";
 import  background  from "./twilio-background.png";
@@ -29,10 +26,9 @@ const navigate = useNavigate();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    console.log("hi mom");
     postUser();
   };
-  const toaster = useToaster();
+
 
   const postUser = () => {
     var requestBody = JSON.stringify({
@@ -51,19 +47,16 @@ const navigate = useNavigate();
       },
       data: requestBody,
     };
+
     axios(config)
       .then(function (response) {
-          toaster.push({
-            message: "Successfully registered! Please login.",
-            variant: "success"
-       
-          });
-          
-
+        
       })
       .catch(function (error) {
         console.log(error);
-      }).finally(() => navigate("/login", {replace: true}));
+      }).finally(() => {
+        navigate("/login", {replace: false});
+      });
   };
 
   return (
@@ -72,7 +65,6 @@ const navigate = useNavigate();
       <div id="loginComponent">
     
       <Grid >
-      <Toaster {...toaster} />
         <Column span={20} >
           <Card padding="space100">
             <h2 style={{textAlign:"center"}}>Register New Account</h2>
