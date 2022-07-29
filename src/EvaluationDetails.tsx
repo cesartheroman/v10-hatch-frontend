@@ -36,27 +36,27 @@ const EvaluationDetails = () => {
 
   const [evaluation, setEvaluation] = useState({
     id: 69,
-    title: "PLACEHOLDER TITLE",
-    creation: "06/27/2022",
-    finalized: "06/28/2022",
+    title: " ",
+    creation: " ",
+    finalized: " ",
     is_completed: false,
     questions: [""],
-    apprentice: { id: 99999, name: "PLACEHOLDER APPRENTICE" },
-    manager: { id: 99999, name: "PLACEHOLDER MANAGER" },
+    apprentice: { id: 99999, name: " " },
+    manager: { id: 99999, name: " " },
     reviews: [
       {
         id: 99999,
-        status: "closed",
-        reviewer: { id: 99999, name: "PLACEHOLDER REVIEWER" },
+        status: " ",
+        reviewer: { id: 99999, name: " " },
         QAs: [
           {
             question: {
               id: 555,
-              text: "PLACEHOLDER QUESTION 1?",
+              text: " ",
             },
             answer: {
               id: 666,
-              text: "PLACEHOLDER ANSWER 1",
+              text: " ",
             },
           },
         ],
@@ -66,16 +66,16 @@ const EvaluationDetails = () => {
   const [apprenticeReview, setApprenticeReview] = useState({
     id: 99999,
     status: "closed",
-    reviewer: { id: 999, name: "PLACEHOLDER REVIEWER" },
+    reviewer: { id: 999, name: " " },
     QAs: [
       {
         question: {
           id: 555,
-          question: "PLACEHOLDER QUESTION 1?",
+          question: " ",
         },
         answer: {
           id: 666,
-          answer: "PLACEHOLDER ANSWER 1",
+          answer: " ",
         },
       },
     ],

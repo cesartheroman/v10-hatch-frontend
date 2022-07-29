@@ -1,7 +1,14 @@
 import * as React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Heading, Anchor, Input, Label, Paragraph } from "@twilio-paste/core";
+import {
+  Heading,
+  Anchor,
+  Input,
+  Label,
+  Paragraph,
+  Spinner,
+} from "@twilio-paste/core";
 import { Box } from "@twilio-paste/core/box";
 import { FileIcon } from "@twilio-paste/icons/esm/FileIcon";
 import {
@@ -23,7 +30,6 @@ import { reverse } from "cypress/types/lodash";
 import { WarningIcon } from "@twilio-paste/icons/esm/WarningIcon";
 import circles from "./twilio-circles.jpg";
 import moment from "moment";
-
 
 /**
  *
@@ -119,12 +125,10 @@ const Dashboard = () => {
     }
   }
 
-  
-
   useEffect(() => {
     if (localStorage.length < 1) {
-      navigate("/login", {replace: true});
-    };
+      navigate("/login", { replace: true });
+    }
     if (currentUser.id === 66666 && localStorage.length !== 0) {
       let storageuser: any = localStorage.getItem("user");
       let user = JSON.parse(storageuser);
@@ -140,31 +144,30 @@ const Dashboard = () => {
       headers: { Authorization: token },
     };
     if (currentUser.id !== 66666) {
-    axios(config)
-      .then((response) => {
-        if (response) {
-        let evas: any= response.data;
-      
-        let dateEvaluations = evas.map((eva: any) => {
-          
-          
-         eva.creation = (moment(eva["creation"]).format("MM-DD-yyyy"));
+      axios(config)
+        .then((response) => {
+          if (response) {
+            let evas: any = response.data;
 
-          
+            let dateEvaluations = evas.map((eva: any) => {
+              eva.creation = moment(eva["creation"]).format("MM-DD-yyyy");
+            });
+          }
+          setEvaluations(response.data);
+          setSavedEvaluations(response.data);
+          setIsLoading(false);
         })
-     
-      console.log (evas)
-      };
-        setEvaluations(response.data);
-        setSavedEvaluations(response.data);
-      })
-      .catch((error) => {
-        if (error.response.status >= 400 && error.response.status < 500) {
-          alert("Error: your session has timed out. Please login again.");
-          navigate("/login", {replace: true});
-        }
-        console.log("Error: " + error);
-      });}
+        .catch((error) => {
+          if (error.response.status >= 400 && error.response.status < 500) {
+            localStorage.clear();
+
+            alert("Error: your session has timed out. Please login again!");
+
+            navigate("/login", { replace: true });
+            location.reload();
+          }
+        });
+    }
   }, [currentUser]);
 
   /**
@@ -240,101 +243,109 @@ const Dashboard = () => {
   }
 
   function DisplayIfNoEvals() {
-    if (evaluations.length < 1) {
-    return (
-      <div id="noEvals">
-        <img src={circles} alt="Working at Twilio image" width="300px"/>
-        <br />
-        <Heading as="h3" variant="heading30"> <em>Hmmm... </em><br /> Looks like you haven't been assigned any evaluations yet! </Heading>
-        <Paragraph> Pretty sure you should be seeing something here, tho?  <br /> Reach out to your assigning manager 
-          to make sure they have created the evaluation and assigned you to it first!  <br /> <br />
-          ( Still not seeing anything? Ping <strong>@Jeff Lawson</strong> on Slack, or ask us directly in: <br /> 
-           <strong> #hatch-dont-talk-to-us-ever-bye</strong> !!) </Paragraph>
-      </div>
-      
-    )} else {
-      return ( <></>)
+    if (savedEvaluations.length < 1) {
+      return (
+        <div id="noEvals">
+          <img src={circles} alt="Working at Twilio image" width="300px" />
+          <br />
+          <Heading as="h3" variant="heading30">
+            {" "}
+            <em>Hmmm... </em>
+            <br /> Looks like you haven't been assigned any evaluations yet!{" "}
+          </Heading>
+          <Paragraph>
+            {" "}
+            Pretty sure you should be seeing something here, tho? <br /> Reach
+            out to your assigning manager to make sure they have created the
+            evaluation and assigned you to it first! <br /> <br />( Still not
+            seeing anything? Ping <strong>@Jeff Lawson</strong> on Slack, or ask
+            us directly in: <br />
+            <strong> #hatch-dont-talk-to-us-ever-bye</strong> !!){" "}
+          </Paragraph>
+        </div>
+      );
+    } else if (evaluations.length < 1 && savedEvaluations.length >= 1) {
+      return (
+        <div>
+          <br />
+          <Heading as="h5" variant="heading50">
+            {" "}
+            No evaluations match current filter(s).{" "}
+          </Heading>
+        </div>
+      );
+    } else {
+      return <></>;
     }
   }
+  const [isLoading, setIsLoading] = useState(true);
 
- 
-  console.log("current user dahsboard",currentUser)
-  return (
-    <div id="dashboard">
-      <div id="filterContainer">
-        <Box id="greetingBox">
-          Ahoy, <b>{currentUser.name}</b>!
-          <br /> <br />
-          Your id number is: <b>{currentUser.id}</b>
-          <br /> and your role is: <b>{DisplayRole(currentUser.roleID)}</b>.
-          <br />
-        </Box>
-        <Box>
-          <Label htmlFor="filterAppMan">Filter by Apprentice/Manager: </Label>
-          <Input
-            id="filterAppMan"
-            name="filterAppMan"
-            type="text"
-            onChange={(e) => FilterNames(e.target.value)}
-          />
-          <br />
-          <Label htmlFor="filterReviewer">Filter by Reviewer: </Label>
-          <Input
-            id="filterReviewer"
-            name="filterReviewer"
-            type="text"
-            onChange={(e) => FilterReviewerNames(e.target.value)}
-          />
-        </Box>
-      </div>
-      <div id="evaluationGrid">
-      <DataGrid aria-label="Evaluations list" data-testid="data-grid" striped>
-        <DataGridHead>
+  function DataGridEvals() {
+    if (isLoading) {
+      return (
+        <DataGridBody id="spinner">
           <DataGridRow>
-            <DataGridHeader data-testid="test-title" width="200px">
-              Evaluation Title{" "}
-              <DataGridHeaderSort
-                direction="none"
-                //TODO: write function that changes direction of arrow depending on status above
-                onClick={() => FilterEvaluations("title")}
+            <DataGridCell>
+              <Spinner
+                color="colorTextError"
+                decorative={false}
+                title="Loading"
+                size="sizeIcon110"
               />
-            </DataGridHeader>
-            <DataGridHeader width="150px">
-              Date Initialized{" "}
-              <DataGridHeaderSort
-                direction="none"
-                //TODO: write function that changes direction of arrow depending on status above
-                onClick={() => FilterEvaluations("creation")}
+            </DataGridCell>
+            <DataGridCell>
+              <Spinner
+                color="colorTextError"
+                decorative={false}
+                title="Loading"
+                size="sizeIcon110"
               />
-            </DataGridHeader>
-            <DataGridHeader width="150px">
-              Apprentice{" "}
-              <DataGridHeaderSort
-                direction="none"
-                //TODO: write function that changes direction of arrow depending on status above
-                onClick={() => FilterEvaluations("apprentice.name")}
+            </DataGridCell>
+            <DataGridCell>
+              <Spinner
+                color="colorTextError"
+                decorative={false}
+                title="Loading"
+                size="sizeIcon110"
               />
-            </DataGridHeader>
-            <DataGridHeader width="150px">
-              Manager{" "}
-              <DataGridHeaderSort
-                direction="none"
-                //TODO: write function that changes direction of arrow depending on status above
-                onClick={() => FilterEvaluations("manager.name")}
+            </DataGridCell>
+            <DataGridCell>
+              <Spinner
+                color="colorTextError"
+                decorative={false}
+                title="Loading"
+                size="sizeIcon110"
               />
-            </DataGridHeader>
-            <DataGridHeader width="200px">Reviewers</DataGridHeader>
-            <DataGridHeader width="100px">
-              Status{" "}
-              <DataGridHeaderSort
-                direction="none"
-                //TODO: write function that changes direction of arrow depending on status above
-                onClick={() => FilterEvaluations("is_completed")}
+            </DataGridCell>
+            <DataGridCell>
+              <Spinner
+                color="colorTextError"
+                decorative={false}
+                title="Loading"
+                size="sizeIcon110"
               />
-            </DataGridHeader>
-            <DataGridHeader width="180px">Details</DataGridHeader>
+            </DataGridCell>
+            <DataGridCell>
+              <Spinner
+                color="colorTextError"
+                decorative={false}
+                title="Loading"
+                size="sizeIcon110"
+              />
+            </DataGridCell>
+            <DataGridCell>
+              <Spinner
+                color="colorTextError"
+                decorative={false}
+                title="Loading"
+                size="sizeIcon110"
+              />
+            </DataGridCell>
           </DataGridRow>
-        </DataGridHead>
+        </DataGridBody>
+      );
+    } else {
+      return (
         <DataGridBody>
           {evaluations.map((evaluation) => (
             <DataGridRow key={evaluation.id}>
@@ -370,10 +381,91 @@ const Dashboard = () => {
             </DataGridRow>
           ))}
         </DataGridBody>
-      </DataGrid>
-      {DisplayIfNoEvals()}
+      );
+    }
+  }
+
+  return (
+    <div id="dashboard">
+      <div id="filterContainer">
+        <Box id="greetingBox">
+          Ahoy, <b>{currentUser.name}</b>!
+          <br /> <br />
+          Your id number is: <b>{currentUser.id}</b>
+          <br /> and your role is: <b>{DisplayRole(currentUser.roleID)}</b>.
+          <br />
+        </Box>
+        <Box>
+          <Label htmlFor="filterAppMan">Filter by Apprentice/Manager: </Label>
+          <Input
+            id="filterAppMan"
+            name="filterAppMan"
+            type="text"
+            onChange={(e) => FilterNames(e.target.value)}
+          />
+          <br />
+          <Label htmlFor="filterReviewer">Filter by Reviewer: </Label>
+          <Input
+            id="filterReviewer"
+            name="filterReviewer"
+            type="text"
+            onChange={(e) => FilterReviewerNames(e.target.value)}
+          />
+        </Box>
       </div>
-      
+      <div id="evaluationGrid">
+        <DataGrid aria-label="Evaluations list" data-testid="data-grid" striped>
+          <DataGridHead>
+            <DataGridRow>
+              <DataGridHeader data-testid="test-title" width="200px">
+                Evaluation Title{" "}
+                <DataGridHeaderSort
+                  direction="none"
+                  //TODO: write function that changes direction of arrow depending on status above
+                  onClick={() => FilterEvaluations("title")}
+                />
+              </DataGridHeader>
+              <DataGridHeader width="150px">
+                Date Initialized{" "}
+                <DataGridHeaderSort
+                  direction="none"
+                  //TODO: write function that changes direction of arrow depending on status above
+                  onClick={() => FilterEvaluations("creation")}
+                />
+              </DataGridHeader>
+              <DataGridHeader width="150px">
+                Apprentice{" "}
+                <DataGridHeaderSort
+                  direction="none"
+                  //TODO: write function that changes direction of arrow depending on status above
+                  onClick={() => FilterEvaluations("apprentice.name")}
+                />
+              </DataGridHeader>
+              <DataGridHeader width="150px">
+                Manager{" "}
+                <DataGridHeaderSort
+                  direction="none"
+                  //TODO: write function that changes direction of arrow depending on status above
+                  onClick={() => FilterEvaluations("manager.name")}
+                />
+              </DataGridHeader>
+              <DataGridHeader width="200px">Reviewers</DataGridHeader>
+              <DataGridHeader width="100px">
+                Status{" "}
+                <DataGridHeaderSort
+                  direction="none"
+                  //TODO: write function that changes direction of arrow depending on status above
+                  onClick={() => FilterEvaluations("is_completed")}
+                />
+              </DataGridHeader>
+              <DataGridHeader width="180px">Details</DataGridHeader>
+            </DataGridRow>
+          </DataGridHead>
+          {DataGridEvals()}
+        </DataGrid>
+
+        {DisplayIfNoEvals()}
+      </div>
     </div>
   );
 };

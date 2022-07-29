@@ -497,7 +497,7 @@ const NewReview = () => {
             title="review finalized"
           />
           <Heading as="h3" variant="heading50">
-            {" "}This review is finalized, it cannot be editted at this time.{" "}
+            {" "}This review has already been finalized, it cannot be edited at this time.{" "}
           </Heading>
         </Box>
       </>
