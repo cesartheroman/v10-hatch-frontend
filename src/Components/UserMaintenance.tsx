@@ -7,6 +7,7 @@ import { Button } from "@twilio-paste/core/button";
 import { Box } from "@twilio-paste/core";
 import { Label } from "@twilio-paste/core/label";
 import { Select, Option } from "@twilio-paste/core/select";
+
 import {
   Modal,
   ModalBody,
@@ -20,6 +21,7 @@ interface UserMaintenanceProps {
   userToEdit: User;
   userRoles: string[];
   authToken: string;
+  users: User[];
   getUsers: () => void;
 }
 
@@ -42,7 +44,7 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
   /**
    * destructuring props to more easily use them for rendering in the rest of the component
    */
-  const { userToEdit, userRoles, authToken, getUsers } = props;
+  const { userToEdit, userRoles, authToken, users, getUsers } = props;
   const [managers, setManagers] = useState<Manager[]>([]);
   const [managerIDToAssign, setManagerIDToAssign] = useState<number>();
   const [isOpen, setIsOpen] = useState(false);
@@ -78,6 +80,13 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
      */
     const userRole: string = userRoles[user.roleID];
 
+    /**
+     * Grabs the curent manager selected and assigns as default option in select dropdown
+     */
+    const selectedManager: any = managers.find(
+      (manager) => manager.name === user.manager
+    );
+
     if (userRole === "Apprentice" && isOpen) {
       return (
         <>
@@ -86,6 +95,7 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
             id="assignApprenticeToEngMgr"
             name="assignApprenticeToEngMgr"
             onChange={handleChange}
+            defaultValue={selectedManager.id}
           >
             {managers.map((manager: Manager) => {
               return (
@@ -97,21 +107,16 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
           </Select>
         </>
       );
-    } else if (userRole === "Reviewer" && isOpen) {
+    } else if ((userRole === "Reviewer" || userRole === "Manager") && isOpen) {
       return (
         <>
           <Label htmlFor="updateRole">Update Role:</Label>
           <Select id="updateRole" name="updateRole">
-            <Option value="EngMgr">Engineering Manager</Option>
-          </Select>
-        </>
-      );
-    } else if (userRole === "Manager" && isOpen) {
-      return (
-        <>
-          <Label htmlFor="updateRole">Update Role:</Label>
-          <Select id="updateRole" name="updateRole">
-            <Option value="Reviewer">Reviewer</Option>
+            {userRole === "Reviewer" ? (
+              <Option value="EngMgr">Engineering Manager</Option>
+            ) : (
+              <Option value="Reviewer">Reviewer</Option>
+            )}
           </Select>
         </>
       );
@@ -161,11 +166,20 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     };
 
     try {
+      const foundManager = managers.find(
+        (manager) => manager.id === managerIDToAssign
+      );
+      console.log(foundManager);
+      if (foundManager === undefined) {
+        alert("Could not find manager");
+        throw new Error("Could not find manager");
+      }
       const response: AxiosResponse = await axios(config);
-      //TODO: perhaps a toast can pop up to alert user that change was made?
       getUsers();
+      getManagers();
       handleClose();
     } catch (err) {
+      alert("Could not find manager, please refresh page");
       console.error(err);
     }
   };
@@ -192,8 +206,19 @@ const UserMaintenance = (props: UserMaintenanceProps) => {
     };
 
     try {
+      users.map((user) => {
+        if (user.manager === userToEdit.name) {
+          alert(
+            "Cannot change user's role because Manager is currently assigned to an Apprentice"
+          );
+          throw new Error("Cannot change user's role");
+        } else {
+          return;
+        }
+      });
+
       const response: AxiosResponse = await axios(config);
-      console.log("converting: ", response.data);
+      displayModalBasedOnRole(userToEdit);
       getUsers();
       getManagers();
       handleClose();
