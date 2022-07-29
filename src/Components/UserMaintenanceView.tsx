@@ -4,6 +4,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import UserMaintenance from "./UserMaintenance";
 import { Heading } from "@twilio-paste/core";
 import { Box } from "@twilio-paste/core";
+
 import {
   DataGrid,
   DataGridHead,
@@ -109,6 +110,7 @@ const UserMaintainanceView = () => {
                     userToEdit={user}
                     userRoles={USER_ROLES}
                     authToken={authToken}
+                    users={users}
                     getUsers={getUsers}
                   />
                 </DataGridCell>
