@@ -116,7 +116,18 @@ const Questions = () => {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.response.status);
+        if (error.response.status >= 400 && error.response.status < 500) {
+          toaster.push({
+            message: "Error: Question input field empty",
+            variant: "error",
+          });
+        } else {
+          toaster.push({
+            message: "Error",
+            variant: "error",
+          });
+        }
       })
       .finally(() => {
         getQuestions();
@@ -183,9 +194,11 @@ const Questions = () => {
       <Toaster {...toaster} />
       <Grid gutter="space30">
         <Column span={8} offset={2}>
-          <Card>
-            <QuestionCreation handlePostQuestion={handlePostQuestion} />
-          </Card>
+          <Box marginTop="space100">
+            <Card>
+              <QuestionCreation handlePostQuestion={handlePostQuestion} />
+            </Card>
+          </Box>
           <br />
           <QuestionsDataGrid
             handleEditQuestion={handleEditQuestion}

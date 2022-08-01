@@ -11,6 +11,7 @@ import {
   ModalHeading,
   HelpText,
   TextArea,
+  Box,
 } from "@twilio-paste/core";
 import { useUID } from "react-uid";
 
@@ -24,8 +25,21 @@ const QuestionCreation = (props: QuestionCreationProps) => {
   const handleClose = () => setIsOpen(false);
   const modalHeadingID = useUID();
   const [isOpen, setIsOpen] = useState(false);
+
+  /**
+   * multiOnclick - multiple function calls for posting a new question
+   * props.handlePostQuestion takes in the user's input and makes a post to the DB
+   * after the call is made handleClose closes the modal
+   *
+   * @param {*} questionText
+   */
+  const postThenClose = (questionText: any) => {
+    props.handlePostQuestion(questionText);
+    handleClose();
+  };
+
   return (
-    <div>
+    <Box>
       <Button variant="secondary" onClick={handleOpen}>
         Create New Question
       </Button>
@@ -62,7 +76,7 @@ const QuestionCreation = (props: QuestionCreationProps) => {
               Cancel
             </Button>
             <Button
-              onClick={() => props.handlePostQuestion(questionText)}
+              onClick={() => postThenClose(questionText)}
               variant="primary"
             >
               Done
@@ -70,7 +84,7 @@ const QuestionCreation = (props: QuestionCreationProps) => {
           </ModalFooterActions>
         </ModalFooter>
       </Modal>
-    </div>
+    </Box>
   );
 };
 
