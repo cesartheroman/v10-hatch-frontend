@@ -8,8 +8,8 @@
   
   let documentBody: RenderResult;
   
-  describe("SingleEvaluationView", () => {
-    test("renders SingleEvaluationView component", () => {
+  describe("EvaluationDetailsView", () => {
+    test("renders EvaluationDetails component", () => {
       render(<EvaluationDetails />);
     });
   });
