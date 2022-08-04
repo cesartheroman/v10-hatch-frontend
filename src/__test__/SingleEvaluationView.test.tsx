@@ -4,12 +4,12 @@
 
  import * as React from "react";
  import { render, RenderResult, screen } from "@testing-library/react";
- import SingleEvaluationView from '../SingleEvaluationView'
+ import EvaluationDetails from '../EvaluationDetails'
   
   let documentBody: RenderResult;
   
   describe("SingleEvaluationView", () => {
     test("renders SingleEvaluationView component", () => {
-      render(<SingleEvaluationView />);
+      render(<EvaluationDetails />);
     });
   });
